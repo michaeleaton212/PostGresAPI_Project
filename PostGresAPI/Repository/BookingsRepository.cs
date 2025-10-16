@@ -4,7 +4,7 @@ using PostGresAPI.Models;
 
 namespace PostGresAPI.Repository;
 
-public class BookingRepository
+public class BookingRepository : IBookingRepository
 {
     private readonly ApplicationDbContext _db;
 

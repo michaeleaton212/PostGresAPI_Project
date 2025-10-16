@@ -3,11 +3,11 @@ using PostGresAPI.Repository;
 
 namespace PostGresAPI.Services;
 
-public class RoomService
+public class RoomService : IRoomService
 {
-    private readonly RoomRepository _repo;
+    private readonly IRoomRepository _repo;
 
-    public RoomService(RoomRepository repo) => _repo = repo; // Constructor Injection
+    public RoomService(IRoomRepository repo) => _repo = repo; // Constructor Injection
 
     // Read
     public Task<List<Room>> GetAll() => _repo.GetAll();

@@ -8,8 +8,8 @@ namespace PostGresAPI.Controllers;
 [Route("api/[controller]")]
 public sealed class UsersController : ControllerBase
 {
-    private readonly UserService _service;
-    public UsersController(UserService service) => _service = service; // Constructor Injection
+    private readonly IUserService _service;
+    public UsersController(IUserService service) => _service = service; // Constructor Injection
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()

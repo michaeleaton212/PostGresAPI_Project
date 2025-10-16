@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using PostGresAPI.Data;
-using PostGresAPI.Models; 
+using PostGresAPI.Models;
 
 namespace PostGresAPI.Repository;
 
 // Data access for users
-public class UserRepository
+public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _db;
     public UserRepository(ApplicationDbContext db) => _db = db; // constructor to inject the database context

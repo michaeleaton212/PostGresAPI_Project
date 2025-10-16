@@ -9,9 +9,9 @@ namespace PostGresAPI.Controllers;
 [Route("api/[controller]")]
 public sealed class RoomsController : ControllerBase
 {
-    private readonly RoomService _service;
+    private readonly IRoomService _service;
 
-    public RoomsController(RoomService service) => _service = service; // Constructor Injection§
+    public RoomsController(IRoomService service) => _service = service; // Constructor Injection§
 
     // GET: /api/rooms?type=Meetingroom|Bedroom
     [HttpGet]

@@ -9,8 +9,8 @@ namespace PostGresAPI.Controllers;
 [Route("api/[controller]")]
 public sealed class MeetingroomsController : ControllerBase
 {
-    private readonly MeetingroomService _service;
-    public MeetingroomsController(MeetingroomService service) => _service = service; // Constructor Injection
+    private readonly IMeetingroomService _service;
+    public MeetingroomsController(IMeetingroomService service) => _service = service; // Constructor Injection
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MeetingroomDto>>> GetAll()

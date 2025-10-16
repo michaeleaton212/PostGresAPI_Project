@@ -9,17 +9,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>          //connect to
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // dependency injection
-builder.Services.AddScoped<UserRepository>(); // tells container to create a new instance of UserRepository for each request
-builder.Services.AddScoped<RoomRepository>();
-builder.Services.AddScoped<MeetingroomRepository>();
-builder.Services.AddScoped<BedroomRepository>();
-builder.Services.AddScoped<BookingRepository>();
 
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<RoomService>();
-builder.Services.AddScoped<MeetingroomService>();
-builder.Services.AddScoped<BedroomService>();
-builder.Services.AddScoped<BookingService>();
+// Dependency Injection - Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>(); // tells container to create a new instance of UserRepository for each request
+
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IMeetingroomRepository, MeetingroomRepository>();
+builder.Services.AddScoped<IBedroomRepository, BedroomRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
+// Dependency Injection - Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IMeetingroomService, MeetingroomService>();
+builder.Services.AddScoped<IBedroomService, BedroomService>();
+builder.Services.AddScoped<IBookingService, BookingService>(); ;
 
 builder.Services.AddControllers(); // add controllers
 builder.Services.AddEndpointsApiExplorer(); // add swagger

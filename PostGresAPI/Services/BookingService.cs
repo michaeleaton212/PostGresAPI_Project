@@ -3,12 +3,12 @@ using PostGresAPI.Repository;
 
 namespace PostGresAPI.Services;
 
-public class BookingService
+public class BookingService : IBookingService
 {
-    private readonly BookingRepository _bookings;
-    private readonly RoomRepository _rooms;
+    private readonly IBookingRepository _bookings;
+    private readonly IRoomRepository _rooms;
 
-    public BookingService(BookingRepository bookings, RoomRepository rooms) // Constructor Injection
+    public BookingService(IBookingRepository bookings, IRoomRepository rooms) // Constructor Injection
     {
         _bookings = bookings;
         _rooms = rooms;

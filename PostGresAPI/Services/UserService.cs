@@ -3,11 +3,11 @@ using PostGresAPI.Repository;
 
 namespace PostGresAPI.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly UserRepository _repo;
+        private readonly IUserRepository _repo;
 
-        public UserService(UserRepository repo) => _repo = repo; // Constructor Injection 
+        public UserService(IUserRepository repo) => _repo = repo; // Constructor Injection 
 
         // Read
         public Task<List<User>> GetAll() => _repo.GetAll();

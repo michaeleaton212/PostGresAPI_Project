@@ -3,10 +3,10 @@ using PostGresAPI.Repository;
 
 namespace PostGresAPI.Services;
 
-public class BedroomService
+public class BedroomService : IBedroomService
 {
-    private readonly BedroomRepository _repo;
-    public BedroomService(BedroomRepository repo) => _repo = repo;// Constructor Injection
+    private readonly IBedroomRepository _repo;
+    public BedroomService(IBedroomRepository repo) => _repo = repo;// Constructor Injection
 
     public Task<List<Bedroom>> GetAll() => _repo.GetAll();
     public Task<Bedroom?> GetById(int id) => _repo.GetById(id);

@@ -9,9 +9,9 @@ namespace PostGresAPI.Controllers;
 [Route("api/bookings")]
 public class BookingsController : ControllerBase
 {
-    private readonly BookingService _svc;
+    private readonly IBookingService _svc;
 
-    public BookingsController(BookingService svc)
+    public BookingsController(IBookingService svc)
     {
         _svc = svc;
     }

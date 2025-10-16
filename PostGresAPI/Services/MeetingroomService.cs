@@ -3,10 +3,10 @@ using PostGresAPI.Repository;
 
 namespace PostGresAPI.Services;
 
-public class MeetingroomService
+public class MeetingroomService : IMeetingroomService
 {
-    private readonly MeetingroomRepository _repo;
-    public MeetingroomService(MeetingroomRepository repo) => _repo = repo; // Constructor Injection
+    private readonly IMeetingroomRepository _repo;
+    public MeetingroomService(IMeetingroomRepository repo) => _repo = repo; // Constructor Injection
 
     public Task<List<Meetingroom>> GetAll() => _repo.GetAll();
     public Task<Meetingroom?> GetById(int id) => _repo.GetById(id);

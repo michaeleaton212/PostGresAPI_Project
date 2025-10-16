@@ -2,13 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\Controllers",
-    "\\Interfaces",
+    "\\Interfaces\\IRepository",
+    "\\Interfaces\\IServices",
     "\\Persistence",
     "\\Persistence\\Data",
     "\\Persistence\\Entities",
     "\\Repository",
     "\\Services"
   ],
-  "SelectedNode": "\\Services\\UserService.cs",
+  "SelectedNode": "\\Controllers\\BedroomsController.cs",
   "PreviewInSolutionExplorer": false
 }
