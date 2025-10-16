@@ -7,7 +7,7 @@ namespace PostGresAPI.Services
     {
         private readonly UserRepository _repo;
 
-        public UserService(UserRepository repo) => _repo = repo; // Constructor Injection
+        public UserService(UserRepository repo) => _repo = repo; // Constructor Injection 
 
         // Read
         public Task<List<User>> GetAll() => _repo.GetAll();
@@ -16,9 +16,7 @@ namespace PostGresAPI.Services
         // Create
         public async Task<User> Create(string userName, string email, string? phone = null)
         {
-
-
-            var u = new User(userName, email, phone ?? ""); // here to give value over to constructor
+            var u = new User(userName, email, phone ?? "");
             return await _repo.Add(u);
         }
 
@@ -28,11 +26,11 @@ namespace PostGresAPI.Services
             var entity = await _repo.GetById(id);
             if (entity is null) return null;
 
-            
-            entity.Apply(userName, email, phone); // here to give value over to method Apply
-            return await _repo.Update(entity);
-            
+            entity.UserName = userName;
+            entity.Email = email;
+            entity.Phone = phone ?? "";
 
+            return await _repo.Update(entity);
         }
 
         // Delete
