@@ -1,0 +1,53 @@
+using Microsoft.AspNetCore.Mvc;
+using PostGresAPI.Contracts;
+using PostGresAPI.Services;
+
+namespace PostGresAPI.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public sealed class UsersController : ControllerBase
+{
+    private readonly UserService _service;
+    public UsersController(UserService service) => _service = service; // Constructor Injection
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
+    {
+        var users = await _service.GetAll();
+        var result = users.Select(u => new UserDto(u.Id, u.UserName, u.Email));
+        return Ok(result);
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<UserDto>> GetById(int id)
+    {
+        var u = await _service.GetById(id);
+        if (u is null) return NotFound();
+
+        var dto = new UserDto(u.Id, u.UserName, u.Email);
+        return Ok(dto);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<UserDto>> Create([FromBody] CreateUserDto dto)
+    {
+        var created = await _service.Create(dto.UserName, dto.Email);
+        var result = new UserDto(created.Id, created.UserName, created.Email);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, result);
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto dto)
+    {
+        var updated = await _service.Update(id, dto.UserName, dto.Email);
+        if (updated is null) return NotFound();
+
+        var result = new UserDto(updated.Id, updated.UserName, updated.Email);
+        return Ok(result);
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+        => await _service.Delete(id) ? NoContent() : NotFound();
+}

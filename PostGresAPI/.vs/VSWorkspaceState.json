@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Controllers",
+    "\\Interfaces",
+    "\\Persistence",
+    "\\Persistence\\Data",
+    "\\Persistence\\Entities",
+    "\\Repository",
+    "\\Services"
+  ],
+  "SelectedNode": "\\Services\\UserService.cs",
+  "PreviewInSolutionExplorer": false
+}
