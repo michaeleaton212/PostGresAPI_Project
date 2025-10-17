@@ -1,22 +1,43 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
+using PostGresAPI.Contracts;
 
-namespace PostGresAPI.Services;
-
-public class MeetingroomService : IMeetingroomService
+namespace PostGresAPI.Services
 {
-    private readonly IMeetingroomRepository _repo;
-    public MeetingroomService(IMeetingroomRepository repo) => _repo = repo; //Constructor Injection: the object must implement interface
+    public class MeetingroomService : IMeetingroomService
+    {
+        private readonly IMeetingroomRepository _repo;
+        public MeetingroomService(IMeetingroomRepository repo) => _repo = repo;
 
-    public Task<List<Meetingroom>> GetAll() => _repo.GetAll();
-    public Task<Meetingroom?> GetById(int id) => _repo.GetById(id);
+        // mapping
+        private static MeetingroomDto ToDto(Meetingroom m)
+            => new MeetingroomDto(m.Id, m.Name, m.NumberOfChairs);
 
-    public Task<Meetingroom> Create(string name, int numberOfChairs)
-        => _repo.Add(new Meetingroom(name, numberOfChairs));
+        // Read
+        public async Task<List<MeetingroomDto>> GetAll()
+            => (await _repo.GetAll()).Select(ToDto).ToList();
 
-    public Task<Meetingroom?> Update(int id, string name, int numberOfChairs)
-     => _repo.Update(id, name, numberOfChairs);
+        public async Task<MeetingroomDto?> GetById(int id)
+            => (await _repo.GetById(id)) is { } m ? ToDto(m) : null;
 
+        // Create
+        public async Task<MeetingroomDto> Create(string name, int numberOfChairs)
+        {
+            var created = await _repo.Add(new Meetingroom(name, numberOfChairs));
+            return ToDto(created);
+        }
 
-    public Task<bool> Delete(int id) => _repo.Delete(id);
+        // Update
+        public async Task<MeetingroomDto?> Update(int id, string name, int numberOfChairs)
+        {
+            var updated = await _repo.Update(id, name, numberOfChairs);
+            return updated is null ? null : ToDto(updated);
+        }
+
+        // Delete
+        public Task<bool> Delete(int id) => _repo.Delete(id);
+    }
 }

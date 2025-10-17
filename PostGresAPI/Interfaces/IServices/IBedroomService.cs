@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PostGresAPI.Models;
+using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Services
 {
     public interface IBedroomService
     {
-        Task<List<Bedroom>> GetAll();
-        Task<Bedroom?> GetById(int id);
-        Task<Bedroom> Create(string name, int numberOfBeds);
-        Task<Bedroom?> Update(int id, string name, int numberOfBeds);
+        Task<List<BedroomDto>> GetAll();
+        Task<BedroomDto?> GetById(int id);
+        Task<BedroomDto> Create(string name, int numberOfBeds);
+        Task<BedroomDto?> Update(int id, string name, int numberOfBeds);
         Task<bool> Delete(int id);
     }
 }

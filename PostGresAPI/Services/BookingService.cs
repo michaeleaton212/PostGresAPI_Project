@@ -1,62 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
+using PostGresAPI.Contracts;
 
-namespace PostGresAPI.Services;
-
-public class BookingService : IBookingService
+namespace PostGresAPI.Services
 {
-    private readonly IBookingRepository _bookings;
-    private readonly IRoomRepository _rooms;
-
-    public BookingService(IBookingRepository bookings, IRoomRepository rooms) // Constructor Injection
+    public class BookingService : IBookingService
     {
-        _bookings = bookings;
-        _rooms = rooms;
-    }
+        private readonly IBookingRepository _bookings;
+        private readonly IRoomRepository _rooms;
 
-    public Task<List<Booking>> GetAll() => _bookings.GetAll();
-    public Task<Booking?> GetById(int id) => _bookings.GetById(id);
+        public BookingService(IBookingRepository bookings, IRoomRepository rooms) // Constructor Injection
+        {
+            _bookings = bookings;
+            _rooms = rooms;
+        }
 
-    public bool IsActive(Booking booking, DateTimeOffset atUtc)
-        => booking.StartTime <= atUtc && atUtc < booking.EndTime;
+        // Read
+        public async Task<List<BookingDto>> GetAll()
+        {
+            var list = await _bookings.GetAll();
+            return list.Select(b => new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title)).ToList();
+        }
 
-    public async Task<(bool Ok, string? Error, Booking? Result)> Create(
-        int roomId, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
-    {
-        if (startUtc >= endUtc)
-            return (false, "Start must be before End.", null);
+        public async Task<BookingDto?> GetById(int id)
+        {
+            var b = await _bookings.GetById(id);
+            return b is null ? null : new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title);
+        }
 
-        if (!await _rooms.Exists(roomId))
-            return (false, $"Room {roomId} not found.", null);
+        // Helper
+        public bool IsActive(BookingDto booking, DateTimeOffset atUtc)
+            => booking.StartTime <= atUtc && atUtc < booking.EndTime;
 
-        if (await _bookings.HasOverlap(roomId, startUtc, endUtc))
-            return (false, "Time range already booked.", null);
+        // Create
+        public async Task<(bool Ok, string? Error, BookingDto? Result)> Create(
+            int roomId, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
+        {
+            if (startUtc >= endUtc)
+                return (false, "Start must be before End.", null);
 
-        var entity = new Booking(roomId, startUtc, endUtc, title);
-        await _bookings.Add(entity);
-        return (true, null, entity);
-    }
+            if (!await _rooms.Exists(roomId))
+                return (false, $"Room {roomId} not found.", null);
 
-    public async Task<(bool Ok, string? Error, Booking? Result)> Update(
-        int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
-    {
-        if (startUtc >= endUtc)
-            return (false, "Start must be before End.", null);
-        var entity = await _bookings.GetById(id);
-        if (entity is null)
-            return (false, "Booking not found.", null);
-        var hasOverlap = await _bookings.HasOverlap(entity.RoomId, startUtc, endUtc, excludeBookingId: id);
-        if (hasOverlap)
-            return (false, "Time range already booked.", null);
+            if (await _bookings.HasOverlap(roomId, startUtc, endUtc))
+                return (false, "Time range already booked.", null);
 
-        var updated = await _bookings.Update(id, startUtc, endUtc, title);
-        return (true, null, updated);
-    }
+            var entity = new Booking(roomId, startUtc, endUtc, title);
+            var created = await _bookings.Add(entity);
 
+            return (true, null, new BookingDto(created.Id, created.RoomId, created.StartTime, created.EndTime, created.Title));
+        }
 
-    public async Task<(bool Ok, string? Error)> Delete(int id)
-    {
-        var ok = await _bookings.Delete(id);
-        return ok ? (true, null) : (false, "Booking not found.");
+        // Update
+        public async Task<(bool Ok, string? Error, BookingDto? Result)> Update(
+            int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
+        {
+            if (startUtc >= endUtc)
+                return (false, "Start must be before End.", null);
+
+            var existing = await _bookings.GetById(id);
+            if (existing is null)
+                return (false, "Booking not found.", null);
+
+            var hasOverlap = await _bookings.HasOverlap(existing.RoomId, startUtc, endUtc, excludeBookingId: id);
+            if (hasOverlap)
+                return (false, "Time range already booked.", null);
+
+            var updated = await _bookings.Update(id, startUtc, endUtc, title);
+            if (updated is null)
+                return (false, "Booking not found.", null);
+
+            return (true, null, new BookingDto(updated.Id, updated.RoomId, updated.StartTime, updated.EndTime, updated.Title));
+        }
+
+        // Delete
+        public async Task<(bool Ok, string? Error)> Delete(int id)
+        {
+            var ok = await _bookings.Delete(id);
+            return ok ? (true, null) : (false, "Booking not found.");
+        }
     }
 }

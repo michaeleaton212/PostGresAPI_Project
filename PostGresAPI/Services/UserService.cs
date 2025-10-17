@@ -1,29 +1,48 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
+using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repo; // field in that object from type IUserRepository gets saved in
+        private readonly IUserRepository _repo;
 
-        public UserService(IUserRepository repo) => _repo = repo; // Constructor Injection: the object must implement interface
+        public UserService(IUserRepository repo) => _repo = repo;
 
         // Read
-        public Task<List<User>> GetAll() => _repo.GetAll();
-        public Task<User?> GetById(int id) => _repo.GetById(id);
-
-        // Create
-        public async Task<User> Create(string userName, string email, string? phone = null)
+        public async Task<List<UserDto>> GetAll()
         {
-            var u = new User(userName, email, phone ?? "");
-            return await _repo.Add(u);
+            var users = await _repo.GetAll();
+            return users.Select(u => new UserDto(u.Id, u.UserName, u.Email)).ToList();
         }
 
-        // Update 
-        public Task<User?> Update(int id, string userName, string email, string? phone = null)
-      => _repo.Update(id, userName, email, phone ?? "");
+        public async Task<UserDto?> GetById(int id)
+        {
+            var user = await _repo.GetById(id);
+            return user is null ? null : new UserDto(user.Id, user.UserName, user.Email); // build a new UserDto from user entity, thats caled mapping
+        }
 
+        // Create
+        public async Task<UserDto> Create(string userName, string email, string? phone = null)
+        {
+            var user = new User(userName, email, phone ?? "");
+            var createdUser = await _repo.Add(user);
+            return new UserDto(createdUser.Id, createdUser.UserName, createdUser.Email);
+        }
+
+        // Update
+        public async Task<UserDto?> Update(int id, string userName, string email, string? phone = null)
+        {
+            var updatedUser = await _repo.Update(id, userName, email, phone ?? "");
+            if (updatedUser is null)
+                return null;
+
+            return new UserDto(updatedUser.Id, updatedUser.UserName, updatedUser.Email);
+        }
 
         // Delete
         public Task<bool> Delete(int id) => _repo.Delete(id);

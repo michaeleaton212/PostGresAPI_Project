@@ -1,22 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PostGresAPI.Models;
+using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Services
 {
     public interface IUserService
     {
-        // Read
-        Task<List<User>> GetAll();
-        Task<User?> GetById(int id);
-
-        // Create
-        Task<User> Create(string userName, string email, string? phone = null);
-
-        // Update
-        Task<User?> Update(int id, string userName, string email, string? phone = null);
-
-        // Delete
+        Task<List<UserDto>> GetAll();
+        Task<UserDto?> GetById(int id);
+        Task<UserDto> Create(string userName, string email, string? phone = null);
+        Task<UserDto?> Update(int id, string userName, string email, string? phone = null);
         Task<bool> Delete(int id);
     }
 }

@@ -1,24 +1,22 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PostGresAPI.Models;
+using PostGresAPI.Contracts;
 
-namespace PostGresAPI.Services
+namespace PostGresAPI.Services;
+
+public interface IRoomService
 {
-    public interface IRoomService
-    {
-        // Read
-        Task<List<Room>> GetAll();
-        Task<Room?> GetById(int id);
-        Task<List<Meetingroom>> GetMeetingrooms();
-        Task<List<Bedroom>> GetBedrooms();
+    // Read filter and mapping logic lies here in the service§
+    Task<List<RoomDto>> GetAll(string? type = null);
+    Task<RoomDto?> GetById(int id);
 
-        // Create
-        Task<Room> Create(Room room);
+    // Create 
+    Task<RoomDto> CreateMeetingroom(string name, int numberOfChairs);
+    Task<RoomDto> CreateBedroom(string name, int numberOfBeds);
 
-        // Update
-        Task<Room?> UpdateName(int id, string name);
+    // Update
+    Task<RoomDto?> UpdateName(int id, string name);
 
-        // Delete
-        Task<bool> Delete(int id);
-    }
+    // Delete
+    Task<bool> Delete(int id);
 }

@@ -1,22 +1,47 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
+using PostGresAPI.Contracts;
 
-namespace PostGresAPI.Services;
-
-public class BedroomService : IBedroomService
+namespace PostGresAPI.Services
 {
-    private readonly IBedroomRepository _repo;
-    public BedroomService(IBedroomRepository repo) => _repo = repo;// Constructor Injection
+    public class BedroomService : IBedroomService
+    {
+        private readonly IBedroomRepository _repo;
+        public BedroomService(IBedroomRepository repo) => _repo = repo; // Constructor Injection
 
-    public Task<List<Bedroom>> GetAll() => _repo.GetAll();
-    public Task<Bedroom?> GetById(int id) => _repo.GetById(id);
+        // Read
+        public async Task<List<BedroomDto>> GetAll()
+        {
+            var rooms = await _repo.GetAll();
+            return rooms.Select(r => new BedroomDto(r.Id, r.Name, r.NumberOfBeds)).ToList();
+        }
 
-    public Task<Bedroom> Create(string name, int numberOfBeds)
-        => _repo.Add(new Bedroom(name, numberOfBeds));
+        public async Task<BedroomDto?> GetById(int id)
+        {
+            var room = await _repo.GetById(id);
+            return room is null ? null : new BedroomDto(room.Id, room.Name, room.NumberOfBeds);
+        }
 
-    public Task<Bedroom?> Update(int id, string name, int numberOfBeds)
-        => _repo.Update(id, name, numberOfBeds);
+        // Create
+        public async Task<BedroomDto> Create(string name, int numberOfBeds)
+        {
+            var entity = new Bedroom(name, numberOfBeds);
+            var created = await _repo.Add(entity);
+            return new BedroomDto(created.Id, created.Name, created.NumberOfBeds);
+        }
 
+        // Update
+        public async Task<BedroomDto?> Update(int id, string name, int numberOfBeds)
+        {
+            var updated = await _repo.Update(id, name, numberOfBeds);
+            if (updated is null) return null;
+            return new BedroomDto(updated.Id, updated.Name, updated.NumberOfBeds);
+        }
 
-    public Task<bool> Delete(int id) => _repo.Delete(id);
+        // Delete
+        public Task<bool> Delete(int id) => _repo.Delete(id);
+    }
 }
