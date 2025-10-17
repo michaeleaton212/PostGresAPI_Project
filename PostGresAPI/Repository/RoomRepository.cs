@@ -48,12 +48,20 @@ public class RoomRepository : IRoomRepository
     }
 
     // Updates an already existing Room
-    public async Task<Room> Update(Room room)
+    public async Task<Room?> UpdateName(int id, string name)
     {
-        _db.Rooms.Update(room);
+        var entity = await _db.Rooms.FindAsync(id);
+        if (entity is null)
+            return null;
+
+        entity.SetName(name);
+
+        _db.Rooms.Update(entity);
         await _db.SaveChangesAsync();
-        return room;
+
+        return entity;
     }
+
 
     // Delete Room by Id
     public async Task<bool> Delete(int id)

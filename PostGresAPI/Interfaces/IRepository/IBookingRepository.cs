@@ -22,7 +22,7 @@ namespace PostGresAPI.Repository
         Task<Booking> Add(Booking booking);
 
         // Update
-        Task<Booking> Update(Booking booking);
+        Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title);
 
         // Delete
         Task<bool> Delete(int id);

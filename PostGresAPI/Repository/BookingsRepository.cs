@@ -49,11 +49,20 @@ public class BookingRepository : IBookingRepository
     }
 
     // Update
-    public async Task<Booking> Update(Booking booking)
+    public async Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
     {
-        _db.Bookings.Update(booking);
+        var entity = await _db.Bookings.FindAsync(id);
+        if (entity is null)
+            return null;
+
+        entity.StartTime = startUtc;
+        entity.EndTime = endUtc;
+        entity.Title = title;
+
+        _db.Bookings.Update(entity);
         await _db.SaveChangesAsync();
-        return booking;
+
+        return entity;
     }
 
     // Delete

@@ -22,7 +22,7 @@ namespace PostGresAPI.Repository
         Task<Room> Add(Room room);
 
         // Updates an already existing Room
-        Task<Room> Update(Room room);
+        Task<Room?> UpdateName(int id, string name);
 
         // Delete Room by Id
         Task<bool> Delete(int id);

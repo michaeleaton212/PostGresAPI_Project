@@ -42,22 +42,17 @@ public class BookingService : IBookingService
     {
         if (startUtc >= endUtc)
             return (false, "Start must be before End.", null);
-
         var entity = await _bookings.GetById(id);
         if (entity is null)
             return (false, "Booking not found.", null);
-
         var hasOverlap = await _bookings.HasOverlap(entity.RoomId, startUtc, endUtc, excludeBookingId: id);
         if (hasOverlap)
             return (false, "Time range already booked.", null);
 
-        entity.StartTime = startUtc;
-        entity.EndTime = endUtc;
-        entity.Title = title;
-
-        var updated = await _bookings.Update(entity);
+        var updated = await _bookings.Update(id, startUtc, endUtc, title);
         return (true, null, updated);
     }
+
 
     public async Task<(bool Ok, string? Error)> Delete(int id)
     {

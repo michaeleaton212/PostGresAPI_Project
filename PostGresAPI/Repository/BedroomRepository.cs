@@ -32,11 +32,19 @@ public class BedroomRepository : IBedroomRepository
     }
 
     // Update
-    public async Task<Bedroom> Update(Bedroom bedroom)
+    public async Task<Bedroom?> Update(int id, string name, int numberOfBeds)
     {
-        _db.Bedrooms.Update(bedroom);
+        var entity = await _db.Bedrooms.FindAsync(id);
+        if (entity is null)
+            return null;
+
+        entity.SetName(name);
+        entity.NumberOfBeds = numberOfBeds;
+
+        _db.Bedrooms.Update(entity);
         await _db.SaveChangesAsync();
-        return bedroom;
+
+        return entity;
     }
 
     // Check if Bedroom exists

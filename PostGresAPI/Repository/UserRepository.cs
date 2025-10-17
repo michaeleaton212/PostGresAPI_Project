@@ -32,12 +32,22 @@ public class UserRepository : IUserRepository
     }
 
     // update
-    public async Task<User> Update(User user)
+    public async Task<User?> Update(int id, string userName, string email, string phone)
     {
-        _db.Users!.Update(user);
+        var entity = await _db.Users!.FindAsync(id);
+        if (entity is null)
+            return null;
+
+        entity.UserName = userName;
+        entity.Email = email;
+        entity.Phone = phone;
+
+        _db.Users!.Update(entity);
         await _db.SaveChangesAsync();
-        return user;
+
+        return entity;
     }
+
 
     // delete
     public async Task<bool> Delete(int id)

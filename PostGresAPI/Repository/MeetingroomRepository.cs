@@ -32,12 +32,21 @@ public class MeetingroomRepository : IMeetingroomRepository
     }
 
     // Update
-    public async Task<Meetingroom> Update(Meetingroom meetingroom)
+    public async Task<Meetingroom?> Update(int id, string name, int numberOfChairs)
     {
-        _db.Meetingrooms.Update(meetingroom);
+        var entity = await _db.Meetingrooms.FindAsync(id);
+        if (entity is null)
+            return null;
+
+        entity.SetName(name);
+        entity.NumberOfChairs = numberOfChairs;
+
+        _db.Meetingrooms.Update(entity);
         await _db.SaveChangesAsync();
-        return meetingroom;
+
+        return entity;
     }
+
 
     // Delete
     public async Task<bool> Delete(int id)

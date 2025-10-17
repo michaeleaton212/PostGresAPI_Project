@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Controllers",
+    "\\Contracts",
+    "\\Interfaces",
     "\\Interfaces\\IRepository",
     "\\Interfaces\\IServices",
     "\\Persistence",
@@ -10,6 +11,6 @@
     "\\Repository",
     "\\Services"
   ],
-  "SelectedNode": "\\Controllers\\BedroomsController.cs",
+  "SelectedNode": "\\Interfaces\\IRepository\\IUserRepository.cs",
   "PreviewInSolutionExplorer": false
 }

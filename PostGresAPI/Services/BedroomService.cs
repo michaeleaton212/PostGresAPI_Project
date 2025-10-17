@@ -14,16 +14,9 @@ public class BedroomService : IBedroomService
     public Task<Bedroom> Create(string name, int numberOfBeds)
         => _repo.Add(new Bedroom(name, numberOfBeds));
 
-    public async Task<Bedroom?> Update(int id, string name, int numberOfBeds)
-    {
-        var entity = await _repo.GetById(id);
-        if (entity is null) return null;
+    public Task<Bedroom?> Update(int id, string name, int numberOfBeds)
+        => _repo.Update(id, name, numberOfBeds);
 
-        entity.SetName(name);           
-        entity.NumberOfBeds = numberOfBeds;
-
-        return await _repo.Update(entity);
-    }
 
     public Task<bool> Delete(int id) => _repo.Delete(id);
 }

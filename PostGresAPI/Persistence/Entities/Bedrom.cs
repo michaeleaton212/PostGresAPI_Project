@@ -6,7 +6,7 @@ public sealed class Bedroom : Room
 
     public Bedroom(string name, int numberOfBeds) : base(name)
     {
-        NumberOfBeds = numberOfBeds; 
+        NumberOfBeds = numberOfBeds;
     }
 
     public int NumberOfBeds { get; internal set; }

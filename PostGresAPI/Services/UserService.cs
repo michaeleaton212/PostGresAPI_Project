@@ -5,9 +5,9 @@ namespace PostGresAPI.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repo;
+        private readonly IUserRepository _repo; // field in that object from type IUserRepository gets saved in
 
-        public UserService(IUserRepository repo) => _repo = repo; // Constructor Injection 
+        public UserService(IUserRepository repo) => _repo = repo; // Constructor Injection: the object must implement interface
 
         // Read
         public Task<List<User>> GetAll() => _repo.GetAll();
@@ -21,17 +21,9 @@ namespace PostGresAPI.Services
         }
 
         // Update 
-        public async Task<User?> Update(int id, string userName, string email, string? phone = null)
-        {
-            var entity = await _repo.GetById(id);
-            if (entity is null) return null;
+        public Task<User?> Update(int id, string userName, string email, string? phone = null)
+      => _repo.Update(id, userName, email, phone ?? "");
 
-            entity.UserName = userName;
-            entity.Email = email;
-            entity.Phone = phone ?? "";
-
-            return await _repo.Update(entity);
-        }
 
         // Delete
         public Task<bool> Delete(int id) => _repo.Delete(id);
