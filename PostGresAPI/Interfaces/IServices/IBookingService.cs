@@ -26,3 +26,5 @@ namespace PostGresAPI.Services
         Task<(bool Ok, string? Error)> Delete(int id);
     }
 }
+
+// The interface tells my service what it has to offer

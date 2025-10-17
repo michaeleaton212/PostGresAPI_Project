@@ -22,3 +22,6 @@ namespace PostGresAPI.Repository
         Task<bool> Delete(int id);
     }
 }
+
+
+// The interface tells my repository what it has to offer

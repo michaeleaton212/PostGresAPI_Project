@@ -31,3 +31,5 @@ namespace PostGresAPI.Repository
         Task<bool> Exists(int id);
     }
 }
+
+// The interface tells my repository what it has to offer

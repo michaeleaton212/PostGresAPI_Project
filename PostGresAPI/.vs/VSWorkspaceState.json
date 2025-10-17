@@ -11,6 +11,6 @@
     "\\Repository",
     "\\Services"
   ],
-  "SelectedNode": "\\Services\\UserService.cs",
+  "SelectedNode": "\\Interfaces\\IServices\\IUserService.cs",
   "PreviewInSolutionExplorer": false
 }
