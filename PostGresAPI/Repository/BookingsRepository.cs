@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PostGresAPI.Data;
 using PostGresAPI.Models;
+using PostGresAPI.Contracts;
+using PostGresAPI.Extensions;
 
 namespace PostGresAPI.Repository;
 
@@ -11,69 +13,120 @@ public class BookingRepository : IBookingRepository
     public BookingRepository(ApplicationDbContext db) => _db = db;
 
     // Get all booking and sort by start time
-    public Task<List<Booking>> GetAll() =>
-        _db.Bookings
-           .AsNoTracking()
-           .OrderBy(b => b.StartTime)
-           .ToListAsync();
+    public async Task<List<Booking>> GetAll()
+    {
+        try
+        {
+            return await _db.Bookings
+                .AsNoTracking()
+                .OrderBy(b => b.StartTime)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Fehler beim Abrufen aller Bookings", ex);
+        }
+    }
 
     // Get booking via id
-    public Task<Booking?> GetById(int id) =>
-        _db.Bookings
-           .AsNoTracking()
-           .FirstOrDefaultAsync(b => b.Id == id);
-
-
+    public async Task<Booking?> GetById(int id)
+    {
+        try
+        {
+            return await _db.Bookings
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Abrufen von Booking mit ID {id}", ex);
+        }
+    }
 
     // Check if there are overlapping bookings by Create
-    public Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc) =>
-        _db.Bookings.AnyAsync(b =>
-            b.RoomId == roomId &&
-            b.StartTime < toUtc &&
-            b.EndTime > fromUtc);
+    public async Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc)
+    {
+        try
+        {
+            return await _db.Bookings.AnyAsync(b =>
+                b.RoomId == roomId &&
+                b.StartTime < toUtc &&
+                b.EndTime > fromUtc);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Prüfen auf Überschneidungen für Room {roomId}", ex);
+        }
+    }
 
     // Check if overlapping by update
-    public Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc, int excludeBookingId) =>
-        _db.Bookings.AnyAsync(b =>
-            b.RoomId == roomId &&
-            b.Id != excludeBookingId &&
-            b.StartTime < toUtc &&
-            b.EndTime > fromUtc);
+    public async Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc, int excludeBookingId)
+    {
+        try
+        {
+            return await _db.Bookings.AnyAsync(b =>
+                b.RoomId == roomId &&
+                b.Id != excludeBookingId &&
+                b.StartTime < toUtc &&
+                b.EndTime > fromUtc);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Prüfen auf Überschneidungen für Room {roomId} (außer Booking {excludeBookingId})", ex);
+        }
+    }
 
     // Create
-    public async Task<Booking> Add(Booking booking)
+    public async Task<Booking> Add(CreateBookingDto createBookingDto)
     {
-        _db.Bookings.Add(booking);
-        await _db.SaveChangesAsync();
-        return booking;
+        try
+        {
+            var booking = createBookingDto.ToEntity(); _db.Bookings.Add(booking);
+            await _db.SaveChangesAsync();
+            return booking;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Fehler beim Hinzufügen des Bookings", ex);
+        }
     }
 
     // Update
     public async Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
     {
-        var entity = await _db.Bookings.FindAsync(id);
-        if (entity is null)
-            return null;
+        try
+        {
+            var entity = await _db.Bookings.FindAsync(id);
+            if (entity is null)
+                return null;
 
-        entity.StartTime = startUtc;
-        entity.EndTime = endUtc;
-        entity.Title = title;
-
-        _db.Bookings.Update(entity);
-        await _db.SaveChangesAsync();
-
-        return entity;
+            entity.ApplyUpdate(startUtc, endUtc, title);
+            _db.Bookings.Update(entity);
+            await _db.SaveChangesAsync();
+            return entity;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Aktualisieren von Booking mit ID {id}", ex);
+        }
     }
 
     // Delete
     public async Task<bool> Delete(int id)
     {
-        var entity = await _db.Bookings.FindAsync(id);
-        if (entity is null)
-            return false;
+        try
+        {
+            var entity = await _db.Bookings.FindAsync(id);
+            if (entity is null)
+                return false;
 
-        _db.Bookings.Remove(entity);
-        await _db.SaveChangesAsync();
-        return true;
+            _db.Bookings.Remove(entity);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Löschen von Booking mit ID {id}", ex);
+        }
     }
 }

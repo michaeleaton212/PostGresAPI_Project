@@ -29,8 +29,8 @@ namespace PostGresAPI.Services
         // Create
         public async Task<UserDto> Create(string userName, string email, string? phone = null)
         {
-            var user = new User(userName, email, phone ?? "");
-            var createdUser = await _repo.Add(user);
+            var createUserDto = new CreateUserDto(userName, email, phone ?? "");
+            var createdUser = await _repo.Add(createUserDto);
             return new UserDto(createdUser.Id, createdUser.UserName, createdUser.Email);
         }
 

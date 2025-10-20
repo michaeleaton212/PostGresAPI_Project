@@ -26,9 +26,11 @@ namespace PostGresAPI.Services
         // Create
         public async Task<MeetingroomDto> Create(string name, int numberOfChairs)
         {
-            var created = await _repo.Add(new Meetingroom(name, numberOfChairs));
+            var dto = new CreateMeetingroomDto(name, numberOfChairs);
+            var created = await _repo.Add(dto); // 
             return ToDto(created);
         }
+
 
         // Update
         public async Task<MeetingroomDto?> Update(int id, string name, int numberOfChairs)

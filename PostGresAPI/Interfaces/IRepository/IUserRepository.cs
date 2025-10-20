@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PostGresAPI.Models;
+using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Repository
 {
@@ -13,8 +14,7 @@ namespace PostGresAPI.Repository
         Task<User?> GetById(int id); //tells repository that is has to return a user with id  or null if not found
 
         // Create
-        Task<User> Add(User user);
-
+        Task<User> Add(CreateUserDto createUserDto);
         // Update
         Task<User?> Update(int id, string userName, string email, string phone);
 

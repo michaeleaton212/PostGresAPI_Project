@@ -49,11 +49,12 @@ namespace PostGresAPI.Services
             if (await _bookings.HasOverlap(roomId, startUtc, endUtc))
                 return (false, "Time range already booked.", null);
 
-            var entity = new Booking(roomId, startUtc, endUtc, title);
-            var created = await _bookings.Add(entity);
+            var dto = new CreateBookingDto(roomId, startUtc, endUtc, title);
+            var created = await _bookings.Add(dto);
 
             return (true, null, new BookingDto(created.Id, created.RoomId, created.StartTime, created.EndTime, created.Title));
         }
+
 
         // Update
         public async Task<(bool Ok, string? Error, BookingDto? Result)> Update(

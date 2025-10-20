@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PostGresAPI.Models;
+using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Repository
 {
@@ -11,7 +12,7 @@ namespace PostGresAPI.Repository
         // Get by Id
         Task<Bedroom?> GetById(int id);
         // Create
-        Task<Bedroom> Add(Bedroom bedroom);
+        Task<Bedroom> Add(CreateBedroomDto createBedroomDto);
         // Update
         Task<Bedroom?> Update(int id, string name, int numberOfBeds); // Neue Signatur
         // Check if Bedroom exists

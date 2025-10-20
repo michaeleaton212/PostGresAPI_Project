@@ -1,0 +1,38 @@
+﻿using PostGresAPI.Contracts;
+using PostGresAPI.Models;
+
+namespace PostGresAPI.Extensions;
+
+public static class MappingExtensions
+{
+    // Map domain model User -> UserDto
+    public static UserDto ToDto(this User u)
+        => new UserDto(u.Id, u.UserName, u.Email);
+
+    // Map UserDto to UserDto (identity) so controllers can call ToDto() regardless of underlying type
+    public static UserDto ToDto(this UserDto dto) => dto;
+
+    // Map enumerable of User to enumerable of UserDto
+    public static IEnumerable<UserDto> ToDto(this IEnumerable<User> users) => users.Select(u => u.ToDto());
+
+    // Map CreateUserDto -> User (entity)
+    public static User ToEntity(this CreateUserDto dto) => new User(dto.UserName, dto.Email ?? "");
+
+    // Update existing User entity from UpdateUserDto in-place
+    public static void UpdateFrom(this UpdateUserDto dto, User user)
+    {
+        if (user is null) return;
+        user.UserName = dto.UserName;
+        user.Email = dto.Email;
+    }
+
+    // Basic validation helpers
+    public static bool IsValid(this CreateUserDto dto)
+        => dto is not null && !string.IsNullOrWhiteSpace(dto.UserName) && !string.IsNullOrWhiteSpace(dto.Email);
+
+    public static bool IsValid(this UpdateUserDto dto)
+        => dto is not null && !string.IsNullOrWhiteSpace(dto.UserName) && !string.IsNullOrWhiteSpace(dto.Email);
+
+    // Wrap data into ApiResponse
+    public static ApiResponse<T> ToApiResponse<T>(this T data) => new ApiResponse<T>(data, true, null);
+}

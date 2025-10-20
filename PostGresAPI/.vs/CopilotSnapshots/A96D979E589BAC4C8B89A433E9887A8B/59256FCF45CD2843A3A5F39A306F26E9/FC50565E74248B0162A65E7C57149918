@@ -1,0 +1,14 @@
+﻿using PostGresAPI.Contracts;
+using PostGresAPI.Models;
+
+namespace PostGresAPI.Extensions;
+
+public static class MappingExtensions
+{
+    // Map domain model User -> UserDto
+    public static UserDto ToDto(this User u)
+        => new UserDto(u.Id, u.UserName, u.Email);
+
+    // Map UserDto to UserDto (identity) so controllers can call ToDto() regardless of underlying type
+    public static UserDto ToDto(this UserDto dto) => dto;
+}

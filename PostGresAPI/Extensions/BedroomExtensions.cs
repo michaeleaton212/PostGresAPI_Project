@@ -1,0 +1,33 @@
+using PostGresAPI.Models;
+using PostGresAPI.Contracts;
+
+namespace PostGresAPI.Extensions;
+
+public static class BedroomMappingExtensions
+{
+
+    // Bedroom Entity to Dto
+    public static BedroomDto ToDto(this Bedroom b)
+        => new(b.Id, b.Name, b.NumberOfBeds);
+
+
+    // CreateBedroomDto to Entity
+    public static Bedroom ToEntity(this CreateBedroomDto dto)
+        => new(dto.Name, dto.NumberOfBeds);
+
+
+    // UpdateBedroomDto to Entity
+    public static void UpdateEntity(this UpdateBedroomDto dto, Bedroom entity)
+    {
+        entity.SetName(dto.Name);
+        entity.NumberOfBeds = dto.NumberOfBeds;
+    }
+
+
+    // Apply updates to Bedroom entity
+    public static void ApplyUpdate(this Bedroom entity, string name, int numberOfBeds)
+    {
+        entity.SetName(name);
+        entity.NumberOfBeds = numberOfBeds;
+    }
+}

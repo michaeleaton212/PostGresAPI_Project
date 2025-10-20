@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PostGresAPI.Models;
+using PostGresAPI.Contracts;
+
 
 namespace PostGresAPI.Repository
 {
@@ -13,7 +15,7 @@ namespace PostGresAPI.Repository
         Task<Meetingroom?> GetById(int id);
 
         // Create
-        Task<Meetingroom> Add(Meetingroom meetingroom);
+        Task<Meetingroom> Add(CreateMeetingroomDto createMeetingroomDto);
 
         // Update
         Task<Meetingroom?> Update(int id, string name, int numberOfChairs);

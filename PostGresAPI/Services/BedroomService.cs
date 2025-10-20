@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
 using PostGresAPI.Contracts;
+using PostGresAPI.Extensions;
 
 namespace PostGresAPI.Services
 {
@@ -16,21 +17,23 @@ namespace PostGresAPI.Services
         public async Task<List<BedroomDto>> GetAll()
         {
             var rooms = await _repo.GetAll();
-            return rooms.Select(r => new BedroomDto(r.Id, r.Name, r.NumberOfBeds)).ToList();
+
+            return rooms.Select(r => r.ToDto()).ToList();
+
         }
 
         public async Task<BedroomDto?> GetById(int id)
         {
             var room = await _repo.GetById(id);
-            return room is null ? null : new BedroomDto(room.Id, room.Name, room.NumberOfBeds);
+            return room?.ToDto();
         }
 
         // Create
         public async Task<BedroomDto> Create(string name, int numberOfBeds)
         {
-            var entity = new Bedroom(name, numberOfBeds);
-            var created = await _repo.Add(entity);
-            return new BedroomDto(created.Id, created.Name, created.NumberOfBeds);
+            var createBedroomDto = new CreateBedroomDto(name, numberOfBeds);
+            var created = await _repo.Add(createBedroomDto);
+            return created.ToDto();
         }
 
         // Update
@@ -38,7 +41,7 @@ namespace PostGresAPI.Services
         {
             var updated = await _repo.Update(id, name, numberOfBeds);
             if (updated is null) return null;
-            return new BedroomDto(updated.Id, updated.Name, updated.NumberOfBeds);
+            return updated?.ToDto();
         }
 
         // Delete

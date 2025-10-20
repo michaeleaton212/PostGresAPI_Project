@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostGresAPI.Contracts;
 using PostGresAPI.Services;
 
+
 namespace PostGresAPI.Controllers;
 
 [ApiController]
@@ -9,42 +10,36 @@ namespace PostGresAPI.Controllers;
 public sealed class UsersController : ControllerBase
 {
     private readonly IUserService _service;
-    public UsersController(IUserService service) => _service = service; // Constructor Injection
+    public UsersController(IUserService service) => _service = service;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
     {
-        var users = await _service.GetAll();
-        var result = users.Select(u => new UserDto(u.Id, u.UserName, u.Email));
-        return Ok(result);
+        var users = await _service.GetAll(); // extension IEnumerable<UserDto>
+        return Ok(users);
     }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<UserDto>> GetById(int id)
     {
-        var u = await _service.GetById(id);
+        var u = await _service.GetById(id); // extension UserDto
         if (u is null) return NotFound();
-
-        var dto = new UserDto(u.Id, u.UserName, u.Email);
-        return Ok(dto);
+        return Ok(u);
     }
 
     [HttpPost]
     public async Task<ActionResult<UserDto>> Create([FromBody] CreateUserDto dto)
     {
-        var created = await _service.Create(dto.UserName, dto.Email);
-        var result = new UserDto(created.Id, created.UserName, created.Email);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, result);
+        var created = await _service.Create(dto.UserName, dto.Email); // extesnion UserDto
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
     [HttpPut("{id:int}")]
     public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto dto)
     {
-        var updated = await _service.Update(id, dto.UserName, dto.Email);
+        var updated = await _service.Update(id, dto.UserName, dto.Email); // extension UserDto
         if (updated is null) return NotFound();
-
-        var result = new UserDto(updated.Id, updated.UserName, updated.Email);
-        return Ok(result);
+        return Ok(updated);
     }
 
     [HttpDelete("{id:int}")]

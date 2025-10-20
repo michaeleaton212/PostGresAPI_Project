@@ -1,0 +1,31 @@
+using PostGresAPI.Models;
+using PostGresAPI.Contracts;
+
+namespace PostGresAPI.Extensions;
+
+public static class MeetingroomMappingExtensions
+{
+    // Entity to MeetingroomDto
+    public static MeetingroomDto ToDto(this Meetingroom m)
+        => new(m.Id, m.Name, m.NumberOfChairs);
+
+
+    // CreateMeetingroomDto to Entity
+    public static Meetingroom ToEntity(this CreateMeetingroomDto dto)
+        => new(dto.Name, dto.NumberOfChairs);
+
+
+    // UpdateMeetingroomDto to Entity
+    public static void UpdateEntity(this UpdateMeetingroomDto dto, Meetingroom entity)
+    {
+        entity.SetName(dto.Name);
+        entity.NumberOfChairs = dto.NumberOfChairs;
+    }
+
+    // Apply updates to Meetingroom entity
+    public static void ApplyUpdate(this Meetingroom entity, string name, int numberOfChairs)
+    {
+        entity.SetName(name);
+        entity.NumberOfChairs = numberOfChairs;
+    }
+}

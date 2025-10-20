@@ -1,0 +1,14 @@
+﻿using PostGresAPI.Models;
+using PostGresAPI.Contracts;
+
+namespace PostGresAPI.Extensions;
+
+public static class RoomMappingExtensions
+{
+    // Nur falls du ein RoomDto hast
+    public static RoomDto ToDto(this Room room)
+        => new(room.Id, room.Name);
+
+    public static void ApplyName(this Room entity, string name)
+        => entity.SetName(name);
+}

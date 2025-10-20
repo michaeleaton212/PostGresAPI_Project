@@ -1,0 +1,26 @@
+﻿using PostGresAPI.Models;
+using PostGresAPI.Contracts;
+
+namespace PostGresAPI.Extensions;
+
+public static class RoomMappingExtensions
+{
+    // Specific mappings for derived types so callers can call ToDto() on a concrete subtype
+    public static RoomDto ToDto(this Meetingroom m)
+        => new(m.Id, m.Name, "Meetingroom");
+
+    public static RoomDto ToDto(this Bedroom b)
+        => new(b.Id, b.Name, "Bedroom");
+
+    // General mapping for Room fallback
+    public static RoomDto ToDto(this Room room)
+        => room switch
+        {
+            Meetingroom mm => mm.ToDto(),
+            Bedroom bb => bb.ToDto(),
+            _ => new RoomDto(room.Id, room.Name, room.GetType().Name)
+        };
+
+    public static void ApplyName(this Room entity, string name)
+        => entity.SetName(name);
+}

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PostGresAPI.Models;
+using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Repository
 {
@@ -19,7 +20,7 @@ namespace PostGresAPI.Repository
         Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc, int excludeBookingId);
 
         // Create
-        Task<Booking> Add(Booking booking);
+        Task<Booking> Add(CreateBookingDto createBookingDto);
 
         // Update
         Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title);

@@ -6,7 +6,7 @@ namespace PostGresAPI.Services;
 
 public interface IRoomService
 {
-    // Read filter and mapping logic lies here in the service§
+    // Read filter and mapping logic lies here in the service
     Task<List<RoomDto>> GetAll(string? type = null);
     Task<RoomDto?> GetById(int id);
 

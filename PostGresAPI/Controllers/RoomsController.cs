@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PostGresAPI.Contracts;
 using PostGresAPI.Services;
 
@@ -10,7 +10,7 @@ public sealed class RoomsController : ControllerBase
 {
     private readonly IRoomService _service;
 
-    public RoomsController(IRoomService service) => _service = service; // Constructor Injection�
+    public RoomsController(IRoomService service) => _service = service; // Constructor Injection§
 
     // GET: /api/rooms?type=Meetingroom|Bedroom
     [HttpGet]
