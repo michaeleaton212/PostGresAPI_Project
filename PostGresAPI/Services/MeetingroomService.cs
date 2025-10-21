@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
 using PostGresAPI.Contracts;
+using PostGresAPI.Extensions;
 
 namespace PostGresAPI.Services
 {
@@ -24,18 +25,16 @@ namespace PostGresAPI.Services
             => (await _repo.GetById(id)) is { } m ? ToDto(m) : null;
 
         // Create
-        public async Task<MeetingroomDto> Create(string name, int numberOfChairs)
+        public async Task<MeetingroomDto> Create(CreateMeetingroomDto createMeetingroomDto)
         {
-            var dto = new CreateMeetingroomDto(name, numberOfChairs);
-            var created = await _repo.Add(dto); // 
+            var created = await _repo.Add(createMeetingroomDto);
             return ToDto(created);
         }
 
-
         // Update
-        public async Task<MeetingroomDto?> Update(int id, string name, int numberOfChairs)
+        public async Task<MeetingroomDto?> Update(int id, UpdateMeetingroomDto updateMeetingroomDto)
         {
-            var updated = await _repo.Update(id, name, numberOfChairs);
+            var updated = await _repo.Update(id, updateMeetingroomDto.Name, updateMeetingroomDto.NumberOfChairs);
             return updated is null ? null : ToDto(updated);
         }
 

@@ -8,8 +8,8 @@ namespace PostGresAPI.Services
     {
         Task<List<MeetingroomDto>> GetAll();
         Task<MeetingroomDto?> GetById(int id);
-        Task<MeetingroomDto> Create(string name, int numberOfChairs);
-        Task<MeetingroomDto?> Update(int id, string name, int numberOfChairs);
+        Task<MeetingroomDto> Create(CreateMeetingroomDto createMeetingroomDto);
+        Task<MeetingroomDto?> Update(int id, UpdateMeetingroomDto updateMeetingroomDto);
         Task<bool> Delete(int id);
     }
 }

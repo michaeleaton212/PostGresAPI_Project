@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
 using PostGresAPI.Contracts;
+using PostGresAPI.Extensions;
 
 namespace PostGresAPI.Services;
 
@@ -46,16 +47,16 @@ public class RoomService : IRoomService
     }
 
     // Create
-    public async Task<RoomDto> CreateMeetingroom(string name, int numberOfChairs)
+    public async Task<RoomDto> CreateMeetingroom(CreateMeetingroomDto createMeetingroomDto)
     {
-        var entity = new Meetingroom(name, numberOfChairs);
+        var entity = createMeetingroomDto.ToEntity();
         var created = await _repo.Add(entity);
         return MapToDto(created);
     }
 
-    public async Task<RoomDto> CreateBedroom(string name, int numberOfBeds)
+    public async Task<RoomDto> CreateBedroom(CreateBedroomDto createBedroomDto)
     {
-        var entity = new Bedroom(name, numberOfBeds);
+        var entity = createBedroomDto.ToEntity();
         var created = await _repo.Add(entity);
         return MapToDto(created);
     }

@@ -1,0 +1,46 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using PostGresAPI.Contracts;
+using PostGresAPI.Services;
+
+namespace PostGresAPI.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public sealed class BedroomsController : ControllerBase
+{
+    private readonly IBedroomService _service;
+
+    public BedroomsController(IBedroomService service) => _service = service;
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<BedroomDto>>> GetAll()
+    {
+        var rooms = await _service.GetAll();
+        return Ok(rooms);
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<BedroomDto>> GetById(int id)
+    {
+        var room = await _service.GetById(id);
+        return room is null ? NotFound() : Ok(room);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<BedroomDto>> Create([FromBody] CreateBedroomDto dto)
+    {
+        var created = await _service.Create(dto.Name, dto.NumberOfBeds);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<BedroomDto>> Update(int id, [FromBody] UpdateBedroomDto dto)
+    {
+        var updated = await _service.Update(id, dto.Name, dto.NumberOfBeds);
+        return updated is null ? NotFound() : Ok(updated);
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+        => await _service.Delete(id) ? NoContent() : NotFound();
+}

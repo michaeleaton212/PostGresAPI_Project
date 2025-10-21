@@ -11,8 +11,8 @@ public interface IRoomService
     Task<RoomDto?> GetById(int id);
 
     // Create 
-    Task<RoomDto> CreateMeetingroom(string name, int numberOfChairs);
-    Task<RoomDto> CreateBedroom(string name, int numberOfBeds);
+    Task<RoomDto> CreateMeetingroom(CreateMeetingroomDto createMeetingroomDto);
+    Task<RoomDto> CreateBedroom(CreateBedroomDto createBedroomDto);
 
     // Update
     Task<RoomDto?> UpdateName(int id, string name);

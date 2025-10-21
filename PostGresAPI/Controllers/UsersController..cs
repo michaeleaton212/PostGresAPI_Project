@@ -30,14 +30,14 @@ public sealed class UsersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<UserDto>> Create([FromBody] CreateUserDto dto)
     {
-        var created = await _service.Create(dto.UserName, dto.Email); // extesnion UserDto
+        var created = await _service.Create(dto); // pass DTO to service
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
     [HttpPut("{id:int}")]
     public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto dto)
     {
-        var updated = await _service.Update(id, dto.UserName, dto.Email); // extension UserDto
+        var updated = await _service.Update(id, dto); // pass DTO
         if (updated is null) return NotFound();
         return Ok(updated);
     }

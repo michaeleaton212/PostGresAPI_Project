@@ -1,0 +1,17 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using PostGresAPI.Contracts;
+
+namespace PostGresAPI.Services
+{
+    public interface IBedroomService
+    {
+        Task<List<BedroomDto>> GetAll();
+        Task<BedroomDto?> GetById(int id);
+        Task<BedroomDto> Create(CreateBedroomDto createBedroomDto);
+        Task<BedroomDto?> Update(int id, string name, int numberOfBeds);
+        Task<bool> Delete(int id);
+    }
+}
+
+// The interface tells my service what it has to offer

@@ -15,12 +15,10 @@ namespace PostGresAPI.Services
         bool IsActive(BookingDto booking, DateTimeOffset atUtc);
 
         // Create
-        Task<(bool Ok, string? Error, BookingDto? Result)> Create(
-            int roomId, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title);
+        Task<(bool Ok, string? Error, BookingDto? Result)> Create(CreateBookingDto createBookingDto);
 
         // Update
-        Task<(bool Ok, string? Error, BookingDto? Result)> Update(
-            int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title);
+        Task<(bool Ok, string? Error, BookingDto? Result)> Update(int id, UpdateBookingDto updateBookingDto);
 
         // Delete
         Task<(bool Ok, string? Error)> Delete(int id);

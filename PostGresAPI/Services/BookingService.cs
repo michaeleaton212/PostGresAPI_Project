@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using PostGresAPI.Models;
 using PostGresAPI.Repository;
 using PostGresAPI.Contracts;
+using PostGresAPI.Extensions;
 
 namespace PostGresAPI.Services
 {
@@ -23,13 +24,13 @@ namespace PostGresAPI.Services
         public async Task<List<BookingDto>> GetAll()
         {
             var list = await _bookings.GetAll();
-            return list.Select(b => new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title)).ToList();
+            return list.Select(b => b.ToDto()).ToList();
         }
 
         public async Task<BookingDto?> GetById(int id)
         {
             var b = await _bookings.GetById(id);
-            return b is null ? null : new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title);
+            return b is null ? null : b.ToDto();
         }
 
         // Helper
@@ -37,45 +38,42 @@ namespace PostGresAPI.Services
             => booking.StartTime <= atUtc && atUtc < booking.EndTime;
 
         // Create
-        public async Task<(bool Ok, string? Error, BookingDto? Result)> Create(
-            int roomId, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
+        public async Task<(bool Ok, string? Error, BookingDto? Result)> Create(CreateBookingDto createBookingDto)
         {
-            if (startUtc >= endUtc)
+            if (createBookingDto.StartUtc >= createBookingDto.EndUtc)
                 return (false, "Start must be before End.", null);
 
-            if (!await _rooms.Exists(roomId))
-                return (false, $"Room {roomId} not found.", null);
+            if (!await _rooms.Exists(createBookingDto.RoomId))
+                return (false, $"Room {createBookingDto.RoomId} not found.", null);
 
-            if (await _bookings.HasOverlap(roomId, startUtc, endUtc))
+            if (await _bookings.HasOverlap(createBookingDto.RoomId, createBookingDto.StartUtc, createBookingDto.EndUtc))
                 return (false, "Time range already booked.", null);
 
-            var dto = new CreateBookingDto(roomId, startUtc, endUtc, title);
-            var created = await _bookings.Add(dto);
+            var created = await _bookings.Add(createBookingDto);
 
-            return (true, null, new BookingDto(created.Id, created.RoomId, created.StartTime, created.EndTime, created.Title));
+            return (true, null, created.ToDto());
         }
 
 
         // Update
-        public async Task<(bool Ok, string? Error, BookingDto? Result)> Update(
-            int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
+        public async Task<(bool Ok, string? Error, BookingDto? Result)> Update(int id, UpdateBookingDto updateBookingDto)
         {
-            if (startUtc >= endUtc)
+            if (updateBookingDto.StartUtc >= updateBookingDto.EndUtc)
                 return (false, "Start must be before End.", null);
 
             var existing = await _bookings.GetById(id);
             if (existing is null)
                 return (false, "Booking not found.", null);
 
-            var hasOverlap = await _bookings.HasOverlap(existing.RoomId, startUtc, endUtc, excludeBookingId: id);
+            var hasOverlap = await _bookings.HasOverlap(existing.RoomId, updateBookingDto.StartUtc, updateBookingDto.EndUtc, excludeBookingId: id);
             if (hasOverlap)
                 return (false, "Time range already booked.", null);
 
-            var updated = await _bookings.Update(id, startUtc, endUtc, title);
+            var updated = await _bookings.Update(id, updateBookingDto.StartUtc, updateBookingDto.EndUtc, updateBookingDto.Title);
             if (updated is null)
                 return (false, "Booking not found.", null);
 
-            return (true, null, new BookingDto(updated.Id, updated.RoomId, updated.StartTime, updated.EndTime, updated.Title));
+            return (true, null, updated.ToDto());
         }
 
         // Delete
