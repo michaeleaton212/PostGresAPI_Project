@@ -1,9 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Contracts",
+    "\\Controllers",
     "\\Extensions",
-    "\\Interfaces",
-    "\\Interfaces\\IRepository",
     "\\Interfaces\\IServices",
     "\\Persistence",
     "\\Persistence\\Data",
@@ -11,6 +11,6 @@
     "\\Repository",
     "\\Services"
   ],
-  "SelectedNode": "\\Repository\\BedroomRepository.cs",
+  "SelectedNode": "\\Contracts\\RoomDto.cs",
   "PreviewInSolutionExplorer": false
 }

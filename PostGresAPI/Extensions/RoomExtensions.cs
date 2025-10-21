@@ -9,9 +9,16 @@ public static class RoomMappingExtensions
     public static void ApplyName(this Room entity, string name)
         => entity.SetName(name);
 
-
     // Convert Room to RoomDto
     public static RoomDto ToDto(this Room room)
-    => new(room.Id, room.Name, room.Type);
+    {
+        string type = room switch
+        {
+            Meetingroom => "Meetingroom",
+            Bedroom => "Bedroom",
+            _ => "Unknown"
+        };
 
+        return new RoomDto(room.Id, room.Name, type);
+    }
 }
