@@ -39,8 +39,7 @@ namespace PostGresAPI.Services
         public async Task<BedroomDto?> Update(int id, UpdateBedroomDto updateBedroomDto)
         {
             var updated = await _repo.Update(id, updateBedroomDto.Name, updateBedroomDto.NumberOfBeds);
-            if (updated is null) return null;
-            return updated?.ToDto();
+            return updated is null ? null : updated.ToDto();
         }
 
         // Delete

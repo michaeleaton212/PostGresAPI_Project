@@ -21,19 +21,19 @@ public class RoomService : IRoomService
         if (string.IsNullOrWhiteSpace(type))
         {
             var rooms = await _repo.GetAll();
-            return rooms.Select(MapToDto).ToList();
+            return rooms.Select(r => r.ToDto()).ToList();
         }
 
         if (type.Equals("Meetingroom", StringComparison.OrdinalIgnoreCase))
         {
             var meetingrooms = await _repo.GetMeetingrooms();
-            return meetingrooms.Select(m => new RoomDto(m.Id, m.Name, "Meetingroom")).ToList();
+            return meetingrooms.Select(m => ((Room)m).ToDto()).ToList();
         }
 
         if (type.Equals("Bedroom", StringComparison.OrdinalIgnoreCase))
         {
             var bedrooms = await _repo.GetBedrooms();
-            return bedrooms.Select(b => new RoomDto(b.Id, b.Name, "Bedroom")).ToList();
+            return bedrooms.Select(b => ((Room)b).ToDto()).ToList();
         }
 
         // unknown type -> return empty list
@@ -43,7 +43,7 @@ public class RoomService : IRoomService
     public async Task<RoomDto?> GetById(int id)
     {
         var room = await _repo.GetById(id);
-        return room is null ? null : MapToDto(room);
+        return room is null ? null : room.ToDto();
     }
 
     // Create
@@ -51,32 +51,23 @@ public class RoomService : IRoomService
     {
         var entity = createMeetingroomDto.ToEntity();
         var created = await _repo.Add(entity);
-        return MapToDto(created);
+        return created.ToDto();
     }
 
     public async Task<RoomDto> CreateBedroom(CreateBedroomDto createBedroomDto)
     {
         var entity = createBedroomDto.ToEntity();
         var created = await _repo.Add(entity);
-        return MapToDto(created);
+        return created.ToDto();
     }
 
     // Update
     public async Task<RoomDto?> UpdateName(int id, string name)
     {
         var updated = await _repo.UpdateName(id, name);
-        return updated is null ? null : MapToDto(updated);
+        return updated is null ? null : updated.ToDto();
     }
 
     // Delete
     public Task<bool> Delete(int id) => _repo.Delete(id);
-
-    // Mapping
-    private static RoomDto MapToDto(Room r) =>
-        r switch
-        {
-            Meetingroom m => new RoomDto(m.Id, m.Name, "Meetingroom"),
-            Bedroom b => new RoomDto(b.Id, b.Name, "Bedroom"),
-            _ => new RoomDto(r.Id, r.Name, r.GetType().Name)
-        };
 }

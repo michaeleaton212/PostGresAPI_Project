@@ -64,7 +64,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var entity = await _db.Users!.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return null;
 
@@ -86,7 +86,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var entity = await _db.Users!.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return false;
 

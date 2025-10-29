@@ -66,7 +66,7 @@ public class MeetingroomRepository : IMeetingroomRepository
     {
         try
         {
-            var entity = await _db.Meetingrooms.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return null;
 
@@ -86,7 +86,7 @@ public class MeetingroomRepository : IMeetingroomRepository
     {
         try
         {
-            var entity = await _db.Meetingrooms.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return false;
 

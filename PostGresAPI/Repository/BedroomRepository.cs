@@ -65,7 +65,7 @@ public class BedroomRepository : IBedroomRepository
     {
         try
         {
-            var entity = await _db.Bedrooms.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return null;
 
@@ -98,7 +98,7 @@ public class BedroomRepository : IBedroomRepository
     {
         try
         {
-            var entity = await _db.Bedrooms.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return false;
 

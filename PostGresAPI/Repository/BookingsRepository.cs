@@ -81,7 +81,8 @@ public class BookingRepository : IBookingRepository
     {
         try
         {
-            var booking = createBookingDto.ToEntity(); _db.Bookings.Add(booking);
+            var booking = createBookingDto.ToEntity();
+            _db.Bookings.Add(booking);
             await _db.SaveChangesAsync();
             return booking;
         }
@@ -96,7 +97,7 @@ public class BookingRepository : IBookingRepository
     {
         try
         {
-            var entity = await _db.Bookings.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return null;
 
@@ -116,7 +117,7 @@ public class BookingRepository : IBookingRepository
     {
         try
         {
-            var entity = await _db.Bookings.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return false;
 

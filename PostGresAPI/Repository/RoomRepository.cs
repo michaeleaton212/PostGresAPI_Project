@@ -95,7 +95,7 @@ public class RoomRepository : IRoomRepository
     {
         try
         {
-            var entity = await _db.Rooms.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return null;
 
@@ -115,7 +115,7 @@ public class RoomRepository : IRoomRepository
     {
         try
         {
-            var entity = await _db.Rooms.FindAsync(id);
+            var entity = await GetById(id);
             if (entity is null)
                 return false;
 

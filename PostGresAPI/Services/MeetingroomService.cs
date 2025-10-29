@@ -13,29 +13,25 @@ namespace PostGresAPI.Services
         private readonly IMeetingroomRepository _repo;
         public MeetingroomService(IMeetingroomRepository repo) => _repo = repo;
 
-        // mapping
-        private static MeetingroomDto ToDto(Meetingroom m)
-            => new MeetingroomDto(m.Id, m.Name, m.NumberOfChairs);
-
         // Read
         public async Task<List<MeetingroomDto>> GetAll()
-            => (await _repo.GetAll()).Select(ToDto).ToList();
+            => (await _repo.GetAll()).Select(m => m.ToDto()).ToList();
 
         public async Task<MeetingroomDto?> GetById(int id)
-            => (await _repo.GetById(id)) is { } m ? ToDto(m) : null;
+            => (await _repo.GetById(id)) is { } m ? m.ToDto() : null;
 
         // Create
         public async Task<MeetingroomDto> Create(CreateMeetingroomDto createMeetingroomDto)
         {
             var created = await _repo.Add(createMeetingroomDto);
-            return ToDto(created);
+            return created.ToDto();
         }
 
         // Update
         public async Task<MeetingroomDto?> Update(int id, UpdateMeetingroomDto updateMeetingroomDto)
         {
             var updated = await _repo.Update(id, updateMeetingroomDto.Name, updateMeetingroomDto.NumberOfChairs);
-            return updated is null ? null : ToDto(updated);
+            return updated is null ? null : updated.ToDto();
         }
 
         // Delete
