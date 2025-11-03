@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -5,11 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'booking-page',
   standalone: true,
   imports: [CommonModule],
-  template: `
- <div class="page">
- <h2>Booking</h2>
- <p>Welcome to the Booking Pages.</p>
- </div>
- `
+  templateUrl: './booking-page.component.html',
+  styleUrls: ['./booking-page.component.scss']
 })
 export class BookingPageComponent { }

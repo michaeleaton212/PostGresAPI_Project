@@ -5,11 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'dashboard-page',
   standalone: true,
   imports: [CommonModule],
-  template: `
- <div class="page">
- <h2>Dashboard</h2>
- <p>Welcome to the Dashboard Page.</p>
- </div>
- `
+  templateUrl: './dashboard-page.component.html',
+  styleUrls: ['./dashboard-page.component.scss']
 })
 export class DashboardPageComponent { }

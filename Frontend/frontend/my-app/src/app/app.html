@@ -1,7 +1,23 @@
-<div class="app">
+<!-- app.html -->
+<div class="app-wrapper">
+  <div class="navbar-container">
+    <nav class="navbar-pill" role="navigation" aria-label="Hauptnavigation">
+      <a class="nav-link"
+         [routerLink]="['/home']"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
 
+      <a class="nav-link" [routerLink]="['/rooms']" routerLinkActive="active">
+        Verfügbare Zimmer
+      </a>
 
- <main style="padding:1rem">
- <router-outlet></router-outlet>
- </main>
+      <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">
+        Buchung verwalten
+      </a>
+    </nav>
+  </div>
+
+  <router-outlet></router-outlet>
 </div>

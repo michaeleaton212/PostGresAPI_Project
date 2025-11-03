@@ -1,0 +1,82 @@
+.page {
+  padding: 1rem;
+
+  h2 {
+    margin: 0 0 .5rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.rooms-button {
+  display: flex;
+  margin-left: 42rem;
+  margin-top: 12rem;
+
+  button {
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(128, 128, 128, 0.3); // Glasiger Hintergrund
+    backdrop-filter: blur(12px) saturate(180%); // Blur-Effekt
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #fff; // Weißer Rand
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2); // Lichtreflex oben
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff; // Bleibt weiß
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+
+.checkIn-button {
+  display: flex;
+  margin-left: 59rem;
+  margin-top: -3.5rem;
+
+  button {
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #fff;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #725AC1;
+    //position
+
+
+    &:hover {
+      border-color: #cacecf;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+}

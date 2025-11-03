@@ -5,11 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'room-preview-page',
   standalone: true,
   imports: [CommonModule],
-  template: `
- <div class="page">
- <h2>Room Preview</h2>
- <p>Welcome to the Room Preview Page.</p>
- </div>
- `
+  templateUrl: './room-preview-page.component.html',
+  styleUrls: ['./room-preview-page.component.scss']
 })
 export class RoomPreviewPageComponent { }

@@ -5,11 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'rooms-page',
   standalone: true,
   imports: [CommonModule],
-  template: `
- <div class="page">
- <h2>Rooms - Page</h2>
- <p>Welcome to the Rooms Page.</p>
- </div>
- `
+  templateUrl: './rooms-page.component.html',
+  styleUrls: ['./rooms-page.component.scss']  
 })
 export class RoomsPageComponent { }

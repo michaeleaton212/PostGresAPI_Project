@@ -7,7 +7,7 @@ import { DashboardPageComponent } from './pages/dashboard-page.component/dashboa
 import { UsersPageComponent } from './pages/users-page.component/users-page.component';
 
 export const routes: any[] = [
-  { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // ← Hier geändert!
   { path: 'home', component: HomePageComponent },
   { path: 'rooms', component: RoomsPageComponent },
   { path: 'room-preview', component: RoomPreviewPageComponent },

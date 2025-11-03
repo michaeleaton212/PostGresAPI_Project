@@ -1,0 +1,135 @@
+/* app.scss */
+/* App-Wrapper mit Hintergrundbild */
+.app-wrapper {
+  position: fixed;
+  inset: 0;
+  display: block;
+  background-color: #0b0d12;
+  background-image: url('/start.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .25), rgba(0, 0, 0, .45));
+    pointer-events: none;
+    z-index: 0;
+  }
+  // iPhone Portrait Modus (max-width: 599.98px)
+  &.is-phone-portrait {
+    padding: 1rem 0.75rem;
+
+    .navbar-container {
+      margin-bottom: 1rem;
+    }
+
+    .navbar-pill {
+      flex-direction: column;
+      width: 100%;
+      padding: 6px;
+      border-radius: 20px;
+      gap: 4px;
+    }
+
+    .nav-link {
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      text-align: center;
+      border-radius: 14px;
+    }
+  }
+  // iPhone Landscape Modus (max-width: 959.98px landscape)
+  &.is-phone-landscape {
+    padding: 0.75rem 1rem;
+
+    .navbar-container {
+      margin-bottom: 0.75rem;
+    }
+
+    .navbar-pill {
+      padding: 6px;
+      gap: 4px;
+    }
+
+    .nav-link {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+
+      .nav-text {
+        display: inline-block;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  // Allgemeine Phone Optimierungen
+  &.is-phone {
+    &::before {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, .35), rgba(0, 0, 0, .55));
+    }
+  }
+}
+
+.navbar-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.navbar-pill {
+  display: inline-flex;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 50px;
+  padding: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.nav-link {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  padding: 12px 32px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 40px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-shadow: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-weight: 900;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+  }
+}
+
+/* Fix: Tippfehler behoben (z-inde -> z-index) und Block korrekt geschlossen */
+::ng-deep router-outlet + * {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
