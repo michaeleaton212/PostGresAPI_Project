@@ -1,16 +1,22 @@
 <div class="page">
+
+
   <div class="home-title">
-    <h2>Home</h2>
-    <p>Welcome to the home page.</p>
+    <h2>Willkommen im Hotel Adula</h2>
+    <p>Wo Gastfreundschaft zuhause ist.</p>
   </div>
 
-<div class="buttons-row">
-  <div class="rooms-button">
-    <button>verfügbare Zimmer</button>
-  </div>
-  <div class="checkIn-button">
-    <button>Check-in</button>
-  </div>
-</div>
+  <div class="buttons-row">
+    <div class="rooms-button">
+      <button type="button" [routerLink]="['/rooms']" routerLinkActive="active">
+        Verfügbare Zimmer
+      </button>
+    </div>
 
+    <div class="checkIn-button">
+      <button type="button" [routerLink]="['/login']">
+        Check-in
+      </button>
+    </div>
+  </div>
 </div>

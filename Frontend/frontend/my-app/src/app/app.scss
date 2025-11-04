@@ -1,5 +1,4 @@
-/* app.scss */
-/* App-Wrapper mit Hintergrundbild */
+/
 .app-wrapper {
   position: fixed;
   inset: 0;
@@ -20,61 +19,6 @@
     background: linear-gradient(to bottom, rgba(0, 0, 0, .25), rgba(0, 0, 0, .45));
     pointer-events: none;
     z-index: 0;
-  }
-  // iPhone Portrait Modus (max-width: 599.98px)
-  &.is-phone-portrait {
-    padding: 1rem 0.75rem;
-
-    .navbar-container {
-      margin-bottom: 1rem;
-    }
-
-    .navbar-pill {
-      flex-direction: column;
-      width: 100%;
-      padding: 6px;
-      border-radius: 20px;
-      gap: 4px;
-    }
-
-    .nav-link {
-      width: 100%;
-      padding: 10px 16px;
-      font-size: 0.95rem;
-      text-align: center;
-      border-radius: 14px;
-    }
-  }
-  // iPhone Landscape Modus (max-width: 959.98px landscape)
-  &.is-phone-landscape {
-    padding: 0.75rem 1rem;
-
-    .navbar-container {
-      margin-bottom: 0.75rem;
-    }
-
-    .navbar-pill {
-      padding: 6px;
-      gap: 4px;
-    }
-
-    .nav-link {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-
-      .nav-text {
-        display: inline-block;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-  }
-  // Allgemeine Phone Optimierungen
-  &.is-phone {
-    &::before {
-      background: linear-gradient(to bottom, rgba(0, 0, 0, .35), rgba(0, 0, 0, .55));
-    }
   }
 }
 
@@ -127,17 +71,74 @@
   }
 }
 
-/* Fix: Tippfehler behoben (z-inde -> z-index) und Block korrekt geschlossen */
 ::ng-deep router-outlet + * {
   position: relative;
   z-index: 1;
   color: #fff;
 }
 
-/* Mobile: fixed bottom, horizontal, glass */
-/* Mobile: fixed bottom, horizontal, glass — kompakter */
+.language-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+  display: flex;
+  margin: 0;
+  pointer-events: auto;
 
+  select {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background-color: rgba(128, 128, 128, 0.25);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 0.8rem 2.8rem 0.8rem 1.2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    min-width: 120px;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1rem center !important;
+    background-size: 12px 8px !important;
 
+    &:hover {
+      background-color: rgba(148, 148, 148, 0.35);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      background-color: rgba(128, 128, 128, 0.25);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    option {
+      background: rgba(40, 40, 40, 0.95);
+      backdrop-filter: blur(20px);
+      color: #fff;
+      padding: 0.8rem;
+
+      &:hover {
+        background: rgba(80, 80, 80, 0.95);
+      }
+    }
+  }
+}
 
 @media (max-width: 768px) {
   .navbar-container {
@@ -146,70 +147,64 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    /* engeres Außenpadding */
     display: flex;
     justify-content: center;
     padding: 4px;
-    /* Glas-Hintergrundleiste (unter der Pill) */
     background: linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0.0));
-    pointer-events: none; /* Klicks nur auf die Pill zulassen */
+    pointer-events: none;
   }
 
   .navbar-pill {
     pointer-events: auto;
     display: flex;
-    flex-direction: row; /* horizontal */
+    flex-direction: row;
     align-items: center;
-    /* weniger Abstand zwischen Links */
     gap: 4px;
     height: 56px;
     padding: 6px 8px;
+    width: 100%;
     max-width: 100%;
     border-radius: 999px;
-    /* Liquid glass */
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255,255,255,0.08);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1);
-    /* Falls zu viele Links: horizontal scrollen statt umbrechen */
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15), 0 1px 2px rgba(0,0,0,0.1);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-  }
 
-  .navbar-pill::-webkit-scrollbar {
-    display: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .nav-link {
+    flex: 0 0 auto;
     white-space: nowrap;
-    /* schmalere Klickfläche */
-    padding: 8px 10px;
-    /* kleinere Schrift + minimal engeres Kerning */
-    font-size: 0.85rem;
-    letter-spacing: -0.1em;
+    padding: 14px 10px;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
     border-radius: 999px;
-    font-size: 1.08rem; /* Größere Schrift */
     text-align: center;
-    flex: 0 0 auto; /* verhindert Dehnen beim Scrollen */
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+
+    &.active {
+      font-weight: 700;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+    }
   }
 
-  /* weniger Platz nach unten für die fixierte Navbar */
   .app-wrapper {
-    padding-bottom: 72px; /* ~ reduzierte Pill-Höhe + Außenabstand */
+    padding-bottom: 72px;
   }
 
-
-
-  .nav-link.active {
-  padding: 14px 14px; /* größerer Innenabstand */
-  font-size: 1rem; /* größere Schrift */
-  border-radius: 999px; /* bleibt rund */
-}
-
-
-
-
+  .language-button {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
 }

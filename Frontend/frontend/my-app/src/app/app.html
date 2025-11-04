@@ -1,25 +1,48 @@
-<!-- app.html -->
 <div class="app-wrapper">
+  <div class="language-button">
+    <label class="sr-only" for="menu"></label>
+    <select id="menu" name="menu">
+      <option value="Deutsch">Deutsch</option>
+      <option value="Englisch">Englisch</option>
+    </select>
+  </div>
+
   <div class="navbar-container">
     <nav class="navbar-pill" role="navigation" aria-label="Hauptnavigation">
       <a
         class="nav-link"
         [routerLink]="['/home']"
+        #rlaHome="routerLinkActive"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
+        [attr.aria-current]="rlaHome.isActive ? 'page' : null"
       >
         Home
       </a>
 
-      <a class="nav-link" [routerLink]="['/rooms']" routerLinkActive="active">
+      <a
+        class="nav-link"
+        [routerLink]="['/rooms']"
+        #rlaRooms="routerLinkActive"
+        routerLinkActive="active"
+        [attr.aria-current]="rlaRooms.isActive ? 'page' : null"
+      >
         Verfügbare Zimmer
       </a>
 
-      <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">
+      <a
+        class="nav-link"
+        [routerLink]="['/login']"
+        #rlaLogin="routerLinkActive"
+        routerLinkActive="active"
+        [attr.aria-current]="rlaLogin.isActive ? 'page' : null"
+      >
         Buchung verwalten
       </a>
     </nav>
   </div>
 
-  <router-outlet></router-outlet>
+  <main class="app-content" role="main">
+    <router-outlet></router-outlet>
+  </main>
 </div>

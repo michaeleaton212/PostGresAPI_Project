@@ -1,19 +1,27 @@
 .page {
   padding: 1rem;
 
+
   h2 {
-    margin: 0 0 .5rem;
+    margin: 0 auto 0.5rem;
+    text-align: center;
+    font-size: 5rem;
+    font-family: 'Inter', sans-serif;
+    margin-top: 5rem;
   }
 
   p {
-    margin: 0;
+    margin: 0 auto 0.5rem;
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Inter', sans-serif;
   }
 }
 
 .rooms-button {
   display: flex;
-  margin-left: 42rem;
-  margin-top: 12rem;
+  margin-left: 43rem;
+  margin-top: 8rem;
 
   button {
     position: relative;
@@ -24,17 +32,17 @@
     letter-spacing: 1px;
     text-decoration: none;
     color: #fff;
-    background: rgba(128, 128, 128, 0.3); // Glasiger Hintergrund
-    backdrop-filter: blur(12px) saturate(180%); // Blur-Effekt
+    background: rgba(128, 128, 128, 0.3);
+    backdrop-filter: blur(12px) saturate(180%);
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 2px solid #fff; // Weißer Rand
+    border: 2px solid #fff;
     border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2); // Lichtreflex oben
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
     &:hover {
       background: rgba(255, 255, 255, 0.15);
-      border-color: #fff; // Bleibt weiß
+      border-color: #fff;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       transform: translateY(-2px);
     }
@@ -45,10 +53,9 @@
   }
 }
 
-
 .checkIn-button {
   display: flex;
-  margin-left: 59rem;
+  margin-left: 60rem;
   margin-top: -3.5rem;
 
   button {
@@ -66,17 +73,66 @@
     border: 2px solid #fff;
     border-radius: 10px;
     box-shadow: inset 0 0 0 0 #725AC1;
-    //position
-
 
     &:hover {
-      border-color: #cacecf;
-      color: #fff;
-      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
     }
 
     &:active {
-      transform: scale(0.9);
+      transform: translateY(0);
+    }
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .buttons-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .rooms-button,
+  .checkIn-button {
+    margin: 0;
+  }
+
+  .rooms-button button,
+  .checkIn-button button {
+    width: 250px;
+  }
+
+  .page {
+    h2 {
+      margin: 0 auto 0.5rem;
+      text-align: center;
+      font-size: 3rem;
+      font-family: 'Inter', sans-serif;
+      margin-top: 7rem;
+    }
+
+    p {
+      margin: 0 auto 0.5rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-family: 'Inter', sans-serif;
+    }
+  }
+
+  .language-button {
+    top: 0.5rem;
+    right: 0.5rem;
+
+    select {
+      font-size: 14px;
+      min-width: 100px;
+      padding: 0.6rem 2.2rem 0.6rem 0.8rem;
     }
   }
 }
