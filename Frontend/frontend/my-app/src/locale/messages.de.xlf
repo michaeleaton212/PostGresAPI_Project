@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" target-language="de" datatype="plaintext" original="ng2.template">
+
+    <body>
+      <!-- Navbar -->
+      <trans-unit id="1187764551054003222" datatype="html">
+        <source>Main navigation</source>
+        <target>Hauptnavigation</target>
+      </trans-unit>
+      <trans-unit id="2821179408673282599" datatype="html">
+        <source>Home</source>
+        <target>Startseite</target>
+      </trans-unit>
+      <trans-unit id="2282373980522944224" datatype="html">
+        <source>Available rooms</source>
+        <target>Verfügbare Zimmer</target>
+      </trans-unit>
+      <trans-unit id="6138760096410256237" datatype="html">
+        <source>Manage booking</source>
+        <target>Buchung verwalten</target>
+      </trans-unit>
+      <trans-unit id="2826581353496868063" datatype="html">
+        <source>Language</source>
+        <target>Sprache</target>
+      </trans-unit>
+      <trans-unit id="8197760814140039374" datatype="html">
+        <source>Select language</source>
+        <target>Sprache auswählen</target>
+      </trans-unit>
+      <trans-unit id="5866254605255506989" datatype="html">
+        <source>English</source>
+        <target>Englisch</target>
+      </trans-unit>
+      <trans-unit id="3313528406596871463" datatype="html">
+        <source>Deutsch</source>
+        <target>Deutsch</target>
+      </trans-unit>
+
+      <!-- Home-Page -->
+      <trans-unit id="250827044116235271" datatype="html">
+        <source>Welcome to Hotel Adula</source>
+        <target>Willkommen im Hotel Adula</target>
+      </trans-unit>
+      <trans-unit id="7797581879148089575" datatype="html">
+        <source>Where hospitality is at home.</source>
+        <target>Wo Gastfreundschaft zuhause ist.</target>
+      </trans-unit>
+      <trans-unit id="4634717445931831128" datatype="html">
+        <source>Book Room</source>
+        <target>Zimmer buchen</target>
+      </trans-unit>
+      <trans-unit id="314962445583435546" datatype="html">
+        <source>Check-in</source>
+        <target>Check-in</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

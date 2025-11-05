@@ -1,3 +1,4 @@
+import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page.component/home-page.component';
 import { RoomsPageComponent } from './pages/rooms-page.component/rooms-page.component';
 import { RoomPreviewPageComponent } from './pages/room-preview-page.component/room-preview-page.component';
@@ -6,8 +7,8 @@ import { LoginPageComponent } from './pages/login-page.component/login-page.comp
 import { DashboardPageComponent } from './pages/dashboard-page.component/dashboard-page.component';
 import { UsersPageComponent } from './pages/users-page.component/users-page.component';
 
-export const routes: any[] = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // ← Hier geändert!
+export const routes: Routes = [
+  { path: '', component: HomePageComponent, pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
   { path: 'rooms', component: RoomsPageComponent },
   { path: 'room-preview', component: RoomPreviewPageComponent },
@@ -15,4 +16,5 @@ export const routes: any[] = [
   { path: 'login', component: LoginPageComponent },
   { path: 'dashboard', component: DashboardPageComponent },
   { path: 'users', component: UsersPageComponent },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

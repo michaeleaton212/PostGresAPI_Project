@@ -1,0 +1,25 @@
+{
+  "public": "dist/my-app/browser",
+  "directoryListing": false,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/de/(.*\\.(?:js|css|map|png|jpe?g|webp|svg|ico|json|txt|woff2?|ttf))",
+      "destination": "/de-DE/$1"
+    },
+    {
+      "source": "/(.*\\.(?:js|css|map|png|jpe?g|webp|svg|ico|json|txt|woff2?|ttf))",
+      "destination": "/en-US/$1"
+    },
+
+    {
+      "source": "/de/(.*)",
+      "destination": "/de-DE/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/en-US/index.html"
+    }
+  ]
+}
