@@ -117,11 +117,11 @@
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 15px;
   padding: 0.8rem 1.5rem;
-  padding-right: 2.6rem; /* Platz für Chevron rechts */
+  padding-right: 2.6rem; 
 
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   outline: none;
-  width: 5rem;
+  width: 4.9rem;
   position: relative;
   z-index: 100000;
   display: flex;
@@ -207,7 +207,6 @@ border-color: rgba(255, 255, 255, 0.5);
   font-weight: 600;
 }
 
-/* alter IE/Edge: Pfeil ausblenden */
 select::-ms-expand {
   display: none;
 }
@@ -231,7 +230,6 @@ select::-ms-expand {
   transform: translateY(-50%) rotate(0deg);
 }
 
-/* Also rotate when dropdown is open (for click support) */
 .select-wrap.open .arrow {
   transform: translateY(-50%) rotate(0deg);
 }
@@ -307,7 +305,7 @@ select::-ms-expand {
 
   .language-button .lang-btn {
     padding: 0.6rem 1rem;
-    padding-right: 2.4rem; /* etwas weniger auf Mobile */
+    padding-right: 2.4rem; 
     font-size: 14px;
   }
 
