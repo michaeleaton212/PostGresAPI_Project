@@ -83,59 +83,53 @@
   right: 3rem;
   z-index: 1100;
   display: flex;
+  gap: 8px;
   margin: 0;
   pointer-events: auto;
 
-  select {
+  .lang-btn {
     font-size: 16px;
+    font-weight: 500;
     letter-spacing: 0.5px;
-    color: #fff;
+    font-family: 'Inter', sans-serif;
+    color: rgba(255, 255, 255, 0.85);
     background-color: rgba(128, 128, 128, 0.25);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     cursor: pointer;
-    transition: background-color .4s cubic-bezier(0.4, 0, 0.2, 1), border-color .4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .4s cubic-bezier(0.4, 0, 0.2, 1), transform .2s ease;
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
-    padding: 0.8rem 2.8rem 0.8rem 1.2rem;
+    padding: 0.8rem 1.5rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     outline: none;
-    min-width: 120px;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat !important;
-    background-position: right 1rem center !important;
-    background-size: 12px 8px !important;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: rgba(148, 148, 148, 0.35);
       border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      color: #fff;
       transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
-    &:focus {
-      background-color: rgba(128, 128, 128, 0.25);
+    &.active,
+    &:disabled {
+      background-color: rgba(255, 255, 255, 0.2);
       border-color: rgba(255, 255, 255, 0.6);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      cursor: default;
     }
 
-    &:active {
+    &:focus-visible {
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(255, 255, 255, 0.1);
+    }
+
+    &:active:not(:disabled) {
       transform: translateY(0);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    option {
-      background: rgba(40, 40, 40, 0.95);
-      backdrop-filter: blur(20px);
-      color: #fff;
-      padding: 0.8rem;
-
-      &:hover {
-        background: rgba(80, 80, 80, 0.95);
-      }
     }
   }
 }
@@ -210,5 +204,12 @@
   .language-button {
     top: 0.75rem;
     right: 0.75rem;
+
+    .lang-btn {
+      padding: 0.6rem 1rem;
+      font-size: 14px;
+    }
+
+   
   }
 }

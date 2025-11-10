@@ -1,30 +1,33 @@
 <div class="app-wrapper">
-  <div class="language-button">
-    <label class="sr-only" for="menu" i18n>Language</label>
-    <select id="menu"
-            name="menu"
-            #langSel
-            (change)="onLangChange(langSel.value)"
-            aria-label="Select language"
-            i18n-aria-label>
-      <option value="en-US" [selected]="currentLocale === 'en-US'" i18n>English</option>
-      <option value="de" [selected]="currentLocale === 'de'" i18n>Deutsch</option>
-    </select>
-  </div>
+ <div class="language-button">
+  <label for="lang"></label>
+  <select
+    id="lang"
+    class="lang-btn"
+    [value]="selectedLocale"
+    (change)="onLangChange($any($event.target).value)"
+    aria-label=""
+    autocomplete="off"
+  >
+    <option value="en-US" i18n>English</option>
+    <option value="de" i18n>Deutsch</option>
+  </select>
+</div>
+
 
   <div class="navbar-container">
     <nav class="navbar-pill" role="navigation" aria-label="Main navigation" i18n-aria-label>
       <a class="nav-link"
-         [routerLink]="['home']"
-         #rlaHome="routerLinkActive"
+      [routerLink]="['home']"
+  #rlaHome="routerLinkActive"
          routerLinkActive="active"
          [routerLinkActiveOptions]="{ exact: true }"
          [attr.aria-current]="rlaHome.isActive ? 'page' : null"
-         i18n>Home</a>
+    i18n>Home</a>
 
       <a class="nav-link"
          [routerLink]="['rooms']"
-         #rlaRooms="routerLinkActive"
+   #rlaRooms="routerLinkActive"
          routerLinkActive="active"
          [attr.aria-current]="rlaRooms.isActive ? 'page' : null"
          i18n>Available rooms</a>
@@ -33,8 +36,8 @@
          [routerLink]="['login']"
          #rlaLogin="routerLinkActive"
          routerLinkActive="active"
-         [attr.aria-current]="rlaLogin.isActive ? 'page' : null"
-         i18n>Manage booking</a>
+      [attr.aria-current]="rlaLogin.isActive ? 'page' : null"
+     i18n>Manage booking</a>
     </nav>
   </div>
 

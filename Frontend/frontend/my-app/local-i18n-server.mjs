@@ -1,7 +1,3 @@
-// local-i18n-server.mjs
-// Einfacher Express-Server, der die gebaute Angular-App mit zwei Locales
-// unter "/" (en-US) und "/de/" (de-DE) bereitstellt – inkl. SPA-Fallbacks.
-
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,24 +5,23 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Pfad zum Angular-Build
+// Path to the angular build
 const dist = path.join(__dirname, 'dist', 'my-app', 'browser');
 
-// Statische Auslieferung ohne automatische index.html
+// static delivery without index but with fallthrough
 const staticOptions = { index: false, fallthrough: true };
 
-// App anlegen
+//apply App 
 const app = express();
 
-// 1) Statische Assets bereitstellen
-//    - Deutsch liegt im Build unter de-DE/*, erreichbar über /de/*
-//    - Englisch liegt im Build unter en-US/*, erreichbar über /*
 
+// 1) Statische Assets bereitstellen
+//  German over /de/*
+//  English over en-US /*
 app.use('/de', express.static(path.join(dist, 'de-DE'), staticOptions));
 app.use('/',    express.static(path.join(dist, 'en-US'), staticOptions));
 
-// 2) SPA-Fallbacks (Rewrites auf die jeweilige index.html)
-//    Reihenfolge ist wichtig: erst /de/*, dann Root.
+// 2)Rewrites on the respective index.html
 
 app.get(/^\/de(\/.*)?$/, (_req, res) => {
   res.sendFile(path.join(dist, 'de-DE', 'index.html'));
