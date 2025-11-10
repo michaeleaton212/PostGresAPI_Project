@@ -12,6 +12,8 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 export class AppComponent implements OnInit {
   selectedLocale: 'en-US' | 'de'; // only allow these two locales and one at a time
 
+
+  //for the html template so it knows when to show which language as selected
   constructor(@Inject(DOCUMENT) private doc: Document) {
     this.selectedLocale = this.getLocaleFromPath(this.doc.location.pathname);
   }
