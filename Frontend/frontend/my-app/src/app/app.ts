@@ -11,6 +11,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   selectedLocale: 'en-US' | 'de'; // only allow these two locales and one at a time
+  isDropdownOpen = false; // track dropdown state
 
 
   //for the html template so it knows when to show which language as selected
@@ -31,9 +32,12 @@ export class AppComponent implements OnInit {
 
     //if the selected locale is the same as the current one, do nothing
     if (this.selectedLocale === normalized) {
+      this.isDropdownOpen = false; // close dropdown
       return;
     }
 
+    // Update selected locale
+    this.selectedLocale = normalized;
 
     // calculate the new URL based on the selected locale and save in variable
     const url = new URL(this.doc.location.href);
@@ -47,6 +51,10 @@ export class AppComponent implements OnInit {
     if (currentPath !== newPath) {
       this.doc.location.assign(newPath + url.search + url.hash);
     }
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   //determine language from path
