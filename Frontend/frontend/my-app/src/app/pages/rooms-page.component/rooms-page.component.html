@@ -30,12 +30,12 @@
     </div>
 
     <div *ngIf="!loading && !error">
-      <!-- Show all rooms when no filter is selected -->
+      <!-- Show all rooms when  selected -->
       <div *ngIf="view === null && rooms.length === 0" class="no-rooms">
         <p>Keine Zimmer verfügbar.</p>
       </div>
 
-      <!-- Show ALL rooms when no filter selected - in one grid -->
+      <!-- Show ALL rooms when selected -->
       <div *ngIf="view === null && rooms.length > 0" class="room-section">
         <div class="room-grid">
           <div *ngFor="let room of rooms" 
@@ -98,7 +98,6 @@
         </div>
       </div>
 
-      <!-- No rooms message for current view -->
       <div *ngIf="view === 'bedroom' && bedrooms.length === 0" class="no-rooms">
         <p>Keine Schlafzimmer verfügbar.</p>
       </div>

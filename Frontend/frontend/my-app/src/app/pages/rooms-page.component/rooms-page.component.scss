@@ -16,7 +16,6 @@
   }
 }
 
-// Rooms Content
 .rooms-content {
   padding: 2rem 2.5rem;
   flex: 1;
@@ -24,7 +23,6 @@
   flex-direction: column;
 }
 
-// Room Sections
 .room-section {
   margin-bottom: 2rem;
 
@@ -34,20 +32,18 @@
   }
 }
 
-// Room Grid
 .room-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4rem;
 }
 
-// Room Cards
 
 
 
 
 .room-name h4 {
-  margin: 0; /* Standard-Abstände entfernen */
+  margin: 0; 
 }
 
 .bedrooms-row {
@@ -67,7 +63,7 @@
   margin: 0;
 }
 
-.room-type { /* oder: margin-left: auto; */
+.room-type { 
 }
 
 
@@ -76,7 +72,6 @@
       margin: 0.5rem 0;
     }
   }
-  // Footer
   footer {
     margin-top: 4rem;
     padding: 2rem 0;
@@ -221,7 +216,7 @@
     border-radius: 8px;
     object-fit: cover;
   }
-  // Mobile responsiveness
+  // Mobile design
   @media (max-width: 768px) {
     .page {
       padding: 0.5rem;
