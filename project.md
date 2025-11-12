@@ -6,26 +6,20 @@
 Dieses Repository beinhaltet sowohl den Backend-Dienst als auch die Frontend-Anwendung für das **Hotel Adula Management System**.
 Das Backend basiert auf **.NET** und stellt die notwendigen APIs zur Verfügung, während das Frontend mit **Angular** entwickelt wurde.
 
----
 
-# Beispiel für eine kopierbare Box
+# Startanleitung
 
-Hier ist ein Text, den du kopieren kannst:
+## Backend starten
+Führe das Backend mit folgendem Befehl aus:
+```bash
+cd \PostGresAPI_Project\PostGresAPI_Project\PostGresAPI
+dotnet run
 
-<div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0; background-color: #f9f9f9; border-radius: 4px;">
-  <p id="copyText">Dies ist der Text, der kopiert werden soll.</p>
-  <button onclick="copyToClipboard()">Kopieren</button>
-</div>
+## Frontend bauen und lokalen i18n-Server starten
 
-<script>
-  function copyToClipboard() {
-    const textToCopy = document.getElementById("copyText").innerText;
-    navigator.clipboard.writeText(textToCopy)
-      .then(() => {
-        alert("Text wurde kopiert!");
-      })
-      .catch(err => {
-        console.error("Fehler beim Kopieren: ", err);
-      });
-  }
-</script>
+Baue das Frontend und starte anschließend den lokalen i18n-Server:
+
+```bash
+cd frontend
+ng build
+node local-i18n-server.mjs
