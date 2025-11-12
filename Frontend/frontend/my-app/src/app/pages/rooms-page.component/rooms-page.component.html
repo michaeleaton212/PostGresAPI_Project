@@ -1,6 +1,147 @@
 <div class="page">
-  <h2>Rooms - Page</h2>
-  <p>Welcome to the Rooms Page.</p>
+  <h2>Rooms</h2>
+  <div class="buttons-row-rooms">
+    <div class="bedrooms-button">
+      <button i18n type="button"
+              (click)="setView('bedroom')"
+              [class.active]="view === 'bedroom'"
+              [attr.aria-pressed]="view === 'bedroom'">
+        Bedrooms
+      </button>
+    </div>
+    <div class="meetingrooms-button">
+      <button i18n type="button"
+              (click)="setView('meeting')"
+              [class.active]="view === 'meeting'"
+              [attr.aria-pressed]="view === 'meeting'">
+        Meetingrooms
+      </button>
+    </div>
+  </div>
+
+  <!-- loading message -->
+  <div class="rooms-content">
+    <div *ngIf="loading" class="loading-container">
+      <p>Zimmer werden geladen...</p>
+    </div>
+
+    <div *ngIf="error && !loading" class="error-container">
+      <p>{{ error }}</p>
+    </div>
+
+    <div *ngIf="!loading && !error">
+      <!-- Show all rooms when no filter is selected -->
+      <div *ngIf="view === null && rooms.length === 0" class="no-rooms">
+        <p>Keine Zimmer verfügbar.</p>
+      </div>
+
+      <!-- Show ALL rooms when no filter selected - in one grid -->
+      <div *ngIf="view === null && rooms.length > 0" class="room-section">
+        <div class="room-grid">
+          <div *ngFor="let room of rooms" 
+               class="room-card"
+               (click)="openPreview(room)"
+               style="cursor:pointer">
+            <img class="room-image"
+                 src="grey.png"
+                 [alt]="room.type"
+                 loading="lazy">
+            <div class="bedrooms-row">
+              <div class="room-name">
+                <h4>{{ room.name }}</h4>
+              </div>
+              <div class="room-type">
+                <span>{{ room.type }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- list bedrooms via for -->
+      <div *ngIf="view === 'bedroom' && bedrooms.length > 0" class="room-section">
+        <div class="room-grid">
+          <div *ngFor="let room of bedrooms"
+               class="room-card"
+               (click)="openPreview(room)"
+               style="cursor:pointer">
+            <img class="room-image" src="grey.png" alt="Schlafzimmer" loading="lazy">
+            <div class="bedrooms-row">
+              <div class="room-name"><h4>{{ room.name }}</h4></div>
+              <div class="room-type"><span class="room-type">{{ room.type }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- list meetingrooms via for -->
+      <div *ngIf="view === 'meeting' && meetingrooms.length > 0" class="room-section">
+        <div class="room-grid">
+          <div *ngFor="let room of meetingrooms" 
+               class="room-card"
+               (click)="openPreview(room)"
+               style="cursor:pointer">
+            <img class="room-image"
+                 src="grey.png"
+                 alt="Konferenzraum"
+                 loading="lazy">
+            <div class="meetingrooms-row">
+              <div class="room-name">
+                <h4>{{ room.name }}</h4>
+              </div>
+              <div class="room-type">
+                <span>{{ room.type }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No rooms message for current view -->
+      <div *ngIf="view === 'bedroom' && bedrooms.length === 0" class="no-rooms">
+        <p>Keine Schlafzimmer verfügbar.</p>
+      </div>
+
+      <div *ngIf="view === 'meeting' && meetingrooms.length === 0" class="no-rooms">
+        <p>Keine Konferenzräume verfügbar.</p>
+      </div>
+
+      <footer>
+        <div class="footer-columns">
+          <div class="Adula">
+            <h3>Adula</h3>
+            <div class="description">
+              <p>
+                Wir sind das familiengeführte Hotel Adula in den Alpen: herzlich, unkompliziert <br />
+                und nah an der Natur. Gemütliche Zimmer mit Bergblick, regionale Küche und <br />
+                persönliche Tipps für jede Saison. Nachhaltig, kinderfreundlich – ideal für Ski,<br /> Wandern und erholsame
+                Auszeiten.
+              </p>
+            </div>
+          </div>
+          <div class="reach-out">
+            <h4>Reach out</h4>
+            <table role="presentation" cellspacing="0" cellpadding="4">
+              <tr>
+                <td><img src="mail_logo.png" alt="E-Mail" width="24" height="24"></td>
+                <td><p>hoteladula@gmail.com</p></td>
+              </tr>
+              <tr>
+                <td><img src="instagram_logo.png" alt="Instagram" width="24" height="24"></td>
+                <td><p>@hoteladula</p></td>
+              </tr>
+              <tr>
+                <td><img src="linkedin_logo.png" alt="LinkedIn" width="24" height="24"></td>
+                <td><p>@hoteladula</p></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
 </div>
+
 
 

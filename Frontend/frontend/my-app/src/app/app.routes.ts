@@ -16,5 +16,4 @@ export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'dashboard', component: DashboardPageComponent },
   { path: 'users', component: UsersPageComponent }
-  // Wildcard redirect removed - let the server handle unknown paths
 ];

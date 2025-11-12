@@ -1,4 +1,45 @@
 <div class="page">
   <h2>Room Preview</h2>
-  <p>Welcome to the Room Preview Page.</p>
+  
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <p>Raum wird geladen...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="error-container">
+<p>{{ error }}</p>
+    <button (click)="goBack()">Zurück zu Rooms</button>
+  </div>
+
+  <!-- Room details -->
+  <div *ngIf="room && !loading" class="room-details">
+    <div class="room-header">
+      <h3>{{ room.name }}</h3>
+      <button class="back-button" (click)="goBack()">← Zurück</button>
+    </div>
+
+    <div class="room-info">
+      <img class="room-preview-image" src="grey.png" [alt]="room.name">
+  
+      <div class="details-grid">
+   <div class="detail-item">
+          <strong>Raum-ID:</strong>
+    <span>{{ room.id }}</span>
+      </div>
+        
+        <div class="detail-item">
+          <strong>Typ:</strong>
+   <span>{{ room.type }}</span>
+        </div>
+        
+   <div class="detail-item">
+   <strong>Name:</strong>
+    <span>{{ room.name }}</span>
+        </div>
+        
+      <!-- Add more room details here as needed -->
+      </div>
+    </div>
+  </div>
 </div>

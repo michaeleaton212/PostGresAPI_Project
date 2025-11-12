@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\UsersController..cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\UsersController..cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PostGresAPI.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\UserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Repository\\UserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\RoomRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Repository\\RoomRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Persistence\\Entities\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IUserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,6 +33,22 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IUserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Interfaces\\IRepository\\IUserRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\UserExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Extensions\\UserExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\UserDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Contracts\\UserDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\RoomService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\RoomService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\RoomRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Repository\\RoomRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\BedroomService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,32 +63,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\MeetingroomService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\RoomService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\RoomService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\UsersController..cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\UsersController..cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Persistence\\Entities\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\UserExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Extensions\\UserExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\Room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Persistence\\Entities\\Room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\UserDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Contracts\\UserDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\RoomDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -105,10 +113,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\RoomsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\RoomsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\BedroomExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -201,11 +205,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 43,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 5,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\User.cs",
               "RelativeDocumentMoniker": "Persistence\\Entities\\User.cs",
@@ -219,19 +223,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "BookingExtensions.cs",
-              "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\BookingExtensions.cs",
-              "RelativeDocumentMoniker": "Extensions\\BookingExtensions.cs",
-              "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\BookingExtensions.cs",
-              "RelativeToolTip": "Extensions\\BookingExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T12:42:25.963Z"
+              "DocumentIndex": 2,
+              "Title": "PostGresAPI.http",
+              "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.http",
+              "RelativeDocumentMoniker": "PostGresAPI.http",
+              "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.http",
+              "RelativeToolTip": "PostGresAPI.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-10-28T09:00:44.673Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "BedroomExtensions.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\BedroomExtensions.cs",
               "RelativeDocumentMoniker": "Extensions\\BedroomExtensions.cs",
@@ -243,7 +248,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "MeetingroomExtensions.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\MeetingroomExtensions.cs",
               "RelativeDocumentMoniker": "Extensions\\MeetingroomExtensions.cs",
@@ -255,7 +260,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "RoomExtensions.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\RoomExtensions.cs",
               "RelativeDocumentMoniker": "Extensions\\RoomExtensions.cs",
@@ -267,19 +272,45 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 8,
               "Title": "UserExtensions.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\UserExtensions.cs",
               "RelativeDocumentMoniker": "Extensions\\UserExtensions.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\UserExtensions.cs",
               "RelativeToolTip": "Extensions\\UserExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAACGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T12:38:51.089Z"
+              "WhenOpened": "2025-10-20T12:38:51.089Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-13T12:53:22.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "BookingExtensions.cs",
+              "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\BookingExtensions.cs",
+              "RelativeDocumentMoniker": "Extensions\\BookingExtensions.cs",
+              "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Extensions\\BookingExtensions.cs",
+              "RelativeToolTip": "Extensions\\BookingExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T12:42:25.963Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
               "Title": "ApplicationDbContextModelSnapshot.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Data\\ApplicationDbContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "Persistence\\Data\\ApplicationDbContextModelSnapshot.cs",
@@ -291,7 +322,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 48,
               "Title": "ApiResponse.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\ApiResponse.cs",
               "RelativeDocumentMoniker": "Contracts\\ApiResponse.cs",
@@ -303,20 +334,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "IUserRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IUserRepository.cs",
               "RelativeDocumentMoniker": "Interfaces\\IRepository\\IUserRepository.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IUserRepository.cs",
               "RelativeToolTip": "Interfaces\\IRepository\\IUserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T08:41:00.885Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "IBookingService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IBookingService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IServices\\IBookingService.cs",
@@ -328,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "IBedroomService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IBedroomService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IServices\\IBedroomService.cs",
@@ -340,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "IMeetingroomService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IMeetingroomService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IServices\\IMeetingroomService.cs",
@@ -352,7 +383,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "IRoomService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IRoomService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IServices\\IRoomService.cs",
@@ -364,20 +395,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "IUserService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IUserService.cs",
               "RelativeDocumentMoniker": "Interfaces\\IServices\\IUserService.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IServices\\IUserService.cs",
               "RelativeToolTip": "Interfaces\\IServices\\IUserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T08:21:19.192Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "IBookingRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IBookingRepository.cs",
               "RelativeDocumentMoniker": "Interfaces\\IRepository\\IBookingRepository.cs",
@@ -389,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "IBedroomRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IBedroomRepository.cs",
               "RelativeDocumentMoniker": "Interfaces\\IRepository\\IBedroomRepository.cs",
@@ -401,7 +432,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "IMeetingroomRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IMeetingroomRepository.cs",
               "RelativeDocumentMoniker": "Interfaces\\IRepository\\IMeetingroomRepository.cs",
@@ -413,7 +444,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "IRoomRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Interfaces\\IRepository\\IRoomRepository.cs",
               "RelativeDocumentMoniker": "Interfaces\\IRepository\\IRoomRepository.cs",
@@ -425,7 +456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 46,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -437,19 +468,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 9,
               "Title": "UserDto.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\UserDto.cs",
               "RelativeDocumentMoniker": "Contracts\\UserDto.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\UserDto.cs",
               "RelativeToolTip": "Contracts\\UserDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T08:46:57.343Z"
+              "WhenOpened": "2025-10-14T08:46:57.343Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "BookingDto.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\BookingDto.cs",
               "RelativeDocumentMoniker": "Contracts\\BookingDto.cs",
@@ -461,7 +493,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "RoomDto.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\RoomDto.cs",
               "RelativeDocumentMoniker": "Contracts\\RoomDto.cs",
@@ -473,7 +505,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "MeetingroomDto.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\MeetingroomDto.cs",
               "RelativeDocumentMoniker": "Contracts\\MeetingroomDto.cs",
@@ -485,7 +517,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "BedroomDto.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Contracts\\BedroomDto.cs",
               "RelativeDocumentMoniker": "Contracts\\BedroomDto.cs",
@@ -497,7 +529,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "Persistence\\Data\\ApplicationDbContext.cs",
@@ -509,7 +541,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "Meetingroom.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\Meetingroom.cs",
               "RelativeDocumentMoniker": "Persistence\\Entities\\Meetingroom.cs",
@@ -521,7 +553,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "MeetingroomRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\MeetingroomRepository.cs",
               "RelativeDocumentMoniker": "Repository\\MeetingroomRepository.cs",
@@ -529,12 +561,11 @@
               "RelativeToolTip": "Repository\\MeetingroomRepository.cs",
               "ViewState": "AgIAAGQAAAAAAAAAAABBwGUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T06:07:14.619Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T06:07:14.619Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 45,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\appsettings.Development.json",
               "RelativeDocumentMoniker": "appsettings.Development.json",
@@ -546,7 +577,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "Room.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\Room.cs",
               "RelativeDocumentMoniker": "Persistence\\Entities\\Room.cs",
@@ -558,7 +589,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "Booking.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\Booking.cs",
               "RelativeDocumentMoniker": "Persistence\\Entities\\Booking.cs",
@@ -570,7 +601,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "Bedrom.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Persistence\\Entities\\Bedrom.cs",
               "RelativeDocumentMoniker": "Persistence\\Entities\\Bedrom.cs",
@@ -582,7 +613,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "Services\\UserService.cs",
@@ -595,33 +626,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "RoomService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\RoomService.cs",
               "RelativeDocumentMoniker": "Services\\RoomService.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\RoomService.cs",
               "RelativeToolTip": "Services\\RoomService.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAABEAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAWwAYAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-13T13:32:03.739Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 14,
               "Title": "MeetingroomService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\MeetingroomService.cs",
               "RelativeDocumentMoniker": "Services\\MeetingroomService.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\MeetingroomService.cs",
               "RelativeToolTip": "Services\\MeetingroomService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAEBVwCgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-13T13:31:57.951Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 13,
               "Title": "BookingService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\BookingService.cs",
               "RelativeDocumentMoniker": "Services\\BookingService.cs",
@@ -629,12 +660,11 @@
               "RelativeToolTip": "Services\\BookingService.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAAAEAAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T13:31:48.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-13T13:31:48.842Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 43,
               "Title": "BookingsController.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\BookingsController.cs",
               "RelativeDocumentMoniker": "Controllers\\BookingsController.cs",
@@ -646,7 +676,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 42,
               "Title": "MeetingroomsController.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\MeetingroomsController.cs",
               "RelativeDocumentMoniker": "Controllers\\MeetingroomsController.cs",
@@ -658,7 +688,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "BedroomsController.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\BedroomsController.cs",
               "RelativeDocumentMoniker": "Controllers\\BedroomsController.cs",
@@ -670,32 +700,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "BedroomService.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\BedroomService.cs",
               "RelativeDocumentMoniker": "Services\\BedroomService.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Services\\BedroomService.cs",
               "RelativeToolTip": "Services\\BedroomService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAACwAAAAAAAAAAEBVwDAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-13T13:11:42.678Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T12:53:22.191Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 44,
               "Title": "PostGresAPI.csproj",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.csproj",
               "RelativeDocumentMoniker": "PostGresAPI.csproj",
@@ -707,7 +725,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 11,
               "Title": "RoomRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\RoomRepository.cs",
               "RelativeDocumentMoniker": "Repository\\RoomRepository.cs",
@@ -715,12 +733,11 @@
               "RelativeToolTip": "Repository\\RoomRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGYAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T12:48:03.591Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-13T12:48:03.591Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 47,
               "Title": "IRoomService.cs",
               "DocumentMoniker": "C:\\Codefirst\\PostGresAPI\\Services\\IRoomService.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\Codefirst\\PostGresAPI\\Services\\IRoomService.cs",
@@ -731,33 +748,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "UserRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\UserRepository.cs",
               "RelativeDocumentMoniker": "Repository\\UserRepository.cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\UserRepository.cs",
               "RelativeToolTip": "Repository\\UserRepository.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAADwv1YAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAmwGUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-13T12:11:50.842Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
               "Title": "UsersController..cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\UsersController..cs",
               "RelativeDocumentMoniker": "Controllers\\UsersController..cs",
               "ToolTip": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\UsersController..cs",
               "RelativeToolTip": "Controllers\\UsersController..cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-13T12:11:46.563Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "RoomsController.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Controllers\\RoomsController.cs",
               "RelativeDocumentMoniker": "Controllers\\RoomsController.cs",
@@ -769,7 +786,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "BookingsRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\BookingsRepository.cs",
               "RelativeDocumentMoniker": "Repository\\BookingsRepository.cs",
@@ -777,12 +794,11 @@
               "RelativeToolTip": "Repository\\BookingsRepository.cs",
               "ViewState": "AgIAAIEAAAAAAAAAAABRwIQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T12:10:49.096Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-13T12:10:49.096Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "BedroomRepository.cs",
               "DocumentMoniker": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\Repository\\BedroomRepository.cs",
               "RelativeDocumentMoniker": "Repository\\BedroomRepository.cs",
@@ -790,8 +806,7 @@
               "RelativeToolTip": "Repository\\BedroomRepository.cs",
               "ViewState": "AgIAAHAAAAAAAAAAAABBwEQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T12:05:59.478Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-13T12:05:59.478Z"
             }
           ]
         }

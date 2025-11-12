@@ -1,11 +1,330 @@
 .page {
   padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
   h2 {
     margin: 0 0 .5rem;
+    margin-left: 2.5rem; 
+  font-size: 3rem;
+  font-family: 'Inter', sans-serif;
   }
 
   p {
     margin: 0;
   }
 }
+
+// Rooms Content
+.rooms-content {
+  padding: 2rem 2.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// Room Sections
+.room-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// Room Grid
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+}
+
+// Room Cards
+
+
+
+
+.room-name h4 {
+  margin: 0; /* Standard-Abstände entfernen */
+}
+
+.bedrooms-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+}
+
+.meetingrooms-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+}
+.room-name h4 {
+  margin: 0;
+}
+
+.room-type { /* oder: margin-left: auto; */
+}
+
+
+  .room-card-body {
+ p {
+      margin: 0.5rem 0;
+    }
+  }
+  // Footer
+  footer {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8.5rem;
+    max-width: 1600px;
+    margin-left: 2rem;
+    margin-right: auto;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .footer-columns {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0rem;
+  }
+
+  .Adula,
+  .reach-out {
+    flex: 0 1 auto;
+  }
+
+  .Adula {
+    margin-right: 5rem;
+  }
+
+  .Adula h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .Adula .description {
+    margin-top: 1rem;
+  }
+
+  .Adula .description p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+
+  .reach-out h4 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+  }
+
+  .reach-out table {
+    font-size: 1.2rem;
+    border-spacing: 0;
+  }
+
+  .reach-out table img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin: auto;
+  }
+
+  .reach-out table img[src*="mail"] {
+    width: 80px;
+    height: 55px;
+    margin-left: 5px;
+  }
+
+  .reach-out table p {
+    font-size: 1.4rem;
+    margin: 0;
+    line-height: 70px;
+  }
+
+  .reach-out table td {
+    padding: 0;
+    vertical-align: middle;
+    height: 70px;
+  }
+
+.reach-out table td:first-child {
+    text-align: center;
+    width: 100px;
+    padding: 10px;
+  }
+
+  .reach-out table td:last-child {
+    padding-left: 1rem;
+  }
+
+  .buttons-row-rooms {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 12px;
+    margin-left: 2.5rem;
+    margin-top: 2.5rem;
+  }
+
+.bedrooms-button,
+.meetingrooms-button {
+  button {
+    width: 12rem; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(79, 79, 79, 0.4);
+    backdrop-filter: blur(12px) saturate(180%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: rgba(156, 156, 156, 0.23);
+      border-color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.active {
+      background: rgba(156, 156, 156, 0.5);
+      font-weight: bold;
+    }
+  }
+}
+
+  .room-image {
+    width: 100%;
+ height: 20rem;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    .page {
+      padding: 0.5rem;
+
+      h2 {
+   margin-left: 1rem;
+font-size: 2rem;
+      }
+    }
+
+    .rooms-content {
+      padding: 1rem;
+    }
+
+    .room-section {
+      h3 {
+        font-size: 1.25rem;
+      }
+    }
+
+    .room-grid {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+  padding: 1.5rem 0;
+      gap: 2rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+  }
+
+    .footer-columns {
+    flex-direction: column;
+      gap: 2rem;
+    }
+
+    .Adula {
+      margin-right: 0;
+    }
+
+    .Adula h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .Adula .description p {
+      font-size: 1rem;
+   line-height: 1.6;
+    }
+
+    .reach-out h4 {
+      font-size: 1.5rem;
+   margin-bottom: 0.5rem;
+      margin-left: 0;
+    }
+
+ .reach-out table {
+      font-size: 1rem;
+    }
+
+    .reach-out table img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .reach-out table img[src*="mail"] {
+      width: 50px;
+      height: 35px;
+      margin-left: 0;
+    }
+
+    .reach-out table p {
+      font-size: 1rem;
+      line-height: 50px;
+    }
+
+    .reach-out table td {
+      height: 50px;
+    }
+
+    .reach-out table td:first-child {
+      width: 60px;
+      padding: 5px;
+    }
+
+    .reach-out table td:last-child {
+      padding-left: 0.5rem;
+    }
+
+    .buttons-row-rooms {
+      margin-left: 1rem;
+      margin-top: 1.5rem;
+      gap: 8px;
+    }
+
+    .bedrooms-button,
+    .meetingrooms-button {
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+  }
+    }
+  }
+
