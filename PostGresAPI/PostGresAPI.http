@@ -4,3 +4,32 @@ GET {{PostGresAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# Get all rooms
+GET {{PostGresAPI_HostAddress}}/api/rooms
+Accept: application/json
+
+###
+
+# Get single room by ID
+GET {{PostGresAPI_HostAddress}}/api/rooms/5
+Accept: application/json
+
+###
+
+# Get bedrooms only
+GET {{PostGresAPI_HostAddress}}/api/bedrooms
+Accept: application/json
+
+###
+
+# Get bedroom by ID
+GET {{PostGresAPI_HostAddress}}/api/bedrooms/5
+Accept: application/json
+
+###
+
+````````
+
+
+# Response

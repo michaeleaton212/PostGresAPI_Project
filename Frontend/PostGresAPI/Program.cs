@@ -1,13 +1,11 @@
-ï»¿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PostGresAPI.Data;
 using PostGresAPI.Repository;
 using PostGresAPI.Services;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args); // create builder
 
-builder.Services.AddDbContext<ApplicationDbContext>(opt =>          //connect to PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>        //connect to PostgreSQL
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // dependency injection
@@ -28,26 +26,27 @@ builder.Services.AddScoped<IMeetingroomService, MeetingroomService>();
 builder.Services.AddScoped<IBedroomService, BedroomService>();
 builder.Services.AddScoped<IBookingService, BookingService>(); ;
 
-builder.Services.AddControllers() // add controllers
+// Configure JSON serialization to use camelCase
+builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+   options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     });
+
 builder.Services.AddEndpointsApiExplorer(); // add swagger
 builder.Services.AddSwaggerGen(); // add swagger
 
-// CORS fÃ¼r Angular-Dev (Origin ggf. auf https Ã¤ndern, falls du https nutzt)
+// CORS für Angular-Dev (Origin ggf. auf https ändern, falls du https nutzt)
 builder.Services.AddCors(options => // add CORS policy that allows requests from Angular server
 {
     options.AddPolicy("NgDev", policy => // define policy named "NgDev"
         policy.WithOrigins(
-                "http://localhost:4200",
-                "https://localhost:4200" 
-            )
+           "http://localhost:4200",
+           "https://localhost:4200" 
+      )
             .AllowAnyHeader()// allow any header 
-            .AllowAnyMethod() // allow any method (GET, POST, Update, Delete .)
-    );
+ .AllowAnyMethod() // allow any method (GET, POST, Update, Delete .)
+  );
 });
 
 var app = builder.Build(); // build app

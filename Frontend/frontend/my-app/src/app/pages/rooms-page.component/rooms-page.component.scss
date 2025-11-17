@@ -41,7 +41,6 @@
 
 
 
-
 .room-name h4 {
   margin: 0; 
 }
@@ -74,14 +73,14 @@
   }
   footer {
     margin-top: 4rem;
-    padding: 2rem 0;
+ padding: 2rem 0;
     display: flex;
     flex-direction: column;
     gap: 8.5rem;
     max-width: 1600px;
-    margin-left: 2rem;
+    margin-left: 1.5rem;
     margin-right: auto;
-    width: 100%;
+    width: calc(100% - 1rem);
     font-family: 'Inter', sans-serif;
   }
 
@@ -102,7 +101,7 @@
   }
 
   .Adula h3 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 
@@ -111,12 +110,12 @@
   }
 
   .Adula .description p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.8;
   }
 
   .reach-out h4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
     margin-left: 2rem;
   }
@@ -148,7 +147,7 @@
   .reach-out table td {
     padding: 0;
     vertical-align: middle;
-    height: 70px;
+    height: 50px;
   }
 
 .reach-out table td:first-child {
@@ -223,7 +222,7 @@
 
       h2 {
    margin-left: 1rem;
-font-size: 2rem;
+  font-size: 2rem;
       }
     }
 
@@ -244,14 +243,17 @@ font-size: 2rem;
 
     footer {
       margin-top: 3rem;
-  padding: 1.5rem 0;
+      padding: 1.5rem 0;
       gap: 2rem;
-      margin-left: 1rem;
-      margin-right: 1rem;
-  }
+      margin-left: 3rem;
+   margin-right: 0;
+  max-width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
 
     .footer-columns {
-    flex-direction: column;
+      flex-direction: column;
       gap: 2rem;
     }
 
@@ -266,12 +268,12 @@ font-size: 2rem;
 
     .Adula .description p {
       font-size: 1rem;
-   line-height: 1.6;
+      line-height: 1.6;
     }
 
     .reach-out h4 {
       font-size: 1.5rem;
-   margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
       margin-left: 0;
     }
 
@@ -326,4 +328,5 @@ font-size: 2rem;
           }
         }
       }
+
 

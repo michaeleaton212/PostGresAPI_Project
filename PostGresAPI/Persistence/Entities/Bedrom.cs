@@ -9,5 +9,5 @@ public sealed class Bedroom : Room
         NumberOfBeds = numberOfBeds;
     }
 
-    public int NumberOfBeds { get; internal set; }
+    public int NumberOfBeds { get; set; }
 }

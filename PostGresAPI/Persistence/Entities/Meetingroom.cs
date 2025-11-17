@@ -9,5 +9,5 @@ public sealed class Meetingroom : Room // no other class can inherit
         NumberOfChairs = numberOfChairs; 
     }
 
-    public int NumberOfChairs { get; internal set; }
+    public int NumberOfChairs { get; set; }
 }
