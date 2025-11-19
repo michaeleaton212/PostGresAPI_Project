@@ -1,4 +1,127 @@
 <div class="page">
   <h2>Booking</h2>
-  <p>Welcome to the Booking Pages.</p>
+  <button class="back-button" (click)="goBackPreview(currentRoomId)" i18n>← Back</button>
+
+
+  <!-- Loading state -->
+  <div *ngIf="loading">
+    <p>Loading booking information...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error && !loading">
+    <p style="color: red;">{{ error }}</p>
+    <button (click)="goBack()">Back to Rooms</button>
+  </div>
+
+  <!-- Success state -->
+  <div *ngIf="bookingSuccess">
+    <h3 style="color: green;">Booking successful!</h3>
+    <p>Redirecting to rooms page...</p>
+  </div>
+
+  <!-- Booking overview + Input + Buttons -->
+  <div *ngIf="room && !loading && !bookingSuccess" class="overview">
+    <br />
+    <br />
+
+    <h3>Overview</h3>
+    <br />
+    <div class="overview-row">
+      <strong>Room:</strong>
+      <span>{{ room.name }}</span>
+    </div>
+
+    <div class="overview-row">
+      <strong>Type:</strong>
+      <span>{{ room.type }}</span>
+    </div>
+
+    <div *ngIf="startDate" class="overview-row">
+      <strong>Check-in:</strong>
+      <span>{{ startDate | date:'dd.MM.yyyy' }}</span>
+    </div>
+
+    <div *ngIf="endDate" class="overview-row">
+      <strong>Check-out:</strong>
+      <span>{{ endDate | date:'dd.MM.yyyy' }}</span>
+    </div>
+
+    <div *ngIf="startDate && endDate" class="overview-row">
+      <strong>Duration:</strong>
+      <span>{{ numberOfDays }} day(s)</span>
+    </div>
+
+
+
+    <div class="form-group">
+      <label for="firstName">
+        <strong class="left">Enter Name:</strong>
+      </label>
+      <input id="firstName"
+             type="text"
+             [(ngModel)]="firstName"
+             placeholder="Enter your first name"
+             maxlength="100"
+             required />
+    </div>
+
+    <div class="button-row">
+      <button class="confirmBooking" (click)="confirmBooking()"
+              [disabled]="bookingInProgress || !isFormValid">
+        {{ bookingInProgress ? 'Booking...' : 'Confirm Booking' }}
+      </button>
+
+      <!--<button  class="CancelBooking" (click)="goBack()">
+        Cancel
+      </button>-->
+    </div>
+  </div>
 </div>
+
+
+
+
+<footer>
+  <div class="footer-columns">
+
+    <div class="Adula">
+      <h3>Adula</h3>
+      <div class="description">
+        <p>
+          We are the family-run Hotel Adula in the Alps: warm, uncomplicated<br />
+          and close to nature. Cozy rooms with mountain views, regional cuisine, and<br />
+          personal tips for every season. Sustainable, child-friendly – ideal for skiing,<br />
+          hiking, and relaxing getaways.
+        </p>
+      </div>
+    </div>
+
+    <div class="reach-out">
+      <h4>Reach out</h4>
+
+      <table role="presentation" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <img src="mail_logo.png" alt="E-Mail">
+          </td>
+          <td><p>hoteladula@gmail.com</p></td>
+        </tr>
+        <tr>
+          <td>
+            <img src="instagram_logo.png" alt="Instagram">
+          </td>
+          <td><p>@hoteladula</p></td>
+        </tr>
+        <tr>
+          <td>
+            <img src="linkedin_logo.png" alt="LinkedIn">
+          </td>
+          <td><p>@hoteladula</p></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</footer>
+

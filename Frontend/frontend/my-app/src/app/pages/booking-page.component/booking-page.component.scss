@@ -2,10 +2,326 @@
   padding: 1rem;
 
   h2 {
-    margin: 0 0 .5rem;
+    margin: 0 0 0.5rem;
   }
 
   p {
     margin: 0;
+  }
+}
+.left {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.back-button {
+  position: fixed;
+  top: 8rem;
+  right: 3rem;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 28.5px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: rgba(79, 79, 79, 0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(79, 79, 79, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+.overview {
+  width: 40rem;
+  height: 31rem;
+  margin: 20px auto 0 auto;
+  padding: 20px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(88, 130, 193, 0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  cursor: default;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(88, 130, 193);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  text-align: left;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  .overview-row {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+
+    strong {
+      font-weight: 600;
+      padding-left: 3rem;
+    }
+
+    span {
+      text-align: right;
+      flex: 1;
+      padding-right: 3rem;
+    }
+  }
+
+  .overview-row:last-child {
+    border-bottom: none;
+  }
+
+  .form-group {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      text-align: left;
+      width: 100%;
+    }
+
+    input[type='text'] {
+      width: 100%;
+      height: 3rem;
+      padding: 10px 12px;
+      font-size: 16px;
+      border: 2px solid rgba(7, 43, 166, 0.3);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-color: #002457;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(123, 92, 255, 0.1);
+      }
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+
+  .button-row {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .confirmBooking {
+    position: relative;
+    height: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.125rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #fff;
+    background: #003465;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 5px;
+
+    &:hover {
+      background: rgba(156, 156, 156);
+    }
+  }
+  /*  .cancelButton {
+  } */
+}
+
+
+
+footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8.5rem;
+  max-width: 1600px;
+  margin-left: 1.5rem;
+  margin-right: auto;
+  width: calc(100% - 1rem);
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-columns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.Adula,
+.reach-out {
+  flex: 0 1 auto;
+}
+
+.Adula {
+  margin-right: 5rem;
+}
+
+.Adula h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.Adula .description {
+  margin-top: 1rem;
+}
+
+.Adula .description p {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* Reach-out Bereich: alle Icons gleich gross, wenig Abstand */
+.reach-out h4 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+
+.reach-out table {
+  font-size: 1rem;
+  border-spacing: 0 6px; /* vertikaler Abstand zwischen den Reihen */
+}
+
+.reach-out table img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.reach-out table p {
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.4; /* Text näher am Icon */
+}
+
+.reach-out table td {
+  padding: 0;
+  vertical-align: middle;
+  height: 40px;
+}
+
+.reach-out table td:first-child {
+  text-align: center;
+  width: 40px;
+  padding-right: 8px;
+}
+
+.reach-out table td:last-child {
+  padding-left: 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    gap: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    max-width: 100%;
+  }
+
+  .footer-columns {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .Adula {
+    margin-right: 0;
+  }
+
+  .Adula h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .Adula .description p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .reach-out h4 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0;
+  }
+
+  .reach-out table {
+    font-size: 1rem;
+    border-spacing: 0 4px;
+  }
+
+  .reach-out table img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .reach-out table p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .reach-out table td {
+    height: 36px;
+  }
+
+  .reach-out table td:first-child {
+    width: 36px;
+    padding-right: 6px;
+  }
+
+  .reach-out table td:last-child {
+    padding-left: 0.5rem;
   }
 }

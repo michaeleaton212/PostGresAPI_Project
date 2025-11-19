@@ -35,6 +35,13 @@ public sealed class ApplicationDbContext : DbContext
             m.Property(x => x.NumberOfChairs)
              .HasColumnName("number_of_chairs")
              .HasDefaultValue(0);
+          
+            // Seed data for Meetingrooms
+            m.HasData(
+                new { Id = 1, Name = "Conference Room A", NumberOfChairs = 20 },
+                new { Id = 2, Name = "Conference Room B", NumberOfChairs = 15 },
+                new { Id = 3, Name = "Board Room", NumberOfChairs = 10 }
+            );
         });
         // Bedroom-specific columns
         modelBuilder.Entity<Bedroom>(b =>
@@ -42,6 +49,14 @@ public sealed class ApplicationDbContext : DbContext
             b.Property(x => x.NumberOfBeds)
              .HasColumnName("number_of_beds")
              .HasDefaultValue(0);
+    
+            // Seed data for Bedrooms
+            b.HasData(
+                new { Id = 4, Name = "Room 101", NumberOfBeds = 1 },
+                new { Id = 5, Name = "Room 102", NumberOfBeds = 2 },
+                new { Id = 6, Name = "Room 103", NumberOfBeds = 2 },
+                new { Id = 7, Name = "Suite 201", NumberOfBeds = 3 }
+            );
         });
         // BOOKING
         var booking = modelBuilder.Entity<Booking>();
@@ -58,8 +73,8 @@ public sealed class ApplicationDbContext : DbContext
         booking.Property(b => b.RoomId)
                .IsRequired();
         // FK to Rooms 
-        booking.HasOne<Room>()
-               .WithMany()
+        booking.HasOne(b => b.Room)
+               .WithMany(r => r.Bookings)
                .HasForeignKey(b => b.RoomId)
                .OnDelete(DeleteBehavior.Cascade);
         // Index for Time range queries

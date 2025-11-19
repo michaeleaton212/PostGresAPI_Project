@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" target-language="de" datatype="plaintext" original="ng2.template">
-
     <body>
       <!-- Navbar -->
       <trans-unit id="1187764551054003222" datatype="html">
         <source>Main navigation</source>
         <target>Hauptnavigation</target>
       </trans-unit>
+
       <trans-unit id="2821179408673282599" datatype="html">
         <source>Home</source>
         <target>Home</target>
       </trans-unit>
+
       <trans-unit id="2282373980522944224" datatype="html">
         <source>Available rooms</source>
         <target>Verfügbare Zimmer</target>
       </trans-unit>
+
       <trans-unit id="6138760096410256237" datatype="html">
         <source>Manage booking</source>
         <target>Buchung verwalten</target>
       </trans-unit>
+
       <trans-unit id="2826581353496868063" datatype="html">
         <source>Language</source>
         <target>Sprache</target>
       </trans-unit>
+
       <trans-unit id="8197760814140039374" datatype="html">
         <source>Select language</source>
         <target>Sprache auswählen</target>
       </trans-unit>
+
       <trans-unit id="5866254605255506989" datatype="html">
         <source>English</source>
         <target>Englisch</target>
       </trans-unit>
+
       <trans-unit id="3313528406596871463" datatype="html">
         <source>Deutsch</source>
         <target>Deutsch</target>
@@ -42,17 +48,174 @@
         <source>Welcome to Hotel Adula</source>
         <target>Willkommen im Hotel Adula</target>
       </trans-unit>
+
       <trans-unit id="7797581879148089575" datatype="html">
         <source>Where hospitality is at home.</source>
         <target>Wo Gastfreundschaft zuhause ist.</target>
       </trans-unit>
+
       <trans-unit id="4634717445931831128" datatype="html">
-        <source>Book Room</source>
-        <target>Zimmer buchen</target>
+        <source> Book Room </source>
+        <target> Zimmer buchen </target>
       </trans-unit>
+
       <trans-unit id="314962445583435546" datatype="html">
-        <source>Check-in</source>
-        <target>Check-in</target>
+        <source> Check-in </source>
+        <target> Check-in </target>
+      </trans-unit>
+
+      <!-- Rooms-Seite -->
+      <trans-unit id="6318077128670918892" datatype="html">
+        <source>Rooms</source>
+        <target>Zimmer</target>
+      </trans-unit>
+
+      <trans-unit id="3402002013936439154" datatype="html">
+        <source> Bedrooms </source>
+        <target> Schlafzimmer </target>
+      </trans-unit>
+
+      <trans-unit id="6037015538188438682" datatype="html">
+        <source> Meetingrooms </source>
+        <target> Konferenzräume </target>
+      </trans-unit>
+
+      <trans-unit id="3420897038698751816" datatype="html">
+        <source>Loading rooms...</source>
+        <target>Zimmer werden geladen...</target>
+      </trans-unit>
+
+      <trans-unit id="524766351746978729" datatype="html">
+        <source>No rooms available.</source>
+        <target>Keine Zimmer verfügbar.</target>
+      </trans-unit>
+
+      <trans-unit id="5655404575510530380" datatype="html">
+        <source>Bedroom</source>
+        <target>Schlafzimmer</target>
+      </trans-unit>
+
+      <trans-unit id="4254657538579885561" datatype="html">
+        <source>Meeting room</source>
+        <target>Konferenzraum</target>
+      </trans-unit>
+
+      <trans-unit id="7008545166499001089" datatype="html">
+        <source>No bedrooms available.</source>
+        <target>Keine Schlafzimmer verfügbar.</target>
+      </trans-unit>
+
+      <trans-unit id="2451425972526713748" datatype="html">
+        <source>No meeting rooms available.</source>
+        <target>Keine Konferenzräume verfügbar.</target>
+      </trans-unit>
+
+      <!-- Footer-Text (Rooms-Version, ohne Oxford-Komma im Englischen) -->
+      <trans-unit id="2151929326578996582" datatype="html">
+        <source> We are the family-run Hotel Adula in the Alps: warm, uncomplicated {$LINE_BREAK} and close to nature. Cozy rooms with mountain views, regional cuisine and {$LINE_BREAK} personal tips for every season. Sustainable, child-friendly – ideal for skiing,{$LINE_BREAK} hiking and relaxing getaways. </source>
+        <target> Wir sind das familiengeführte Hotel Adula in den Alpen: herzlich, unkompliziert {$LINE_BREAK} und nah an der Natur. Gemütliche Zimmer mit Bergblick, regionaler Küche und {$LINE_BREAK} persönlichen Tipps für jede Saison. Nachhaltig, kinderfreundlich – ideal für Ski,{$LINE_BREAK} Wandern und erholsame Auszeiten. </target>
+      </trans-unit>
+
+      <!-- Footer-Text (Room-Preview-Version, mit Komma vor "and") -->
+      <trans-unit id="2813705465543998977" datatype="html">
+        <source> We are the family-run Hotel Adula in the Alps: warm, uncomplicated{$LINE_BREAK} and close to nature. Cozy rooms with mountain views, regional cuisine, and{$LINE_BREAK} personal tips for every season. Sustainable, child-friendly – ideal for skiing,{$LINE_BREAK} hiking, and relaxing getaways. </source>
+        <target> Wir sind das familiengeführte Hotel Adula in den Alpen: herzlich, unkompliziert{$LINE_BREAK} und nah an der Natur. Gemütliche Zimmer mit Bergblick, regionaler Küche und{$LINE_BREAK} persönlichen Tipps für jede Saison. Nachhaltig, kinderfreundlich – ideal für Ski,{$LINE_BREAK} Wandern und erholsame Auszeiten. </target>
+      </trans-unit>
+
+      <trans-unit id="6780773456705230664" datatype="html">
+        <source>Reach out</source>
+        <target>Kontaktiere uns</target>
+      </trans-unit>
+
+      <trans-unit id="8115083664628466958" datatype="html">
+        <source>E-Mail</source>
+        <target>E-Mail</target>
+      </trans-unit>
+
+      <trans-unit id="3080109816219994129" datatype="html">
+        <source>Instagram</source>
+        <target>Instagram</target>
+      </trans-unit>
+
+      <trans-unit id="4440081753597585133" datatype="html">
+        <source>LinkedIn</source>
+        <target>LinkedIn</target>
+      </trans-unit>
+
+      <!-- Room-Preview-Seite -->
+      <trans-unit id="519208908274993680" datatype="html">
+        <source>Room Preview</source>
+        <target>Zimmervorschau</target>
+      </trans-unit>
+
+      <trans-unit id="7831582986983225686" datatype="html">
+        <source>Loading room...</source>
+        <target>Raum wird geladen...</target>
+      </trans-unit>
+
+      <trans-unit id="5939471678816862988" datatype="html">
+        <source>Back to Rooms</source>
+        <target>Zurück zu den Zimmern</target>
+      </trans-unit>
+
+      <trans-unit id="6019653417900340937" datatype="html">
+        <source>← Back</source>
+        <target>← Zurück</target>
+      </trans-unit>
+
+      <trans-unit id="8586908745456864217" datatype="html">
+        <source>Previous month</source>
+        <target>Vorheriger Monat</target>
+      </trans-unit>
+
+      <trans-unit id="3628374603023447227" datatype="html">
+        <source>Next month</source>
+        <target>Nächster Monat</target>
+      </trans-unit>
+
+      <trans-unit id="4745169039721589107" datatype="html">
+        <source>{$INTERPOLATION} day(s) selected</source>
+        <target>{$INTERPOLATION} Tag(e) ausgewählt</target>
+      </trans-unit>
+
+      <trans-unit id="1294649418203057170" datatype="html">
+        <source>Select end date</source>
+        <target>Enddatum auswählen</target>
+      </trans-unit>
+
+      <trans-unit id="7932692489430322232" datatype="html">
+        <source>Book now</source>
+        <target>Jetzt buchen</target>
+      </trans-unit>
+
+      <trans-unit id="5028777105388019087" datatype="html">
+        <source>Details</source>
+        <target>Details</target>
+      </trans-unit>
+
+      <trans-unit id="2736556170366900089" datatype="html">
+        <source>Type:</source>
+        <target>Typ:</target>
+      </trans-unit>
+
+      <trans-unit id="7658402240953727096" datatype="html">
+        <source>Name:</source>
+        <target>Name:</target>
+      </trans-unit>
+
+      <trans-unit id="1438130526855673145" datatype="html">
+        <source>Number of beds:</source>
+        <target>Anzahl Betten:</target>
+      </trans-unit>
+
+      <trans-unit id="8257277732975224681" datatype="html">
+        <source>Number of chairs:</source>
+        <target>Anzahl Stühle:</target>
+      </trans-unit>
+
+      <trans-unit id="95213720452925222" datatype="html">
+        <source>Not specified</source>
+        <target>Nicht angegeben</target>
       </trans-unit>
     </body>
   </file>

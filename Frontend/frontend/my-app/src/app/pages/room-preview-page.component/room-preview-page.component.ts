@@ -39,6 +39,11 @@ export class RoomPreviewPageComponent implements OnInit {
   rangeStart: Date | null = null;
   rangeEnd: Date | null = null;
   
+  // Error state for missing date selection
+  showDateError = false;
+  currentRoomId = this.route.snapshot.queryParams['id'];
+
+  
   monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
       'July', 'August', 'September', 'October', 'November', 'December'];
   weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -91,22 +96,40 @@ this.error = 'Raum konnte nicht geladen werden.';
     this.router.navigate(['/rooms']);
   }
 
+  goBackPreview(id: number) {
+    this.router.navigate(['/room-preview'], { queryParams: { id } });
+  }
+
   openBooking() {
     if (!this.room) return;
-    
+
+    // Check if date range is complete
+    if (!this.rangeStart || !this.rangeEnd) {
+      // Toggle Error-Flag, damit Angular die Änderung mitbekommt
+      this.showDateError = false;
+      setTimeout(() => {
+        this.showDateError = true;
+      }, 0);
+      return;
+    }
+
+    // Reset error state
+    this.showDateError = false;
+
     // Navigate to booking page with room ID and selected dates
     const queryParams: any = { roomId: this.room.id };
-    
+
     if (this.rangeStart) {
       queryParams.startDate = this.rangeStart.toISOString();
     }
-  
+
     if (this.rangeEnd) {
       queryParams.endDate = this.rangeEnd.toISOString();
     }
-    
+
     this.router.navigate(['/booking'], { queryParams });
   }
+
 
 // Calendar methods
   generateCalendar() {
@@ -123,7 +146,7 @@ this.error = 'Raum konnte nicht geladen werden.';
     const daysInMonth = lastDay.getDate();
     
     // Add padding days
-    for (let i = 0; i < firstDayOfWeek; i++) {
+    for (let i = 0; i < firstDayOfWeek; +i++) {
       this.calendarDays.push({
      day: 0,
         date: new Date(),
@@ -192,47 +215,50 @@ isPad: true,
   toggleDateSelection(calendarDay: CalendarDay) {
     if (calendarDay.isPad) return;
     
+    // Reset error when user selects a date
+    this.showDateError = false;
+    
     const clickedDate = new Date(calendarDay.date);
     clickedDate.setHours(0, 0, 0, 0);
     
     // Case 1: No start date set -> Set start
     if (!this.rangeStart) {
       this.rangeStart = clickedDate;
-  this.rangeEnd = null;
+      this.rangeEnd = null;
       console.log('Range Start:', this.rangeStart.toLocaleDateString('de-DE'));
     }
     // Case 2: Start set, no end -> Set end (or new start if same)
     else if (!this.rangeEnd) {
       const clickedTime = clickedDate.getTime();
-   const startTime = this.rangeStart.getTime();
+    const startTime = this.rangeStart.getTime();
       
       if (clickedTime === startTime) {
-        // Same day clicked -> Reset
-     this.rangeStart = null;
-        this.rangeEnd = null;
+     // Same day clicked -> Reset
+        this.rangeStart = null;
+  this.rangeEnd = null;
         console.log('Range reset');
       } else if (clickedTime < startTime) {
-        // Earlier date -> Swap
+   // Earlier date -> Swap
         this.rangeEnd = this.rangeStart;
-  this.rangeStart = clickedDate;
+   this.rangeStart = clickedDate;
         console.log('Range:', this.rangeStart.toLocaleDateString('de-DE'), '->', this.rangeEnd.toLocaleDateString('de-DE'));
       } else {
         // Later date -> Normal
-        this.rangeEnd = clickedDate;
-        console.log('Range:', this.rangeStart.toLocaleDateString('de-DE'), '->', this.rangeEnd.toLocaleDateString('de-DE'));
+      this.rangeEnd = clickedDate;
+     console.log('Range:', this.rangeStart.toLocaleDateString('de-DE'), '->', this.rangeEnd.toLocaleDateString('de-DE'));
       }
-    }
+  }
     // Case 3: Both set -> Reset and new start
     else {
-      this.rangeStart = clickedDate;
-   this.rangeEnd = null;
+ this.rangeStart = clickedDate;
+      this.rangeEnd = null;
       console.log('New Range Start:', this.rangeStart.toLocaleDateString('de-DE'));
-    }
+  }
     
     // Regenerate calendar to show range
     this.generateCalendar();
     
-  this.logRangeInfo();
+    this.logRangeInfo();
   }
 
   
@@ -310,7 +336,7 @@ get monthYearLabel(): string {
     return this.getSelectedDatesInRange().length;
   }
 
-  get hasRangeSelection(): boolean {
+  get hasRangeSelection(): boolean { // chekc if start and end date are set
     return this.rangeStart !== null && this.rangeEnd !== null;
   }
 
@@ -336,3 +362,4 @@ get monthYearLabel(): string {
     return this.room.numberOfChairs ?? undefined;
   }
 }
+

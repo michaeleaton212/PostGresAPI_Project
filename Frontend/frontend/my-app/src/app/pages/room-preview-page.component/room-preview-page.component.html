@@ -1,43 +1,50 @@
 <div class="page">
-  <h2>Room Preview</h2>
+  <h2 i18n>Room Preview</h2>
 
   <!-- Loading state -->
   <div *ngIf="loading" class="loading-container">
-    <p>Raum wird geladen...</p>
+    <p i18n>Loading room...</p>
   </div>
 
   <!-- Error state -->
   <div *ngIf="error && !loading" class="error-container">
     <p>{{ error }}</p>
-    <button (click)="goBack()">Zurück zu Rooms</button>
+    <button i18n (click)="goBack()">Back to Rooms</button>
   </div>
 
   <!-- Room details -->
   <div *ngIf="room && !loading" class="room-details">
     <div class="room-header">
       <h3>{{ room.name }}</h3>
-      <button class="back-button" (click)="goBack()">← Zurück</button>
+      <button class="back-button" (click)="goBack()" i18n>← Back</button>
     </div>
 
     <div class="room-info">
-
       <div class="image-and-calendar">
+
         <div class="image-room">
           <img class="room-preview-image" src="grey.png" [alt]="room.name">
         </div>
 
         <div class="calendar-wrapper">
-          <div class="calendar-card" role="region" [attr.aria-label]="'Kalender ' + monthYearLabel">
+          <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">
+
             <div class="title">
               {{ today | date:'EEE, MMM, d' }}
             </div>
 
             <div class="monthbar">
-              <button class="month-nav-btn prev" (click)="previousMonth()" aria-label="Vorheriger Monat">
+              <button class="month-nav-btn prev"
+                      (click)="previousMonth()"
+                      aria-label="Previous month"
+                      i18n-aria-label>
                 <i class="chev-left"></i>
               </button>
               <span class="label">{{ monthYearLabel }}</span>
-              <button class="month-nav-btn next" (click)="nextMonth()" aria-label="Nächster Monat">
+              <button class="month-nav-btn next"
+                      (click)="nextMonth()"
+                      aria-label="Next month"
+                      i18n-aria-label>
                 <i class="chev-right"></i>
               </button>
             </div>
@@ -48,9 +55,8 @@
 
             <div class="grid" role="grid" aria-readonly="false">
               <ng-container *ngFor="let calDay of calendarDays">
-                <div *ngIf="calDay.isPad"
-                     class="pad">
-                </div>
+                <div *ngIf="calDay.isPad" class="pad"></div>
+
                 <div *ngIf="!calDay.isPad"
                      class="day"
                      [class.is-today]="calDay.isToday"
@@ -68,77 +74,95 @@
             </div>
 
             <div class="selected-info" *ngIf="hasRangeSelection">
-              <p>{{ selectedDatesCount }} Tag(e) ausgewählt</p>
+              <p i18n>{{ selectedDatesCount }} day(s) selected</p>
             </div>
 
-            <div class="selected-info" *ngIf="rangeStart && !rangeEnd">
-              <p class="hint">Wähle End-Datum aus</p>
+            <div class="selected-info" *ngIf="rangeStart && !rangeEnd && !showDateError">
+              <p class="hint" i18n>Select end date</p>
             </div>
+
+            <div class="selected-info error" *ngIf="showDateError">
+              <p class="error-text" i18n>Please select a date!</p>
+            </div>
+
           </div>
 
-          <button class="book-button" (click)="openBooking()">Book now</button>
+          <button class="book-button" (click)="openBooking()" i18n>Book now</button>
         </div>
       </div>
 
       <div class="details-grid">
-        <h2>Details</h2>
+        <h2 i18n>Details</h2>
 
         <div class="detail-item">
-          <strong>Typ:</strong>
+          <strong i18n>Type:</strong>
           <span>{{ room.type }}</span>
         </div>
 
         <div class="detail-item">
-          <strong>Name:</strong>
+          <strong i18n>Name:</strong>
           <span>{{ room.name }}</span>
         </div>
 
         <div class="detail-item" *ngIf="room.type === 'Bedroom'">
-          <strong>Anzahl Betten:</strong>
-          <span>{{ numberOfBeds || 'Nicht angegeben' }}</span>
+          <strong i18n>Number of beds:</strong>
+          <span *ngIf="numberOfBeds; else bedsMissing">{{ numberOfBeds }}</span>
+          <ng-template #bedsMissing>
+            <span i18n>Not specified</span>
+          </ng-template>
         </div>
 
         <div class="detail-item" *ngIf="room.type === 'Meetingroom'">
-          <strong>Anzahl Stühle:</strong>
-          <span>{{ numberOfChairs || 'Nicht angegeben' }}</span>
+          <strong i18n>Number of chairs:</strong>
+          <span *ngIf="numberOfChairs; else chairsMissing">{{ numberOfChairs }}</span>
+          <ng-template #chairsMissing>
+            <span i18n>Not specified</span>
+          </ng-template>
         </div>
-
       </div>
-
-
     </div>
   </div>
 </div>
 
 <footer>
   <div class="footer-columns">
+
     <div class="Adula">
       <h3>Adula</h3>
       <div class="description">
-        <p>
-          Wir sind das familiengeführte Hotel Adula in den Alpen: herzlich, unkompliziert <br />
-          und nah an der Natur. Gemütliche Zimmer mit Bergblick, regionale Küche und <br />
-          persönliche Tipps für jede Saison. Nachhaltig, kinderfreundlich – ideal für Ski,<br /> Wandern und erholsame
-          Auszeiten.
+        <p i18n>
+          We are the family-run Hotel Adula in the Alps: warm, uncomplicated<br />
+          and close to nature. Cozy rooms with mountain views, regional cuisine, and<br />
+          personal tips for every season. Sustainable, child-friendly – ideal for skiing,<br />
+          hiking, and relaxing getaways.
         </p>
       </div>
     </div>
+
     <div class="reach-out">
-      <h4>Reach out</h4>
+      <h4 i18n>Reach out</h4>
+
       <table role="presentation" cellspacing="0" cellpadding="4">
         <tr>
-          <td><img src="mail_logo.png" alt="E-Mail" width="24" height="24"></td>
+          <td>
+            <img src="mail_logo.png" alt="E-Mail" i18n-alt width="24" height="24">
+          </td>
           <td><p>hoteladula@gmail.com</p></td>
         </tr>
         <tr>
-          <td><img src="instagram_logo.png" alt="Instagram" width="24" height="24"></td>
+          <td>
+            <img src="instagram_logo.png" alt="Instagram" i18n-alt width="24" height="24">
+          </td>
           <td><p>@hoteladula</p></td>
         </tr>
         <tr>
-          <td><img src="linkedin_logo.png" alt="LinkedIn" width="24" height="24"></td>
+          <td>
+            <img src="linkedin_logo.png" alt="LinkedIn" i18n-alt width="24" height="24">
+          </td>
           <td><p>@hoteladula</p></td>
         </tr>
       </table>
     </div>
+
   </div>
 </footer>
