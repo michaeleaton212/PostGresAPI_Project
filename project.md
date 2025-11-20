@@ -21,10 +21,6 @@ cp src/locale/messages.xlf src/locale/messages.es.xlf
 ## Target-Übersetzungen in der Sprachdatei setzen
 In der Sprachdatei bei allen Einträgen ein <target>-Element ergänzen und darin die Übersetzung für die Zielsprache eintragen.
 <br><br>
-<br><br>
-<br><br>
-<br><br>
-
 # Startanleitung 
 
 ## Backend starten
