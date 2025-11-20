@@ -4,7 +4,7 @@
 # Anleitung für die Übersetzung einer Seite
 
 ## i18n-Attribute setzen
-###Auf jeder Seite, die übersetzt werden soll, beim jeweiligen Text das passende i18n-Attribut einsetzen.
+### Auf jeder Seite, die übersetzt werden soll, beim jeweiligen Text das passende i18n-Attribut einsetzen.
 
 ## i18n-Attribute extrahieren
 ### Im Terminal den entsprechenden Befehl ausführen, um alle i18n-Tags in eine Übersetzungsdatei zu extrahieren.
