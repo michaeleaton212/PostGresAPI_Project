@@ -1,86 +1,100 @@
 <div class="page">
-  <h2>Booking</h2>
+  <h2 i18n>Booking</h2>
   <button class="back-button" (click)="goBackPreview(currentRoomId)" i18n>← Back</button>
-
 
   <!-- Loading state -->
   <div *ngIf="loading">
-    <p>Loading booking information...</p>
+    <p i18n>Loading booking information...</p>
   </div>
 
   <!-- Error state -->
   <div *ngIf="error && !loading">
     <p style="color: red;">{{ error }}</p>
-    <button (click)="goBack()">Back to Rooms</button>
+    <button (click)="goBack()" i18n>Back to Rooms</button>
   </div>
 
-  <!-- Success state -->
-  <div *ngIf="bookingSuccess">
-    <h3 style="color: green;">Booking successful!</h3>
-    <p>Redirecting to rooms page...</p>
-  </div>
-
-  <!-- Booking overview + Input + Buttons -->
-  <div *ngIf="room && !loading && !bookingSuccess" class="overview">
+  <!-- Booking overview + Input + Buttons / Booking number -->
+  <div *ngIf="room && !loading" class="overview">
     <br />
     <br />
 
-    <h3>Overview</h3>
+    <h3 i18n>Overview</h3>
     <br />
     <div class="overview-row">
-      <strong>Room:</strong>
+      <strong i18n>Room:</strong>
       <span>{{ room.name }}</span>
     </div>
 
     <div class="overview-row">
-      <strong>Type:</strong>
+      <strong i18n>Type:</strong>
       <span>{{ room.type }}</span>
     </div>
 
     <div *ngIf="startDate" class="overview-row">
-      <strong>Check-in:</strong>
+      <strong i18n>Check-in:</strong>
       <span>{{ startDate | date:'dd.MM.yyyy' }}</span>
     </div>
 
     <div *ngIf="endDate" class="overview-row">
-      <strong>Check-out:</strong>
+      <strong i18n>Check-out:</strong>
       <span>{{ endDate | date:'dd.MM.yyyy' }}</span>
     </div>
 
     <div *ngIf="startDate && endDate" class="overview-row">
-      <strong>Duration:</strong>
-      <span>{{ numberOfDays }} day(s)</span>
+      <strong i18n>Duration:</strong>
+      <span i18n>{{ numberOfDays }} day(s)</span>
     </div>
 
-
-
-    <div class="form-group">
+    <!-- If not booked show formular -->
+    <div class="form-group" *ngIf="!bookingSuccess">
       <label for="firstName">
-        <strong class="left">Enter Name:</strong>
+        <strong class="left" i18n>Enter Name:</strong>
       </label>
       <input id="firstName"
              type="text"
              [(ngModel)]="firstName"
              placeholder="Enter your first name"
+             i18n-placeholder
              maxlength="100"
              required />
     </div>
 
-    <div class="button-row">
-      <button class="confirmBooking" (click)="confirmBooking()"
-              [disabled]="bookingInProgress || !isFormValid">
-        {{ bookingInProgress ? 'Booking...' : 'Confirm Booking' }}
-      </button>
+    <!-- When booked show booking number -->
+    <div class="overview-row" *ngIf="bookingSuccess">
+      <strong i18n>Booking number:</strong>
+      <div class="bookingnumber">
+        <span>{{ bookingNumber }}</span>
+      </div>
+    </div>
 
-      <!--<button  class="CancelBooking" (click)="goBack()">
-        Cancel
-      </button>-->
+    <!-- Show button only when not booked -->
+    <div class="button-row" *ngIf="!bookingSuccess">
+      <button class="confirmBooking"
+              (click)="confirmBooking()
+        "
+              [disabled]="bookingInProgress || !isFormValid"
+              i18n>
+        {bookingInProgress, select,
+        true {Booking...}
+        false {Confirm Booking}
+        }
+      </button>
+    </div>
+
+    <!-- Succestext -->
+    <div *ngIf="bookingSuccess">
+      <div class="success_text">
+        <div class="info">
+          <h4 i18n>Your booking was successful.</h4>
+        </div>
+        <div class="important">
+          <h4 i18n>Important: Keep your booking number.</h4>
+        </div>
+      </div>
     </div>
   </div>
+
   <div class="footer-wrapper">
     <app-footer></app-footer>
   </div>
 </div>
-
-
-

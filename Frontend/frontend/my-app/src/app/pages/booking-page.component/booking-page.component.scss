@@ -19,9 +19,27 @@
 }
 
 .footer-wrapper {
-  margin-top: 4rem; /* nur Abstand nach oben, kein margin-left */
+  margin-top: 4rem; 
   margin-left: -3rem;
 
+}
+.bookingnumber {
+  color: #FF0019;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+}
+
+.success_text {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.info {
+  color: #24A106;
+}
+
+.important {
+  color: #FF0019;
 }
 
 

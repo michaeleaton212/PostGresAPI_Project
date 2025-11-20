@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
 import { Room, Bedroom, Meetingroom } from '../../core/models/room.model';
-import { FooterComponent } from '../../components/core/footer/footer'; // <- NEU
+import { FooterComponent } from '../../components/core/footer/footer'; 
 
 interface CalendarDay {
   day: number;
@@ -106,7 +106,7 @@ export class RoomPreviewPageComponent implements OnInit {
     if (!this.room) return;
 
     // Check if date range is complete
-    if (!this.rangeStart || !this.rangeEnd) {
+    if (!this.rangeStart) {
       this.showDateError = false;
       setTimeout(() => {
         this.showDateError = true;
@@ -114,19 +114,22 @@ export class RoomPreviewPageComponent implements OnInit {
       return;
     }
 
+    if (!this.rangeEnd) {
+      this.rangeEnd = new Date(this.rangeStart);
+      this.rangeEnd.setHours(0, 0, 0, 0);
+    }
+
+
+
     // Reset error state
     this.showDateError = false;
 
     // Navigate to booking page with room ID and selected dates
     const queryParams: any = { roomId: this.room.id };
 
-    if (this.rangeStart) {
       queryParams.startDate = this.rangeStart.toISOString();
-    }
-
-    if (this.rangeEnd) {
       queryParams.endDate = this.rangeEnd.toISOString();
-    }
+    
 
     this.router.navigate(['/booking'], { queryParams });
   }
@@ -212,6 +215,8 @@ export class RoomPreviewPageComponent implements OnInit {
 
     return { isSelected, isInRange, isRangeStart, isRangeEnd };
   }
+
+
 
   toggleDateSelection(calendarDay: CalendarDay) {
     if (calendarDay.isPad) return;

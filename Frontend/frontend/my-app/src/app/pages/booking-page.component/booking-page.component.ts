@@ -6,7 +6,7 @@ import { RoomService } from '../../core/room.service';
 import { BookingService } from '../../core/booking.service';
 import { Room } from '../../core/models/room.model';
 import { CreateBookingDto } from '../../core/models/booking.model';
-import { FooterComponent } from '../../components/core/footer/footer'; 
+import { FooterComponent } from '../../components/core/footer/footer';
 
 @Component({
   selector: 'booking-page',
@@ -30,6 +30,7 @@ export class BookingPageComponent implements OnInit {
   bookingSuccess = false;
   bookingInProgress = false;
   currentRoomId = this.route.snapshot.queryParams['roomId'];
+  bookingNumber: string | number | null = null; // Property for booking number
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -111,12 +112,11 @@ export class BookingPageComponent implements OnInit {
     this.bookingService.create(bookingDto).subscribe({
       next: (booking) => {
         console.log('Booking created:', booking);
+        this.bookingNumber = booking.id; // Booking number from  backend
         this.bookingSuccess = true;
         this.bookingInProgress = false;
 
-        setTimeout(() => {
-          this.router.navigate(['/rooms']);
-        }, 2000);
+      
       },
       error: (err) => {
         console.error('Error creating booking:', err);
@@ -135,9 +135,23 @@ export class BookingPageComponent implements OnInit {
   }
 
   get numberOfDays(): number {
-    if (!this.startDate || !this.endDate) return 0;
-    const diffTime = Math.abs(this.endDate.getTime() - this.startDate.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (!this.startDate) {
+      return 0;
+    }
+    else if (!this.endDate) {
+      return 1;
+    }
+    else {
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+
+      const diffTime = Math.abs(end.getTime() - start.getTime());
+
+      return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    }
   }
 
   get isFormValid(): boolean {
