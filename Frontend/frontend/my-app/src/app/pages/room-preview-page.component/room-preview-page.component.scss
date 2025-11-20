@@ -14,6 +14,17 @@
   }
 }
 
+/* Inhalt füllt den Platz, Footer sitzt unten,
+   Abstand zwischen Inhalt und Footer steuerst du mit app-footer */
+.content {
+  flex: 1;
+}
+
+app-footer {
+  margin-top: 2rem; /* Abstand nach oben */
+  margin-left: -3rem; /* oder 0, damit er weiter links ist als auf Rooms */
+}
+
 .back-button {
   position: fixed;
   top: 8rem;
@@ -114,173 +125,7 @@
   text-align: center;
 }
 
-footer {
-  margin-top: -18rem;
-  padding: 1.5rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8.5rem;
-  max-width: 1600px;
-  margin-left: 2.5rem;
-  margin-right: auto;
-  width: 100%;
-  font-family: 'Inter', sans-serif;
-}
-
-.footer-columns {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0rem;
-}
-
-.Adula,
-.reach-out {
-  flex: 0 1 auto;
-}
-
-.Adula {
-  margin-right: 5rem;
-}
-
-.Adula h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  font-family: 'Inter', sans-serif;
-}
-
-.Adula .description {
-  margin-top: 0.5rem;
-}
-
-.Adula .description p {
-  font-size: 1rem;
-  line-height: 1.8;
-}
-
-/* Reach-out Bereich – Icons gleich gross, weniger Abstand */
-.reach-out h4 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 0;
-}
-
-.reach-out table {
-  font-size: 1rem;
-  border-spacing: 0 6px;
-}
-
-.reach-out table img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-
-.reach-out table p {
-  font-size: 1rem;
-  margin: 0;
-  line-height: 1.4;
-}
-
-.reach-out table td {
-  padding: 0;
-  vertical-align: middle;
-  height: 40px;
-}
-
-.reach-out table td:first-child {
-  text-align: center;
-  width: 40px;
-  padding-right: 8px;
-}
-
-.reach-out table td:last-child {
-  padding-left: 0;
-}
-
-/* Mobile design */
-@media (max-width: 768px) {
-  .page {
-    padding: 0.5rem;
-  }
-
-  .image-and-calendar {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .image-room {
-    max-width: 100%;
-  }
-
-  .room-preview-image {
-    height: 20rem;
-  }
-
-  footer {
-    margin-top: 3rem;
-    padding: 1.5rem 0;
-    gap: 2rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  .footer-columns {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .Adula {
-    margin-right: 0;
-  }
-
-  .Adula h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .Adula .description p {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .reach-out h4 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0;
-  }
-
-  .reach-out table {
-    font-size: 1rem;
-    border-spacing: 0 4px;
-  }
-
-  .reach-out table img {
-    width: 28px;
-    height: 28px;
-  }
-
-  .reach-out table p {
-    font-size: 1rem;
-    line-height: 1.4;
-  }
-
-  .reach-out table td {
-    height: 36px;
-  }
-
-  .reach-out table td:first-child {
-    width: 36px;
-    padding-right: 6px;
-  }
-
-  .reach-out table td:last-child {
-    padding-left: 0.5rem;
-  }
-}
-
+/* Kalender + Button */
 .calendar-wrapper {
   position: relative;
   display: flex;
@@ -537,5 +382,34 @@ footer {
     background: rgba(156, 156, 156, 0.23);
     border-color: #fff;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Mobile design */
+@media (max-width: 768px) {
+  .page {
+    padding: 0.5rem;
+  }
+
+  .image-and-calendar {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .image-room {
+    max-width: 100%;
+  }
+
+  .room-preview-image {
+    height: 20rem;
+  }
+
+  .back-button {
+    top: 6rem;
+    right: 1.5rem;
+  }
+
+  .calendar-wrapper {
+    align-items: flex-start;
   }
 }

@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
 import { Room } from '../../core/models/room.model';
+import { FooterComponent } from '../../components/core/footer/footer'; 
+
+
+
 
 @Component({
   selector: 'rooms-page',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FooterComponent],
   templateUrl: './rooms-page.component.html',
   styleUrls: ['./rooms-page.component.scss']
 })

@@ -69,93 +69,9 @@
   }
 }
 
-footer {
-  margin-top: 4rem;
-  padding: 2rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8.5rem;
-  max-width: 1600px;
-  margin-left: 1.5rem;
-  margin-right: auto;
-  width: calc(100% - 1rem);
-  font-family: 'Inter', sans-serif;
-}
 
-.footer-columns {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0rem;
-}
 
-.Adula,
-.reach-out {
-  flex: 0 1 auto;
-}
 
-.Adula {
-  margin-right: 5rem;
-}
-
-.Adula h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.Adula .description {
-  margin-top: 1rem;
-}
-
-.Adula .description p {
-  font-size: 1rem;
-  line-height: 1.8;
-}
-
-/* Reach-out: alle Icons gleich gross, weniger Abstand */
-.reach-out h4 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 0;
-}
-
-.reach-out table {
-  font-size: 1rem;
-  border-spacing: 0 6px;
-}
-
-.reach-out table img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-
-/* kein Sonderfall mehr für Mail-Icon */
-/* .reach-out table img[src*="mail"] { ... } entfernt */
-
-.reach-out table p {
-  font-size: 1rem;
-  margin: 0;
-  line-height: 1.4;
-}
-
-.reach-out table td {
-  padding: 0;
-  vertical-align: middle;
-  height: 40px;
-}
-
-.reach-out table td:first-child {
-  text-align: center;
-  width: 40px;
-  padding-right: 8px;
-}
-
-.reach-out table td:last-child {
-  padding-left: 0;
-}
 
 .buttons-row-rooms {
   display: flex;
@@ -239,69 +155,7 @@ footer {
     gap: 4rem;
   }
 
-  footer {
-    margin-top: 3rem;
-    padding: 1.5rem 0;
-    gap: 2rem;
-    margin-left: 3rem;
-    margin-right: 0;
-    max-width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .footer-columns {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .Adula {
-    margin-right: 0;
-  }
-
-  .Adula h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .Adula .description p {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .reach-out h4 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0;
-  }
-
-  .reach-out table {
-    font-size: 1rem;
-    border-spacing: 0 4px;
-  }
-
-  .reach-out table img {
-    width: 28px;
-    height: 28px;
-  }
-
-  .reach-out table p {
-    font-size: 1rem;
-    line-height: 1.4;
-  }
-
-  .reach-out table td {
-    height: 36px;
-  }
-
-  .reach-out table td:first-child {
-    width: 36px;
-    padding-right: 6px;
-  }
-
-  .reach-out table td:last-child {
-    padding-left: 0.5rem;
-  }
+  
 
   .buttons-row-rooms {
     margin-left: 1rem;

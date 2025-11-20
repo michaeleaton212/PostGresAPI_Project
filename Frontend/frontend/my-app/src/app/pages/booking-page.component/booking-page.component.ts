@@ -6,11 +6,12 @@ import { RoomService } from '../../core/room.service';
 import { BookingService } from '../../core/booking.service';
 import { Room } from '../../core/models/room.model';
 import { CreateBookingDto } from '../../core/models/booking.model';
+import { FooterComponent } from '../../components/core/footer/footer'; 
 
 @Component({
   selector: 'booking-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FooterComponent],
   templateUrl: './booking-page.component.html',
   styleUrls: ['./booking-page.component.scss']
 })
@@ -30,7 +31,6 @@ export class BookingPageComponent implements OnInit {
   bookingInProgress = false;
   currentRoomId = this.route.snapshot.queryParams['roomId'];
 
-
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       console.log('=== BOOKING PAGE QUERY PARAMS ===');
@@ -38,7 +38,7 @@ export class BookingPageComponent implements OnInit {
       console.log('roomId:', params['roomId']);
       console.log('startDate:', params['startDate']);
       console.log('endDate:', params['endDate']);
-      
+
       const roomId = params['roomId'];
       const startDateStr = params['startDate'];
       const endDateStr = params['endDate'];
@@ -57,8 +57,6 @@ export class BookingPageComponent implements OnInit {
         console.warn('No startDate in query params');
       }
 
-
-      
       if (endDateStr) {
         this.endDate = new Date(endDateStr);
         console.log('Parsed endDate:', this.endDate);
@@ -115,8 +113,7 @@ export class BookingPageComponent implements OnInit {
         console.log('Booking created:', booking);
         this.bookingSuccess = true;
         this.bookingInProgress = false;
-        
-        
+
         setTimeout(() => {
           this.router.navigate(['/rooms']);
         }, 2000);
@@ -136,7 +133,6 @@ export class BookingPageComponent implements OnInit {
   goBackPreview(id: number) {
     this.router.navigate(['/room-preview'], { queryParams: { id } });
   }
-
 
   get numberOfDays(): number {
     if (!this.startDate || !this.endDate) return 0;
