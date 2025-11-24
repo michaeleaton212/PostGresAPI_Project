@@ -2,8 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
-import { Room, Bedroom, Meetingroom } from '../../core/models/room.model';
-import { FooterComponent } from '../../components/core/footer/footer'; 
+import { Room, Meetingroom } from '../../core/models/room.model';
+import { FooterComponent } from '../../components/core/footer/footer';
 
 interface CalendarDay {
   day: number;
@@ -17,18 +17,18 @@ interface CalendarDay {
 }
 
 @Component({
-  selector: 'room-preview-page',
+  selector: 'meetingroom-preview-page',
   standalone: true,
-  imports: [CommonModule, FooterComponent], // <- Footer hier eintragen
-  templateUrl: './room-preview-page.component.html',
-  styleUrls: ['./room-preview-page.component.scss']
+  imports: [CommonModule, FooterComponent],
+  templateUrl: './meetingroom-preview-page.component.html',
+  styleUrls: ['./meetingroom-preview-page.component.scss']
 })
-export class RoomPreviewPageComponent implements OnInit {
+export class MeetingroomPreviewPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private roomService = inject(RoomService);
 
-  room: Room | Bedroom | Meetingroom | null = null;
+  room: Meetingroom | null = null;
   loading = true;
   error: string | null = null;
 
@@ -42,28 +42,25 @@ export class RoomPreviewPageComponent implements OnInit {
 
   // Error state for missing date selection
   showDateError = false;
-  currentRoomId = this.route.snapshot.queryParams['id'];
 
-  monthNames = [
+monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
   weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   ngOnInit() {
-    // Initialize calendar
     this.generateCalendar();
 
-    // Get room ID from query parameters
     this.route.queryParams.subscribe(params => {
       const roomId = params['id'];
       if (roomId) {
         this.loadRoom(Number(roomId));
       } else {
-        this.error = 'Keine Raum-ID angegeben.';
-        this.loading = false;
+     this.error = 'Keine Raum-ID angegeben.';
+this.loading = false;
       }
-    });
+  });
   }
 
   loadRoom(id: number) {
@@ -72,23 +69,18 @@ export class RoomPreviewPageComponent implements OnInit {
 
     this.roomService.getById(id).subscribe({
       next: (room) => {
-        this.room = room;
-        console.log('=== ROOM LOADED ===');
-        console.log('Full room object:', room);
-        console.log('Room type:', room.type);
-        console.log('numberOfBeds (direct):', room.numberOfBeds);
-        console.log('numberOfChairs (direct):', room.numberOfChairs);
-        console.log('All properties:', Object.keys(room));
-        console.log('numberOfBeds via getter:', this.numberOfBeds);
-        console.log('numberOfChairs via getter:', this.numberOfChairs);
-        console.log('isBedroom:', this.isBedroom);
-        console.log('isMeetingroom:', this.isMeetingroom);
-        console.log('===================');
+        if (room.type !== 'Meetingroom') {
+          this.error = 'Dies ist kein Meetingroom.';
+          this.loading = false;
+          return;
+        }
+        this.room = room as Meetingroom;
+  console.log('Meetingroom loaded:', this.room);
         this.loading = false;
-      },
+    },
       error: (err) => {
-        console.error('Error loading room:', err);
-        this.error = 'Raum konnte nicht geladen werden.';
+     console.error('Error loading meetingroom:', err);
+this.error = 'Meetingroom konnte nicht geladen werden.';
         this.loading = false;
       }
     });
@@ -98,20 +90,15 @@ export class RoomPreviewPageComponent implements OnInit {
     this.router.navigate(['/rooms']);
   }
 
-  goBackPreview(id: number) {
-    this.router.navigate(['/room-preview'], { queryParams: { id } });
-  }
-
   openBooking() {
-    if (!this.room) return;
+ if (!this.room) return;
 
-    // Check if date range is complete
     if (!this.rangeStart) {
-      this.showDateError = false;
-      setTimeout(() => {
+    this.showDateError = false;
+  setTimeout(() => {
         this.showDateError = true;
       }, 0);
-      return;
+    return;
     }
 
     if (!this.rangeEnd) {
@@ -119,17 +106,11 @@ export class RoomPreviewPageComponent implements OnInit {
       this.rangeEnd.setHours(0, 0, 0, 0);
     }
 
-
-
-    // Reset error state
     this.showDateError = false;
 
-    // Navigate to booking page with room ID and selected dates
     const queryParams: any = { roomId: this.room.id };
-
-      queryParams.startDate = this.rangeStart.toISOString();
-      queryParams.endDate = this.rangeEnd.toISOString();
-    
+ queryParams.startDate = this.rangeStart.toISOString();
+    queryParams.endDate = this.rangeEnd.toISOString();
 
     this.router.navigate(['/booking'], { queryParams });
   }
@@ -140,21 +121,18 @@ export class RoomPreviewPageComponent implements OnInit {
     const year = this.currentMonth.getFullYear();
     const month = this.currentMonth.getMonth();
 
-    // First day of the month
     const firstDay = new Date(year, month, 1);
     const firstDayOfWeek = firstDay.getDay();
 
-    // Last day of the month
     const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
+const daysInMonth = lastDay.getDate();
 
-    // Add padding days
     for (let i = 0; i < firstDayOfWeek; i++) {
       this.calendarDays.push({
         day: 0,
         date: new Date(),
-        isPad: true,
-        isToday: false,
+    isPad: true,
+   isToday: false,
         isSelected: false,
         isInRange: false,
         isRangeStart: false,
@@ -162,13 +140,12 @@ export class RoomPreviewPageComponent implements OnInit {
       });
     }
 
-    // Add actual days
-    const today = new Date();
+const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    for (let day = 1; day <= daysInMonth; day++) {
+  for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
-      date.setHours(0, 0, 0, 0);
+date.setHours(0, 0, 0, 0);
 
       const isToday = date.getTime() === today.getTime();
       const rangeInfo = this.getDateRangeInfo(date);
@@ -176,17 +153,16 @@ export class RoomPreviewPageComponent implements OnInit {
       this.calendarDays.push({
         day,
         date,
-        isPad: false,
+     isPad: false,
         isToday,
         isSelected: rangeInfo.isSelected,
-        isInRange: rangeInfo.isInRange,
+     isInRange: rangeInfo.isInRange,
         isRangeStart: rangeInfo.isRangeStart,
         isRangeEnd: rangeInfo.isRangeEnd
       });
     }
   }
 
-  // Checks if a date is in the range
   getDateRangeInfo(
     date: Date
   ): { isSelected: boolean; isInRange: boolean; isRangeStart: boolean; isRangeEnd: boolean } {
@@ -204,7 +180,7 @@ export class RoomPreviewPageComponent implements OnInit {
         isSelected: isRangeStart,
         isInRange: false,
         isRangeStart: isRangeStart,
-        isRangeEnd: false
+    isRangeEnd: false
       };
     }
 
@@ -216,78 +192,38 @@ export class RoomPreviewPageComponent implements OnInit {
     return { isSelected, isInRange, isRangeStart, isRangeEnd };
   }
 
-
-
   toggleDateSelection(calendarDay: CalendarDay) {
     if (calendarDay.isPad) return;
 
-    // Reset error when user selects a date
     this.showDateError = false;
 
-    const clickedDate = new Date(calendarDay.date);
+ const clickedDate = new Date(calendarDay.date);
     clickedDate.setHours(0, 0, 0, 0);
 
-    // No start date set -> Set start
     if (!this.rangeStart) {
       this.rangeStart = clickedDate;
       this.rangeEnd = null;
-      console.log('Range Start:', this.rangeStart.toLocaleDateString('de-DE'));
-    }
-    // Start set, no end -> Set end (or new start if same)
-    else if (!this.rangeEnd) {
+    } else if (!this.rangeEnd) {
       const clickedTime = clickedDate.getTime();
       const startTime = this.rangeStart.getTime();
 
       if (clickedTime === startTime) {
-        // Same day clicked -> Reset
-        this.rangeStart = null;
+      this.rangeStart = null;
         this.rangeEnd = null;
-        console.log('Range reset');
       } else if (clickedTime < startTime) {
-        // Earlier date -> Swap
-        this.rangeEnd = this.rangeStart;
-        this.rangeStart = clickedDate;
-        console.log('Range:', this.rangeStart.toLocaleDateString('de-DE'), '->', this.rangeEnd.toLocaleDateString('de-DE'));
+      this.rangeEnd = this.rangeStart;
+    this.rangeStart = clickedDate;
       } else {
-        // Later date -> Normal
         this.rangeEnd = clickedDate;
-        console.log('Range:', this.rangeStart.toLocaleDateString('de-DE'), '->', this.rangeEnd.toLocaleDateString('de-DE'));
       }
-    }
-    // Both set -> Reset and new start
-    else {
+    } else {
       this.rangeStart = clickedDate;
       this.rangeEnd = null;
-      console.log('New Range Start:', this.rangeStart.toLocaleDateString('de-DE'));
     }
 
-    // Regenerate calendar to show range
     this.generateCalendar();
-
-    this.logRangeInfo();
   }
 
-  logRangeInfo() {
-    if (!this.rangeStart) {
-      console.log('No date range selected');
-      return;
-    }
-
-    if (!this.rangeEnd) {
-      console.log('Start date:', this.rangeStart.toLocaleDateString('de-DE'));
-      console.log('Select end date');
-      return;
-    }
-
-    const days = this.getSelectedDatesInRange();
-    console.log('Selected time period:');
-    console.log('  From:', this.rangeStart.toLocaleDateString('de-DE'));
-    console.log('  To:', this.rangeEnd.toLocaleDateString('de-DE'));
-    console.log('  Number of days:', days.length);
-    console.log('  All dates:', days.map(d => d.toLocaleDateString('de-DE')));
-  }
-
-  // Get all dates in the selected range
   getSelectedDatesInRange(): Date[] {
     if (!this.rangeStart || !this.rangeEnd) return [];
 
@@ -310,7 +246,6 @@ export class RoomPreviewPageComponent implements OnInit {
       1
     );
     this.generateCalendar();
-    console.log('Month changed to:', this.monthYearLabel);
   }
 
   previousMonth() {
@@ -318,17 +253,14 @@ export class RoomPreviewPageComponent implements OnInit {
       this.currentMonth.getFullYear(),
       this.currentMonth.getMonth() - 1,
       1
-    );
+);
     this.generateCalendar();
-    console.log('Month changed to:', this.monthYearLabel);
   }
 
-  // Delete range
   clearRange() {
     this.rangeStart = null;
     this.rangeEnd = null;
     this.generateCalendar();
-    console.log('Date range deleted');
   }
 
   today: Date = new Date();
@@ -345,25 +277,7 @@ export class RoomPreviewPageComponent implements OnInit {
     return this.rangeStart !== null && this.rangeEnd !== null;
   }
 
-  get isBedroom(): boolean {
-    return this.room?.type === 'Bedroom';
-  }
-
-  get isMeetingroom(): boolean {
-    return this.room?.type === 'Meetingroom';
-  }
-
-  get numberOfBeds(): number | undefined {
-    if (!this.room || this.room.type !== 'Bedroom') {
-      return undefined;
-    }
-    return this.room.numberOfBeds ?? undefined;
-  }
-
   get numberOfChairs(): number | undefined {
-    if (!this.room || this.room.type !== 'Meetingroom') {
-      return undefined;
-    }
-    return this.room.numberOfChairs ?? undefined;
+    return this.room?.numberOfChairs ?? undefined;
   }
 }

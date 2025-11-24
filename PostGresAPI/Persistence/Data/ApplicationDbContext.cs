@@ -72,6 +72,13 @@ public sealed class ApplicationDbContext : DbContext
                .IsRequired();
         booking.Property(b => b.RoomId)
                .IsRequired();
+
+        // VORHER (FALSCH):
+        //booking.HasOne<Room>()           // Keine Navigation Property angegeben
+        //       .WithMany()                // Keine Navigation Property angegeben
+        //       .HasForeignKey(b => b.RoomId)
+        //       .OnDelete(DeleteBehavior.Cascade);
+
         // FK to Rooms 
         booking.HasOne(b => b.Room)
                .WithMany(r => r.Bookings)

@@ -1,4 +1,52 @@
 <div class="page">
-  <h2>Login</h2>
-  <p>Welcome to the Login Page.</p>
+  <br />
+  <br />
+
+  <div class="overview">
+    <h3 i18n>Login</h3>
+    <br />
+
+    <div class="form-group">
+      <label for="firstName" class="left" i18n>Enter name:</label>
+      <input id="firstName"
+             name="firstName"
+             type="text"
+             [(ngModel)]="firstName"
+             placeholder="Enter your first name"
+             i18n-placeholder
+             maxlength="100"
+             required
+             aria-required="true" />
+      <br />
+
+      <label for="bookingNumber" class="left" i18n>Enter booking number:</label>
+      <input id="bookingNumber"
+             name="bookingNumber"
+             type="text"
+             [(ngModel)]="bookingNumber"
+             placeholder="Enter your booking number"
+             i18n-placeholder
+             maxlength="100"
+             required
+             aria-required="true" />
+
+      <br />
+      <br />
+
+
+      <div class="button-row">
+        <button class="singin"
+                type="button"
+                (click)="Signin()"
+                [disabled]="bookingInProgress || !isFormValid"
+                i18n>
+          {bookingInProgress, select,
+          true {Booking...}
+          false {Confirm Booking}
+          }
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+<app-footer></app-footer>

@@ -14,14 +14,15 @@
   }
 }
 
-
+/* Inhalt füllt den Platz, Footer sitzt unten,
+   Abstand zwischen Inhalt und Footer steuerst du mit app-footer */
 .content {
   flex: 1;
 }
 
 app-footer {
-  margin-top: 2rem; 
-  margin-left: -3rem; 
+  margin-top: 2rem; /* Abstand nach oben */
+  margin-left: -3rem; /* oder 0, damit er weiter links ist als auf Rooms */
 }
 
 .back-button {

@@ -73,10 +73,14 @@ export class RoomsPageComponent implements OnInit {
 
   // Navigation when clicking a room card or image
   openPreview(room: Room) {
-    // Variante A: als Query-Param (/room-preview?id=123)
-    this.router.navigate(['/room-preview'], { queryParams: { id: room.id } });
-
-    // Variante B (falls deine Route /room-preview/:id ist):
-    // this.router.navigate(['/room-preview', room.id]);
+    // Navigate to specific room type preview page with room ID as query parameter
+    if (room.type.toLowerCase() === 'bedroom') {
+      this.router.navigate(['/room-preview/bedroom'], { queryParams: { id: room.id } });
+    } else if (room.type.toLowerCase() === 'meetingroom' || room.type.toLowerCase() === 'meeting room') {
+      this.router.navigate(['/room-preview/meetingroom'], { queryParams: { id: room.id } });
+    } else {
+      // Fallback to generic preview if room type is unknown
+      this.router.navigate(['/room-preview'], { queryParams: { id: room.id } });
+    }
   }
 }

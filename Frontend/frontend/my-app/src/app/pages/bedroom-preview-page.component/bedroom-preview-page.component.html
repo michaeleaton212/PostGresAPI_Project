@@ -1,0 +1,124 @@
+<div class="page bedroom-page">
+  <div class="content">
+    <h2 i18n>Bedroom Preview</h2>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <p i18n>Loading bedroom...</p>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="error && !loading" class="error-container">
+      <p>{{ error }}</p>
+      <button i18n (click)="goBack()">Back to Rooms</button>
+    </div>
+
+    <!-- Bedroom details -->
+    <div *ngIf="room && !loading" class="room-details">
+      <div class="room-header">
+        <h3>{{ room.name }}</h3>
+        <button class="back-button" (click)="goBack()" i18n>← Back</button>
+      </div>
+
+      <div class="room-info">
+        <div class="image-and-calendar">
+
+          <div class="image-room">
+            <img class="room-preview-image" src="grey.png" [alt]="room.name">
+            <div class="bedroom-badge" i18n>Bedroom</div>
+          </div>
+
+          <div class="calendar-wrapper">
+            <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">
+
+              <div class="title">
+                {{ today | date:'EEE, MMM, d' }}
+              </div>
+
+              <div class="monthbar">
+                <button class="month-nav-btn prev"
+                        (click)="previousMonth()"
+                        aria-label="Previous month"
+                        i18n-aria-label>
+                  <i class="chev-left"></i>
+                </button>
+                <span class="label">{{ monthYearLabel }}</span>
+                <button class="month-nav-btn next"
+                        (click)="nextMonth()"
+                        aria-label="Next month"
+                        i18n-aria-label>
+                  <i class="chev-right"></i>
+                </button>
+              </div>
+
+              <div class="weekdays" aria-hidden="true">
+                <div *ngFor="let day of weekDays">{{ day }}</div>
+              </div>
+
+              <div class="grid" role="grid" aria-readonly="false">
+                <ng-container *ngFor="let calDay of calendarDays">
+                  <div *ngIf="calDay.isPad" class="pad"></div>
+
+                  <div *ngIf="!calDay.isPad"
+                       class="day"
+                       [class.is-today]="calDay.isToday"
+                       [class.is-selected]="calDay.isSelected"
+                       [class.is-in-range]="calDay.isInRange"
+                       [class.is-range-start]="calDay.isRangeStart"
+                       [class.is-range-end]="calDay.isRangeEnd"
+                       (click)="toggleDateSelection(calDay)"
+                       role="gridcell"
+                       [attr.aria-selected]="calDay.isSelected"
+                       tabindex="0">
+                    {{ calDay.day }}
+                  </div>
+                </ng-container>
+              </div>
+
+              <div class="selected-info" *ngIf="hasRangeSelection">
+                <p i18n>{{ selectedDatesCount }} day(s) selected</p>
+              </div>
+
+              <div class="selected-info" *ngIf="rangeStart && !rangeEnd && !showDateError">
+                <p class="hint" i18n>Choose an end date (min. 2 days)</p>
+              </div>
+
+              <div class="selected-info error" *ngIf="showDateError">
+                <p class="error-text">{{ dateErrorText }}</p>
+              </div>
+
+            </div>
+
+            <button class="book-button" (click)="openBooking()" i18n>Book now</button>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <h2 i18n>Bedroom Details</h2>
+
+          <div class="detail-item">
+            <strong i18n>Room Name:</strong>
+            <span>{{ room.name }}</span>
+          </div>
+
+          <div class="detail-item">
+            <strong i18n>Number of beds:</strong>
+            <span *ngIf="numberOfBeds; else bedsMissing">{{ numberOfBeds }}</span>
+            <ng-template #bedsMissing>
+              <span i18n>Not specified</span>
+            </ng-template>
+          </div>
+
+          <div class="detail-item">
+            <strong i18n>Room Type:</strong>
+            <span class="bedroom-type">Bedroom</span>
+          </div>
+
+          <!-- Additional bedroom-specific details can go here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>
