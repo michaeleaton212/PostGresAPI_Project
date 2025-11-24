@@ -5,6 +5,8 @@ Accept: application/json
 
 ###
 
+# ==================== ROOMS ====================
+
 # Get all rooms
 GET {{PostGresAPI_HostAddress}}/api/rooms
 Accept: application/json
@@ -12,23 +14,178 @@ Accept: application/json
 ###
 
 # Get single room by ID
-GET {{PostGresAPI_HostAddress}}/api/rooms/5
+GET {{PostGresAPI_HostAddress}}/api/rooms/1
 Accept: application/json
 
 ###
 
-# Get bedrooms only
+# Get only Meetingrooms
+GET {{PostGresAPI_HostAddress}}/api/rooms?type=Meetingroom
+Accept: application/json
+
+###
+
+# Get only Bedrooms
+GET {{PostGresAPI_HostAddress}}/api/rooms?type=Bedroom
+Accept: application/json
+
+###
+
+# ==================== MEETINGROOMS ====================
+
+# Get all meetingrooms
+GET {{PostGresAPI_HostAddress}}/api/meetingrooms
+Accept: application/json
+
+###
+
+# Get meetingroom by ID
+GET {{PostGresAPI_HostAddress}}/api/meetingrooms/1
+Accept: application/json
+
+###
+
+# Create new meetingroom
+POST {{PostGresAPI_HostAddress}}/api/meetingrooms
+Content-Type: application/json
+
+{
+  "name": "New Conference Room",
+  "numberOfChairs": 25
+}
+
+###
+
+# Update meetingroom
+PUT {{PostGresAPI_HostAddress}}/api/meetingrooms/1
+Content-Type: application/json
+
+{
+  "name": "Updated Conference Room A",
+  "numberOfChairs": 30
+}
+
+###
+
+# Delete meetingroom
+DELETE {{PostGresAPI_HostAddress}}/api/meetingrooms/10
+Accept: application/json
+
+###
+
+# ==================== BEDROOMS ====================
+
+# Get all bedrooms
 GET {{PostGresAPI_HostAddress}}/api/bedrooms
 Accept: application/json
 
 ###
 
 # Get bedroom by ID
-GET {{PostGresAPI_HostAddress}}/api/bedrooms/5
+GET {{PostGresAPI_HostAddress}}/api/bedrooms/4
 Accept: application/json
 
 ###
 
+# Create new bedroom
+POST {{PostGresAPI_HostAddress}}/api/bedrooms
+Content-Type: application/json
+
+{
+  "name": "New Suite 301",
+  "numberOfBeds": 4
+}
+
+###
+
+# Update bedroom
+PUT {{PostGresAPI_HostAddress}}/api/bedrooms/4
+Content-Type: application/json
+
+{
+  "name": "Updated Room 101",
+  "numberOfBeds": 2
+}
+
+###
+
+# Delete bedroom
+DELETE {{PostGresAPI_HostAddress}}/api/bedrooms/10
+Accept: application/json
+
+###
+
+# ==================== BOOKINGS ====================
+
+# Get all bookings
+GET {{PostGresAPI_HostAddress}}/api/bookings
+Accept: application/json
+
+###
+
+# Get booking by ID
+GET {{PostGresAPI_HostAddress}}/api/bookings/1
+Accept: application/json
+
+###
+
+# Create new booking (1 hour)
+POST {{PostGresAPI_HostAddress}}/api/bookings
+Content-Type: application/json
+
+{
+"roomId": 1,
+  "startUtc": "2024-11-25T10:00:00Z",
+  "endUtc": "2024-11-25T11:00:00Z",
+  "title": "Team Meeting"
+}
+
+###
+
+# Create new booking (2 hours)
+POST {{PostGresAPI_HostAddress}}/api/bookings
+Content-Type: application/json
+
+{
+  "roomId": 2,
+  "startUtc": "2024-11-25T14:00:00Z",
+  "endUtc": "2024-11-25T16:00:00Z",
+  "title": "Workshop"
+}
+
+###
+
+# Update booking
+PUT {{PostGresAPI_HostAddress}}/api/bookings/1
+Content-Type: application/json
+
+{
+  "startUtc": "2024-11-25T11:00:00Z",
+  "endUtc": "2024-11-25T12:00:00Z",
+  "title": "Updated Team Meeting"
+}
+
+###
+
+# Delete booking
+DELETE {{PostGresAPI_HostAddress}}/api/bookings/1
+Accept: application/json
+
+###
+
+# ==================== USERS ====================
+
+# Get all users
+GET {{PostGresAPI_HostAddress}}/api/users
+Accept: application/json
+
+###
+
+# Get user by ID
+GET {{PostGresAPI_HostAddress}}/api/users/1
+Accept: application/json
+
+###
 ````````
 
 

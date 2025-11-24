@@ -29,65 +29,92 @@
           </div>
 
       <div class="calendar-wrapper">
-     <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">
+        <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">
 
-    <div class="title">
-   {{ today | date:'EEE, MMM, d' }}
-        </div>
+          <div class="title">
+            {{ today | date:'EEE, MMM, d' }}
+          </div>
 
- <div class="monthbar">
-       <button class="month-nav-btn prev"
-     (click)="previousMonth()"
-      aria-label="Previous month"
-       i18n-aria-label>
-       <i class="chev-left"></i>
-</button>
-       <span class="label">{{ monthYearLabel }}</span>
-      <button class="month-nav-btn next"
-        (click)="nextMonth()"
-      aria-label="Next month"
-      i18n-aria-label>
-       <i class="chev-right"></i>
-   </button>
+          <div class="monthbar">
+            <button class="month-nav-btn prev"
+                    (click)="previousMonth()"
+                    aria-label="Previous month"
+                    i18n-aria-label>
+              <i class="chev-left"></i>
+            </button>
+            <span class="label">{{ monthYearLabel }}</span>
+            <button class="month-nav-btn next"
+                    (click)="nextMonth()"
+                    aria-label="Next month"
+                    i18n-aria-label>
+              <i class="chev-right"></i>
+            </button>
+
+
+          </div>
+
+          <div class="timebar">
+
+            <button class="month-nav-btn prev"
+                    (click)="previousTimeSlot()"
+                    aria-label="Previous time slot"
+                    i18n-aria-label>
+              <i class="chev-left"></i>
+            </button>
+
+            <span class="label">
+              {{ selectedTimeSlotLabel }}
+            </span>
+
+            <button class="month-nav-btn next"
+                    (click)="nextTimeSlot()"
+                    aria-label="Next time slot"
+                    i18n-aria-label>
+              <i class="chev-right"></i>
+            </button>
+
+
+
+          </div>
+
+
+          <div class="weekdays" aria-hidden="true">
+            <div *ngFor="let day of weekDays">{{ day }}</div>
+          </div>
+
+          <div class="grid" role="grid" aria-readonly="false">
+            <ng-container *ngFor="let calDay of calendarDays">
+              <div *ngIf="calDay.isPad" class="pad"></div>
+
+              <div *ngIf="!calDay.isPad"
+                   class="day"
+                   [class.is-today]="calDay.isToday"
+                   [class.is-selected]="calDay.isSelected"
+                   [class.is-in-range]="calDay.isInRange"
+                   [class.is-range-start]="calDay.isRangeStart"
+                   [class.is-range-end]="calDay.isRangeEnd"
+                   (click)="toggleDateSelection(calDay)"
+                   role="gridcell"
+                   [attr.aria-selected]="calDay.isSelected"
+                   tabindex="0">
+                {{ calDay.day }}
               </div>
-
-              <div class="weekdays" aria-hidden="true">
-                <div *ngFor="let day of weekDays">{{ day }}</div>
-         </div>
-
-   <div class="grid" role="grid" aria-readonly="false">
-         <ng-container *ngFor="let calDay of calendarDays">
-                  <div *ngIf="calDay.isPad" class="pad"></div>
-
-  <div *ngIf="!calDay.isPad"
-       class="day"
-         [class.is-today]="calDay.isToday"
-      [class.is-selected]="calDay.isSelected"
-           [class.is-in-range]="calDay.isInRange"
-            [class.is-range-start]="calDay.isRangeStart"
-  [class.is-range-end]="calDay.isRangeEnd"
-               (click)="toggleDateSelection(calDay)"
-    role="gridcell"
-            [attr.aria-selected]="calDay.isSelected"
-           tabindex="0">
-         {{ calDay.day }}
-     </div>
             </ng-container>
-    </div>
+          </div>
 
-              <div class="selected-info" *ngIf="hasRangeSelection">
-        <p i18n>{{ selectedDatesCount }} day(s) selected</p>
-            </div>
+          <div class="selected-info" *ngIf="hasRangeSelection">
+            <p i18n>{{ selectedDatesCount }} day(s) selected</p>
+          </div>
 
-      <div class="selected-info" *ngIf="rangeStart && !rangeEnd && !showDateError">
-                <p class="hint" i18n>Select end date or book</p>
-      </div>
+          <div class="selected-info" *ngIf="rangeStart && !rangeEnd && !showDateError">
+            <p class="hint" i18n>Select end date or book</p>
+          </div>
 
-<div class="selected-info error" *ngIf="showDateError">
-      <p class="error-text" i18n>Please select a date!</p>
-         </div>
+          <div class="selected-info error" *ngIf="showDateError">
+            <p class="error-text" i18n>Please select a date!</p>
+          </div>
 
-            </div>
+        </div>
 
             <button class="book-button" (click)="openBooking()" i18n>Book now</button>
        </div>

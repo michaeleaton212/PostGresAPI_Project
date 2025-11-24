@@ -39,10 +39,14 @@ export class BookingPageComponent implements OnInit {
       console.log('roomId:', params['roomId']);
       console.log('startDate:', params['startDate']);
       console.log('endDate:', params['endDate']);
+      console.log('startTime:', params['startTime']);
+      console.log('endTime:', params['endTime']);
 
       const roomId = params['roomId'];
       const startDateStr = params['startDate'];
       const endDateStr = params['endDate'];
+      const startTimeStr = params['startTime'];
+      const endTimeStr = params['endTime'];
 
       if (!roomId) {
         this.error = 'Keine Raum-ID angegeben.';
@@ -50,19 +54,25 @@ export class BookingPageComponent implements OnInit {
         return;
       }
 
-      // Parse dates if available
-      if (startDateStr) {
+      // Parse dates from either startDate/endDate (Bedroom) or startTime/endTime (Meetingroom)
+      if (startTimeStr) {
+        this.startDate = new Date(startTimeStr);
+        console.log('Parsed startTime:', this.startDate);
+      } else if (startDateStr) {
         this.startDate = new Date(startDateStr);
         console.log('Parsed startDate:', this.startDate);
       } else {
-        console.warn('No startDate in query params');
+        console.warn('No startDate or startTime in query params');
       }
 
-      if (endDateStr) {
+      if (endTimeStr) {
+        this.endDate = new Date(endTimeStr);
+        console.log('Parsed endTime:', this.endDate);
+      } else if (endDateStr) {
         this.endDate = new Date(endDateStr);
         console.log('Parsed endDate:', this.endDate);
       } else {
-        console.warn('No endDate in query params');
+        console.warn('No endDate or endTime in query params');
       }
 
       // Load room details
@@ -152,6 +162,14 @@ export class BookingPageComponent implements OnInit {
 
       return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
+  }
+
+  get durationInMinutes(): number {
+    if (!this.startDate || !this.endDate) {
+      return 0;
+    }
+    const diffMs = this.endDate.getTime() - this.startDate.getTime();
+    return Math.floor(diffMs / (1000 * 60));
   }
 
   get isFormValid(): boolean {

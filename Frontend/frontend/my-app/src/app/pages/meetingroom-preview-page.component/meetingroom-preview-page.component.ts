@@ -42,6 +42,23 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   // Error state for missing date selection
   showDateError = false;
+  currentTimeIndex = 0;
+
+
+
+
+  timeSlots: string[] = [
+    '08:00', '08:30',
+    '09:00', '09:30',
+    '10:00', '10:30',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:30',
+    '17:00', '17:30'
+  ];
 
 monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -91,14 +108,14 @@ this.error = 'Meetingroom konnte nicht geladen werden.';
   }
 
   openBooking() {
- if (!this.room) return;
+    if (!this.room) return;
 
     if (!this.rangeStart) {
-    this.showDateError = false;
-  setTimeout(() => {
+      this.showDateError = false;
+      setTimeout(() => {
         this.showDateError = true;
       }, 0);
-    return;
+      return;
     }
 
     if (!this.rangeEnd) {
@@ -108,9 +125,25 @@ this.error = 'Meetingroom konnte nicht geladen werden.';
 
     this.showDateError = false;
 
-    const queryParams: any = { roomId: this.room.id };
- queryParams.startDate = this.rangeStart.toISOString();
-    queryParams.endDate = this.rangeEnd.toISOString();
+    const [hours, minutes] = this.timeSlots[this.currentTimeIndex].split(':').map(Number);
+
+    const startDateTime = new Date(this.rangeStart);
+    startDateTime.setHours(hours, minutes, 0, 0);
+
+    const endDateTime = new Date(startDateTime);
+    endDateTime.setMinutes(endDateTime.getMinutes() + 30); 
+
+    if (this.rangeEnd.getTime() !== this.rangeStart.getTime()) {
+      endDateTime.setFullYear(this.rangeEnd.getFullYear());
+      endDateTime.setMonth(this.rangeEnd.getMonth());
+      endDateTime.setDate(this.rangeEnd.getDate());
+    }
+
+    const queryParams: any = {
+      roomId: this.room.id,
+      startTime: startDateTime.toISOString(),
+      endTime: endDateTime.toISOString()
+    };
 
     this.router.navigate(['/booking'], { queryParams });
   }
@@ -197,28 +230,17 @@ date.setHours(0, 0, 0, 0);
 
     this.showDateError = false;
 
- const clickedDate = new Date(calendarDay.date);
+    const clickedDate = new Date(calendarDay.date);
     clickedDate.setHours(0, 0, 0, 0);
 
-    if (!this.rangeStart) {
-      this.rangeStart = clickedDate;
-      this.rangeEnd = null;
-    } else if (!this.rangeEnd) {
-      const clickedTime = clickedDate.getTime();
-      const startTime = this.rangeStart.getTime();
-
-      if (clickedTime === startTime) {
+    // Wenn der gleiche Tag nochmal geklickt wird, deselektieren
+    if (this.rangeStart && clickedDate.getTime() === this.rangeStart.getTime()) {
       this.rangeStart = null;
-        this.rangeEnd = null;
-      } else if (clickedTime < startTime) {
-      this.rangeEnd = this.rangeStart;
-    this.rangeStart = clickedDate;
-      } else {
-        this.rangeEnd = clickedDate;
-      }
-    } else {
-      this.rangeStart = clickedDate;
       this.rangeEnd = null;
+    } else {
+      // Neuen Tag auswählen (kein Range mehr)
+      this.rangeStart = clickedDate;
+      this.rangeEnd = null; // Immer null, da nur ein Tag erlaubt ist
     }
 
     this.generateCalendar();
@@ -280,4 +302,23 @@ date.setHours(0, 0, 0, 0);
   get numberOfChairs(): number | undefined {
     return this.room?.numberOfChairs ?? undefined;
   }
+
+
+  get selectedTimeSlotLabel(): string {
+    return this.timeSlots[this.currentTimeIndex];
+  }
+
+  previousTimeSlot(): void {
+    if (this.currentTimeIndex > 0) {
+      this.currentTimeIndex--;
+    }
+  }
+
+  nextTimeSlot(): void {
+    if (this.currentTimeIndex < this.timeSlots.length - 1) {
+      this.currentTimeIndex++;
+    }
+  }
+
 }
+

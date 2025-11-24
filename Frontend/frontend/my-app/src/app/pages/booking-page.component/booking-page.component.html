@@ -40,9 +40,18 @@
       <span>{{ endDate | date:'dd.MM.yyyy' }}</span>
     </div>
 
-    <div *ngIf="startDate && endDate" class="overview-row">
+    <!-- Bedroom: nur Anzahl Tage -->
+    <div *ngIf="room?.type === 'Bedroom'" class="overview-row">
       <strong i18n>Duration:</strong>
       <span i18n>{{ numberOfDays }} day(s)</span>
+    </div>
+
+    <!-- Meetingroom: Anzahl Tage + Uhrzeiten -->
+    <div *ngIf="room?.type === 'Meetingroom'" class="overview-row">
+      <strong i18n>Duration:</strong>
+      <span>
+        {{ numberOfDays }} day(s), {{ startDate | date:'HH:mm' }} - {{ endDate | date:'HH:mm' }} ({{ durationInMinutes }} min)
+      </span>
     </div>
 
     <!-- If not booked show formular -->
@@ -50,7 +59,7 @@
       <label for="firstName">
         <strong class="left" i18n>Enter Name:</strong>
       </label>
-      <input id="firstName"
+      <input id="firstName" Fove
              type="text"
              [(ngModel)]="firstName"
              placeholder="Enter your first name"

@@ -80,11 +80,11 @@
   letter-spacing: 1px;
   text-decoration: none;
   color: #fff;
-  background: rgba(88, 130, 193, 0.4);
+  background: rgba(196, 196, 196, 0.4);
   backdrop-filter: blur(12px) saturate(180%);
   cursor: default;
   transition: all 0.3s ease;
-  border: 2px solid rgba(88, 130, 193);
+  border: 2px solid rgba(138, 136, 136);
   border-radius: 30px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   font-family: 'Inter', sans-serif;
@@ -144,7 +144,7 @@
       height: 3rem;
       padding: 10px 12px;
       font-size: 16px;
-      border: 2px solid rgba(7, 43, 166, 0.3);
+      border: 2px solid rgba(138, 136, 136, 0.3);
       border-radius: 6px;
       background: rgba(255, 255, 255, 0.9);
       color: #333;
@@ -153,7 +153,8 @@
 
       &:focus {
         outline: none;
-        border-color: #002457;
+        border-radius: 6px;
+        border-color: #787878;
         background: #fff;
         box-shadow: 0 0 0 3px rgba(123, 92, 255, 0.1);
       }
@@ -185,7 +186,7 @@
     letter-spacing: 1px;
     text-decoration: none;
     color: #fff;
-    background: #003465;
+    background: #4F4F54;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
