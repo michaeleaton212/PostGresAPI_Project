@@ -34,4 +34,17 @@ export class BookingService {
   delete(id: number): Observable<void> {
     return this.api.delete<void>(`bookings/${id}`);
   }
+
+  /**
+   * Find booking by email (title) and booking number (id)
+   */
+  findByEmailAndBookingNumber(
+    email: string,
+    bookingNumber: string
+  ): Observable<Booking> {
+    return this.api.get<Booking>('bookings/find', {
+      title: email,
+      id: bookingNumber,
+    });
+  }
 }

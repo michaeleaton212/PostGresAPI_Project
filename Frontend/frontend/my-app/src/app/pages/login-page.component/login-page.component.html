@@ -7,6 +7,7 @@
     <br />
 
     <div class="form-group">
+      <!-- Name (Title in DB) -->
       <label for="firstName" class="left" i18n>Enter name:</label>
       <input id="firstName"
              name="firstName"
@@ -19,6 +20,7 @@
              aria-required="true" />
       <br />
 
+      <!-- Booking number (Id in DB) -->
       <label for="bookingNumber" class="left" i18n>Enter booking number:</label>
       <input id="bookingNumber"
              name="bookingNumber"
@@ -33,7 +35,6 @@
       <br />
       <br />
 
-
       <div class="button-row">
         <button class="singin"
                 type="button"
@@ -41,12 +42,28 @@
                 [disabled]="bookingInProgress || !isFormValid"
                 i18n>
           {bookingInProgress, select,
-          true {Booking...}
+          true {Checking...}
           false {Confirm Booking}
           }
         </button>
       </div>
+
+      <br />
+
+      <!-- true / false anzeigen -->
+      <div *ngIf="loginResult === true" class="success">
+        true
+      </div>
+      <div *ngIf="loginResult === false" class="error">
+        false
+      </div>
+
+      <!-- optional Fehlertext -->
+      <div *ngIf="error" class="error">
+        {{ error }}
+      </div>
     </div>
   </div>
 </div>
+
 <app-footer></app-footer>

@@ -57,12 +57,12 @@
     <!-- If not booked show formular -->
     <div class="form-group" *ngIf="!bookingSuccess">
       <label for="firstName">
-        <strong class="left" i18n>Enter Name:</strong>
+        <strong class="left" i18n>Enter Email:</strong>
       </label>
       <input id="firstName" Fove
              type="text"
              [(ngModel)]="firstName"
-             placeholder="Enter your first name"
+             placeholder="Enter your email"
              i18n-placeholder
              maxlength="100"
              required />

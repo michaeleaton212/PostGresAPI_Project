@@ -126,7 +126,7 @@ export class BookingPageComponent implements OnInit {
         this.bookingSuccess = true;
         this.bookingInProgress = false;
 
-      
+
       },
       error: (err) => {
         console.error('Error creating booking:', err);
