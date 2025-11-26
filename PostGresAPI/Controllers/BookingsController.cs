@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using PostGresAPI.Contracts; // BookingDto, CreateBookingDto, UpdateBookingDto
+using PostGresAPI.Contracts; // BookingDto, CreateBookingDto, UpdateBookingDto, LoginRequestDto, LoginResponseDto
 using PostGresAPI.Services;
 
 namespace PostGresAPI.Controllers;
@@ -63,5 +63,16 @@ public class BookingsController : ControllerBase
     {
         var (ok, err) = await _svc.Delete(id);
         return ok ? NoContent() : BadRequest(new { error = err });
+    }
+
+    //POST /api/bookings/login
+    [HttpPost("login")]
+    public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
+    {
+        var roomId = await _svc.GetRoomIdByCredentials(dto.BookingNumber, dto.Name);
+        if (roomId is null)
+            return Unauthorized(new { error = "Ungültige Kombination aus Buchungsnummer und Name." });
+
+        return Ok(new LoginResponseDto(roomId.Value));
     }
 }

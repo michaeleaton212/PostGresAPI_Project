@@ -82,5 +82,28 @@ namespace PostGresAPI.Services
             var ok = await _bookings.Delete(id);
             return ok ? (true, null) : (false, "Booking not found.");
         }
+
+
+        // Login
+        public async Task<int?> GetRoomIdByCredentials(string bookingNumber, string name)
+        {
+            if (string.IsNullOrWhiteSpace(bookingNumber) || string.IsNullOrWhiteSpace(name))
+                return null;
+
+            // bookingNumber = ID der Buchung
+            if (!int.TryParse(bookingNumber.Trim(), out var id))
+                return null;
+
+            var b = await _bookings.GetById(id);
+            if (b is null) return null;
+
+            var matches = string.Equals(
+                (b.Title ?? string.Empty).Trim(),
+                name.Trim(),
+                StringComparison.OrdinalIgnoreCase);
+
+            return matches ? b.RoomId : (int?)null;
+        }
+
     }
 }

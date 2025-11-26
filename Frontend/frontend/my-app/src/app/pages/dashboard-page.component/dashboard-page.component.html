@@ -1,4 +1,66 @@
 <div class="page">
-  <h2>Dashboard</h2>
-  <p>Welcome to the Dashboard Page.</p>
+  <h2 i18n>Booking</h2>
+  <button class="back-button" (click)="goBackLogin()" i18n>← Back</button>
+
+  <!-- Booking overview + Input + Buttons / Booking number -->
+  <div class="overview">
+    <br />
+    <br />
+
+    <h3 i18n>Bookings</h3>
+    <div class="activeBookings">
+    </div>
+
+    <br />
+
+    <!-- Überschriften -->
+    <div class="overview-row">
+      <div>Name</div>
+      <div>Zimmer</div>
+      <div>Startdatum</div>
+      <div>Enddatum</div>
+      <div>Buchungsnummer</div>
+      <div>Status</div>
+      <div>Einchecken</div>
+      <div>Stornieren</div>
+    </div>
+
+    <!-- Daten -->
+    <div class="overview-row">
+      <div>Peter Voger</div>
+      <div>Alpenblick</div>
+      <div>01.12.2021</div>
+      <div>02.01.2022</div>
+      <div>1</div>
+      <div>
+        <div class="eingecheckt">
+          <button class="eingecheckt">Eingecheckt</button>
+
+        </div>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="checkin-1" checked>
+        <label for="checkin-1"></label>
+      </div>
+      <div>
+
+        <div class="stornieren">
+          <button class="stornieren">Stornieren</button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="overview-row">
+
+    </div>
+
+
+  </div>
+
+
+  <div class="footer-wrapper">
+    <app-footer></app-footer>
+  </div>
 </div>

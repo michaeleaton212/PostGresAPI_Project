@@ -2,10 +2,203 @@
   padding: 1rem;
 
   h2 {
-    margin: 0 0 .5rem;
+    margin: 0 0 0.5rem;
+  }
+}
+
+.overview {
+  width: 110rem;
+  height: 25rem;
+  margin: 90px auto 0 auto;
+  padding: 0; /* GEÄNDERT: padding entfernt */
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(196, 196, 196, 0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  cursor: default;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(138, 136, 136);
+  border-radius: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  text-align: left;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    padding: 20px 20px 0 20px; /* NEU: padding nur für h3 */
   }
 
-  p {
-    margin: 0;
+  .activeBookings {
+    color: rgb(34, 167, 136);
+  }
+
+  .overview-row {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 0px; /* GEÄNDERT: padding links/rechts hinzugefügt */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  }
+
+  .overview-row > div {
+    flex: 1;
+    text-align: left;
+  }
+
+  .overview-row:last-child {
+    border-bottom: none;
+  }
+
+  .overview-row {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 0px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  }
+
+  .overview-row > div {
+    flex: 1;
+    text-align: left;
+  }
+
+  .overview-row > div:first-child {
+    padding-left: 20px; /* NEU: Nur erste Spalte (Name) bekommt Abstand */
+  }
+
+  .overview-row > div:last-child {
+    padding-right: 20px; /* NEU: Letzte Spalte (Stornieren) bekommt Abstand */
+  }
+
+  .toggle {
+    text-align: center;
+  }
+
+  .toggle input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  .toggle label {
+    display: inline-block;
+    left: 1rem;
+    width: 113px;
+    height: 34px;
+    background-color: #ccc;
+    border-radius: 17px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+  }
+
+  .toggle label::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    width: 56px;
+    height: 28px;
+    background-color: white;
+    border-radius: 14px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .toggle input[type="checkbox"]:checked + label {
+    background-color: rgb(49, 212, 77);
+  }
+
+  .toggle input[type="checkbox"]:checked + label::after {
+    transform: translateX(57px);
+  }
+}
+
+.footer-wrapper {
+  margin-top: 4rem;
+  margin-left: -3rem;
+}
+
+.stornieren {
+  width: 133px;
+  height: 34px;
+  background-color: rgba(255, 59, 48, 0.3);
+  border: 1px solid rgba(255, 59, 48, 0.6);
+  border-radius: 17px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.stornieren:hover {
+  background-color: rgba(255, 59, 48, 0.4);
+  border-color: rgba(255, 59, 48, 0.8);
+}
+
+.stornieren:active {
+  background-color: rgba(255, 59, 48, 0.5);
+  transform: scale(0.98);
+}
+
+.eingecheckt {
+  width: 133px;
+  height: 34px;
+  background-color: rgba(0, 176, 135, 0.2);
+  border: 1px solid rgba(22, 171, 116, 1);
+  border-radius: 7px;
+  color: rgba(22, 171, 116, 1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.eingecheckt:hover {
+  background-color: rgba(0, 176, 135, 0.3);
+  border-color: rgba(0, 176, 135, 1);
+  color: rgba(0, 176, 135, 1);
+}
+
+.eingecheckt:active {
+  background-color: rgba(0, 176, 135, 0.4);
+  transform: scale(0.98);
+}
+
+.back-button {
+  position: fixed;
+  top: 8rem;
+  right: 3rem;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 28.5px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: rgba(79, 79, 79, 0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(79, 79, 79, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 }

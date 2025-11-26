@@ -22,6 +22,9 @@ namespace PostGresAPI.Services
 
         // Delete
         Task<(bool Ok, string? Error)> Delete(int id);
+
+        Task<int?> GetRoomIdByCredentials(string bookingNumber, string name);
+
     }
 }
 
