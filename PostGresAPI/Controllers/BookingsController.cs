@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PostGresAPI.Contracts; // BookingDto, CreateBookingDto, UpdateBookingDto, LoginRequestDto, LoginResponseDto
 using PostGresAPI.Services;
+using PostGresAPI.Auth;    // ITokenService
 
 namespace PostGresAPI.Controllers;
 
@@ -10,18 +11,20 @@ namespace PostGresAPI.Controllers;
 public class BookingsController : ControllerBase
 {
     private readonly IBookingService _svc;
+    private readonly ITokenService _tokens;
 
-    public BookingsController(IBookingService svc)
+    public BookingsController(IBookingService svc, ITokenService tokens)
     {
         _svc = svc;
+        _tokens = tokens;
     }
 
     // GET /api/bookings 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BookingDto>>> GetAll()
     {
-        var items = await _svc.GetAll();
-        var dtos = items.Select(b => new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title));
+        // Service liefert bereits BookingDto -> kein erneutes Mapping nötig
+        var dtos = await _svc.GetAll();
         return Ok(dtos);
     }
 
@@ -29,9 +32,9 @@ public class BookingsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<BookingDto>> GetById(int id)
     {
-        var b = await _svc.GetById(id);
-        if (b is null) return NotFound();
-        return Ok(new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title));
+        var dto = await _svc.GetById(id);
+        if (dto is null) return NotFound();
+        return Ok(dto);
     }
 
     // POST /api/bookings
@@ -41,9 +44,8 @@ public class BookingsController : ControllerBase
         var (ok, err, result) = await _svc.Create(dto);
         if (!ok) return BadRequest(new { error = err });
 
-        var b = result!;
-        var read = new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title);
-        return CreatedAtAction(nameof(GetById), new { id = b.Id }, read);
+        var created = result!;
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
     // PUT /api/bookings/{id}
@@ -53,8 +55,7 @@ public class BookingsController : ControllerBase
         var (ok, err, result) = await _svc.Update(id, dto);
         if (!ok) return BadRequest(new { error = err });
 
-        var b = result!;
-        return Ok(new BookingDto(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title));
+        return Ok(result!);
     }
 
     // DELETE /api/bookings/{id}
@@ -65,14 +66,31 @@ public class BookingsController : ControllerBase
         return ok ? NoContent() : BadRequest(new { error = err });
     }
 
-    //POST /api/bookings/login
+
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
-        var roomId = await _svc.GetRoomIdByCredentials(dto.BookingNumber, dto.Name);
-        if (roomId is null)
+        var bookingId = await _svc.GetBookingIdByCredentials(dto.BookingNumber, dto.Name);
+        if (bookingId is null)
             return Unauthorized(new { error = "Ungültige Kombination aus Buchungsnummer und Name." });
 
-        return Ok(new LoginResponseDto(roomId.Value));
+        var token = _tokens.Create(bookingId.Value, DateTimeOffset.UtcNow.AddMinutes(10)); //set time
+        return Ok(new LoginResponseDto(bookingId.Value, token));
+    }
+
+    [HttpGet("{bookingId:int}/secure")]
+    public async Task<ActionResult<BookingDto>> GetSecure(
+        int bookingId,
+        [FromQuery] string? token,
+        [FromHeader(Name = "X-Login-Token")] string? tokenHeader)
+    {
+        var t = tokenHeader ?? token;
+        if (string.IsNullOrWhiteSpace(t)) return Unauthorized();
+
+        if (!_tokens.TryValidate(t, out var tokenBookingId) || tokenBookingId != bookingId)
+            return Unauthorized();
+
+        var dto = await _svc.GetById(bookingId);
+        return dto is null ? NotFound() : Ok(dto);
     }
 }

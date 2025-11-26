@@ -25,43 +25,5 @@ export class LoginPageComponent {
     return this.firstName.trim().length > 0 && this.bookingNumber.trim().length > 0;
   }
 
-  Signin(): void {
-    if (!this.isFormValid || this.bookingInProgress) {
-      return;
-    }
-
-    this.bookingInProgress = true;
-    this.loginResult = null;
-    this.error = null;
-
-    const id = Number(this.bookingNumber);
-
-    if (Number.isNaN(id)) {
-      this.loginResult = false;
-      this.error = 'Ungültige Buchungsnummer.';
-      this.bookingInProgress = false;
-      return;
-    }
-
-    this.bookingService.getById(id).subscribe({
-      next: (booking: any) => {
-        const dbTitle = (booking?.title || '').trim().toLowerCase();
-        const inputName = this.firstName.trim().toLowerCase();
-
-        if (booking && dbTitle === inputName) {
-          this.loginResult = true;   
-        } else {
-          this.loginResult = false;  
-        }
-
-        this.bookingInProgress = false;
-      },
-      error: (err) => {
-        console.error('Error loading booking:', err);
-        this.loginResult = false;
-        this.error = err?.error?.error || 'Buchung konnte nicht geladen werden.';
-        this.bookingInProgress = false;
-      }
-    });
-  }
+  
 }

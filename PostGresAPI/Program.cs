@@ -2,6 +2,7 @@
 using PostGresAPI.Data;
 using PostGresAPI.Repository;
 using PostGresAPI.Services;
+using PostGresAPI.Auth; // hinzugefügt: Token-Service für Login
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -20,13 +21,15 @@ builder.Services.AddScoped<IMeetingroomRepository, MeetingroomRepository>();
 builder.Services.AddScoped<IBedroomRepository, BedroomRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
-
 // Dependency Injection - Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IMeetingroomService, MeetingroomService>();
 builder.Services.AddScoped<IBedroomService, BedroomService>();
-builder.Services.AddScoped<IBookingService, BookingService>(); ;
+builder.Services.AddScoped<IBookingService, BookingService>(); // add booking service
+
+// Dependency Injection - Token Service (für sichere Login-Tokens)
+builder.Services.AddSingleton<ITokenService, TokenService>(); // TokenService erzeugt und prüft HMAC-Token für Login
 
 builder.Services.AddControllers() // add controllers
     .AddJsonOptions(options =>
@@ -43,12 +46,20 @@ builder.Services.AddCors(options => // add CORS policy that allows requests from
     options.AddPolicy("NgDev", policy => // define policy named "NgDev"
         policy.WithOrigins(
                 "http://localhost:4200",
-                "https://localhost:4200" 
+                "https://localhost:4200"
             )
             .AllowAnyHeader()// allow any header 
             .AllowAnyMethod() // allow any method (GET, POST, Update, Delete .)
     );
 });
+
+// OPTIONAL: Überprüfen, ob Secret in appsettings.json gesetzt ist
+var tokenSecret = builder.Configuration["Auth:LoginTokenSecret"];
+if (string.IsNullOrWhiteSpace(tokenSecret))
+{
+    throw new InvalidOperationException(
+        "Auth:LoginTokenSecret fehlt in appsettings.json. Bitte einen langen zufälligen String hinzufügen.");
+}
 
 var app = builder.Build(); // build app
 
@@ -58,7 +69,7 @@ app.UseHttpsRedirection(); // use automaticly https redirection
 
 app.UseRouting(); // use routing
 app.UseCors("NgDev"); // aktivate CORS policy
-// app.UseAuthentication();
+// app.UseAuthentication(); // not needed for simple token auth
 app.UseAuthorization();
 
 app.MapControllers();

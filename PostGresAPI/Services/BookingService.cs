@@ -84,13 +84,12 @@ namespace PostGresAPI.Services
         }
 
 
-        // Login
-        public async Task<int?> GetRoomIdByCredentials(string bookingNumber, string name)
+        // Login (Booking Id)   
+        public async Task<int?> GetBookingIdByCredentials(string bookingNumber, string name)
         {
             if (string.IsNullOrWhiteSpace(bookingNumber) || string.IsNullOrWhiteSpace(name))
                 return null;
 
-            // bookingNumber = ID der Buchung
             if (!int.TryParse(bookingNumber.Trim(), out var id))
                 return null;
 
@@ -102,8 +101,9 @@ namespace PostGresAPI.Services
                 name.Trim(),
                 StringComparison.OrdinalIgnoreCase);
 
-            return matches ? b.RoomId : (int?)null;
+            return matches ? b.Id : (int?)null; 
         }
+
 
     }
 }

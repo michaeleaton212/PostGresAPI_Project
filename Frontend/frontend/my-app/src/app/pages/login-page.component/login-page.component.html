@@ -38,7 +38,6 @@
       <div class="button-row">
         <button class="singin"
                 type="button"
-                (click)="Signin()"
                 [disabled]="bookingInProgress || !isFormValid"
                 i18n>
           {bookingInProgress, select,
@@ -50,13 +49,6 @@
 
       <br />
 
-      <!-- true / false anzeigen -->
-      <div *ngIf="loginResult === true" class="success">
-        true
-      </div>
-      <div *ngIf="loginResult === false" class="error">
-        false
-      </div>
 
       <!-- optional Fehlertext -->
       <div *ngIf="error" class="error">
