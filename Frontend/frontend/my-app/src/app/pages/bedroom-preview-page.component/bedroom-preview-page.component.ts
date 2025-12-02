@@ -32,6 +32,9 @@ export class BedroomPreviewPageComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
+  // Image slider properties
+  currentImageIndex = 0;
+
   // Calendar properties
   currentMonth: Date = new Date();
   calendarDays: CalendarDay[] = [];
@@ -52,17 +55,39 @@ export class BedroomPreviewPageComponent implements OnInit {
 
   today: Date = new Date();
 
+  get hasImages(): boolean {
+    return !!this.room && !!this.room.images && this.room.images.length > 0;
+  }
+
+  get currentImage(): string {
+    if (this.hasImages) {
+      return this.room!.images![this.currentImageIndex];
+    }
+    // Fallback: single image or grey.png
+    return this.room?.image || '/assets/grey.png';
+  }
+
   ngOnInit() {
     this.generateCalendar();
 
-    this.route.queryParams.subscribe(params => {
-      const roomId = params['id'];
-      if (roomId) {
-        this.loadRoom(Number(roomId));
-      } else {
-        this.error = 'Keine Raum-ID angegeben.';
-        this.loading = false;
+    // Versuche zuerst Route-Parameter, dann Query-Parameter
+    this.route.paramMap.subscribe(params => {
+      const routeId = params.get('id');
+      if (routeId) {
+        this.loadRoom(Number(routeId));
+        return;
       }
+
+      // Fallback auf Query-Parameter
+      this.route.queryParams.subscribe(queryParams => {
+        const queryId = queryParams['id'];
+        if (queryId) {
+          this.loadRoom(Number(queryId));
+        } else {
+          this.error = 'Keine Raum-ID angegeben.';
+          this.loading = false;
+        }
+      });
     });
   }
 
@@ -78,6 +103,19 @@ export class BedroomPreviewPageComponent implements OnInit {
           return;
         }
         this.room = room as Bedroom;
+
+        // String aus DB (z. B. "/alpenblick.jpg, /brainstorm.jpg")
+        // in ein Array von Pfaden umwandeln
+        if (this.room.image) {
+          this.room.images = this.room.image
+            .split(',')
+            .map(p => p.trim())
+            .filter(p => p.length > 0);
+        }
+
+        // falls kein Array rauskommt, Index zurücksetzen
+        this.currentImageIndex = 0;
+
         this.loading = false;
       },
       error: (err) => {
@@ -90,6 +128,10 @@ export class BedroomPreviewPageComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/rooms']);
+  }
+
+  onImageError(event: any) {
+    event.target.src = '/assets/grey.png';
   }
 
   openBooking() {
@@ -299,5 +341,23 @@ export class BedroomPreviewPageComponent implements OnInit {
 
   get numberOfBeds(): number | undefined {
     return this.room?.numberOfBeds ?? undefined;
+  }
+
+  nextImage(): void {
+    if (!this.hasImages) return;
+    this.currentImageIndex =
+      (this.currentImageIndex + 1) % this.room!.images!.length;
+  }
+
+  prevImage(): void {
+    if (!this.hasImages) return;
+    this.currentImageIndex =
+      (this.currentImageIndex - 1 + this.room!.images!.length) %// % Modulo-Operator makes that when first last pictuere it goes back to the last
+      this.room!.images!.length;
+  }
+
+  selectImage(index: number): void {
+    if (!this.hasImages) return;
+    this.currentImageIndex = index;
   }
 }

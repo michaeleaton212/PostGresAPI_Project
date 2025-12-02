@@ -43,6 +43,21 @@ public class BookingRepository : IBookingRepository
         }
     }
 
+    // Get booking via booking number
+    public async Task<Booking?> GetByBookingNumber(string bookingNumber)
+    {
+        try
+        {
+            return await _db.Bookings
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.BookingNumber == bookingNumber);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Abrufen von Booking mit Buchungsnummer {bookingNumber}", ex);
+        }
+    }
+
     // Check if there are overlapping bookings by Create
     public async Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc)
     {

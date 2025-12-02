@@ -22,6 +22,8 @@ public sealed class ApplicationDbContext : DbContext
         room.Property(r => r.Name)
             .HasMaxLength(200)
             .IsRequired();
+        room.Property(r => r.ImagePath)
+            .HasColumnName("image");
 
 
         // TPH-Discriminator
@@ -72,6 +74,11 @@ public sealed class ApplicationDbContext : DbContext
                .IsRequired();
         booking.Property(b => b.RoomId)
                .IsRequired();
+        
+        // BookingNumber configuration
+        booking.Property(b => b.BookingNumber)
+            .HasMaxLength(50)
+            .IsRequired();
 
         // VORHER (FALSCH):
         //booking.HasOne<Room>()           // Keine Navigation Property angegeben

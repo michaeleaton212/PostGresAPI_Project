@@ -90,10 +90,7 @@ namespace PostGresAPI.Services
             if (string.IsNullOrWhiteSpace(bookingNumber) || string.IsNullOrWhiteSpace(name))
                 return null;
 
-            if (!int.TryParse(bookingNumber.Trim(), out var id))
-                return null;
-
-            var b = await _bookings.GetById(id);
+            var b = await _bookings.GetByBookingNumber(bookingNumber.Trim());
             if (b is null) return null;
 
             var matches = string.Equals(

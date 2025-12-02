@@ -1,26 +1,25 @@
 <div class="page">
-  <br />
-  <br />
-
+  <br /><br />
   <div class="overview">
     <h3 i18n>Login</h3>
     <br />
 
     <div class="form-group">
-      <!-- Name (Title in DB) -->
-      <label for="firstName" class="left" i18n>Enter name:</label>
-      <input id="firstName"
-             name="firstName"
-             type="text"
-             [(ngModel)]="firstName"
-             placeholder="Enter your first name"
+      <label for="email" class="left" i18n>Enter email:</label>
+      <input id="email"
+             name="email"
+             type="email"
+             [(ngModel)]="email"
+             placeholder="Enter your email"
              i18n-placeholder
              maxlength="100"
              required
              aria-required="true" />
+      <div class="error" *ngIf="email && !validateEmail(email)">
+        Please enter a valid email address.
+      </div>
       <br />
 
-      <!-- Booking number (Id in DB) -->
       <label for="bookingNumber" class="left" i18n>Enter booking number:</label>
       <input id="bookingNumber"
              name="bookingNumber"
@@ -32,28 +31,22 @@
              required
              aria-required="true" />
 
-      <br />
-      <br />
+      <!-- Error-Container bleibt immer im Layout -->
+      <div class="error" [class.hidden]="!error">
+        {{ error }}
+      </div>
 
       <div class="button-row">
         <button class="singin"
                 type="button"
+                (click)="onLogin()"
                 [disabled]="bookingInProgress || !isFormValid"
                 i18n>
-          {bookingInProgress, select,
-          true {Checking...}
-          false {Confirm Booking}
-          }
+          {bookingInProgress, select, true {Checking...} false {Login}}
         </button>
       </div>
 
       <br />
-
-
-      <!-- optional Fehlertext -->
-      <div *ngIf="error" class="error">
-        {{ error }}
-      </div>
     </div>
   </div>
 </div>

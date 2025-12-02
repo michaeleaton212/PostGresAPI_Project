@@ -19,6 +19,9 @@ public interface IRoomService
 
     // Delete
     Task<bool> Delete(int id);
+
+    Task<RoomDto?> UpdateImage(int id, string? imagePath);
+
 }
 
 // The interface tells my service what it has to offer

@@ -5,27 +5,26 @@ namespace PostGresAPI.Extensions;
 
 public static class MeetingroomMappingExtensions
 {
-    // Entity to MeetingroomDto
-    public static MeetingroomDto ToDto(this Meetingroom m)
-        => new(m.Id, m.Name, m.NumberOfChairs);
+    public static MeetingroomDto ToDto(this Meetingroom room)
+        => new MeetingroomDto
+        {
+            Id = room.Id,
+            Name = room.Name,
+            NumberOfChairs = room.NumberOfChairs,
+            ImagePath = room.ImagePath
+        };
 
-
-    // CreateMeetingroomDto to Entity
     public static Meetingroom ToEntity(this CreateMeetingroomDto dto)
-        => new(dto.Name, dto.NumberOfChairs);
+    {
+        var entity = new Meetingroom(dto.Name, dto.NumberOfChairs);
+        entity.SetImagePath(dto.ImagePath);
+        return entity;
+    }
 
-
-    // UpdateMeetingroomDto to Entity
-    public static void UpdateEntity(this UpdateMeetingroomDto dto, Meetingroom entity)
+    public static void ApplyUpdate(this Meetingroom entity, UpdateMeetingroomDto dto)
     {
         entity.SetName(dto.Name);
         entity.NumberOfChairs = dto.NumberOfChairs;
-    }
-
-    // Apply updates to Meetingroom entity
-    public static void ApplyUpdate(this Meetingroom entity, string name, int numberOfChairs)
-    {
-        entity.SetName(name);
-        entity.NumberOfChairs = numberOfChairs;
+        entity.SetImagePath(dto.ImagePath);
     }
 }

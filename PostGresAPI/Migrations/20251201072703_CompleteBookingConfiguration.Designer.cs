@@ -12,8 +12,8 @@ using PostGresAPI.Data;
 namespace PostGresAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251124090615_AddBookingTable")]
-    partial class AddBookingTable
+    [Migration("20251201072703_CompleteBookingConfiguration")]
+    partial class CompleteBookingConfiguration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,10 @@ namespace PostGresAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BookingNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("EndTime")
                         .HasColumnType("timestamp with time zone");

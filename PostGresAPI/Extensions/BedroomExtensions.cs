@@ -5,29 +5,26 @@ namespace PostGresAPI.Extensions;
 
 public static class BedroomMappingExtensions
 {
+    public static BedroomDto ToDto(this Bedroom room)
+        => new BedroomDto
+        {
+            Id = room.Id,
+            Name = room.Name,
+            NumberOfBeds = room.NumberOfBeds,
+            ImagePath = room.ImagePath
+        };
 
-    // Bedroom Entity to Dto
-    public static BedroomDto ToDto(this Bedroom b)
-        => new(b.Id, b.Name, b.NumberOfBeds);
-
-
-    // CreateBedroomDto to Entity
     public static Bedroom ToEntity(this CreateBedroomDto dto)
-        => new(dto.Name, dto.NumberOfBeds);
+    {
+        var entity = new Bedroom(dto.Name, dto.NumberOfBeds);
+        entity.SetImagePath(dto.ImagePath);
+        return entity;
+    }
 
-
-    // UpdateBedroomDto to Entity
-    public static void UpdateEntity(this UpdateBedroomDto dto, Bedroom entity)
+    public static void ApplyUpdate(this Bedroom entity, UpdateBedroomDto dto)
     {
         entity.SetName(dto.Name);
         entity.NumberOfBeds = dto.NumberOfBeds;
-    }
-
-
-    // Apply updates to Bedroom entity
-    public static void ApplyUpdate(this Bedroom entity, string name, int numberOfBeds)
-    {
-        entity.SetName(name);
-        entity.NumberOfBeds = numberOfBeds;
+        entity.SetImagePath(dto.ImagePath);
     }
 }

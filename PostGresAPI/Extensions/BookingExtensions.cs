@@ -6,15 +6,18 @@ namespace PostGresAPI.Extensions;
 
 public static class BookingMappingExtensions
 {
-
     // Entity to BookingDto
     public static BookingDto ToDto(this Booking b)
-        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title);
+        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber);
 
 
     // CreateBookingDto to Entity
     public static Booking ToEntity(this CreateBookingDto dto)
-        => new(dto.RoomId, dto.StartUtc, dto.EndUtc, dto.Title);
+    {
+        // Generiere eine eindeutige8-stellige Buchungsnummer
+        var bookingNumber = Guid.NewGuid().ToString("N")[..8].ToUpper();
+        return new Booking(dto.RoomId, dto.StartUtc, dto.EndUtc, dto.Title, bookingNumber);
+    }
 
 
     // UpdateBookingDto to Entity

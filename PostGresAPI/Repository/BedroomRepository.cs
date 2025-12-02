@@ -61,7 +61,7 @@ public class BedroomRepository : IBedroomRepository
 
 
     // Update
-    public async Task<Bedroom?> Update(int id, string name, int numberOfBeds)
+    public async Task<Bedroom?> Update(int id, UpdateBedroomDto dto)
     {
         try
         {
@@ -69,7 +69,7 @@ public class BedroomRepository : IBedroomRepository
             if (entity is null)
                 return null;
 
-            entity.ApplyUpdate(name, numberOfBeds);
+            entity.ApplyUpdate(dto);
             _db.Bedrooms.Update(entity);
             await _db.SaveChangesAsync();
             return entity;

@@ -7,10 +7,10 @@
 }
 
 .overview {
-  width: 110rem;
-  height: 25rem;
+  max-width: 120rem; // breiter
+  width: 100%;
   margin: 90px auto 0 auto;
-  padding: 0; /* GEÄNDERT: padding entfernt */
+  padding: 0;
   letter-spacing: 1px;
   text-decoration: none;
   color: #fff;
@@ -24,63 +24,74 @@
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   text-align: left;
+  overflow-x: auto; // horizontales Scroll bei sehr kleinen Screens
 
   h3 {
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 1.5rem;
-    padding: 20px 20px 0 20px; /* NEU: padding nur für h3 */
+    padding: 20px 20px 0 20px;
   }
 
   .activeBookings {
     color: rgb(34, 167, 136);
+    padding: 0 20px 10px 20px;
+  }
+  /* Tabelle-Container */
+  .overview-table {
+    min-width: 1100px; // mehr Grundbreite
+    padding-bottom: 20px;
   }
 
+  .overview-header,
   .overview-row {
-    font-size: 1.5rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: 3fr // Name (viel Platz für E-Mail)
+    2fr // Zimmer
+    1.5fr // Startdatum
+    1.5fr // Enddatum
+    2fr // Buchungsnummer
+    1.8fr // Status
+    1.6fr // Einchecken (Toggle)
+    1.6fr // Stornieren
+    1.6fr; // Ansehen
     align-items: center;
-    width: 100%;
-    padding: 8px 0px; /* GEÄNDERT: padding links/rechts hinzugefügt */
+    column-gap: 2.5rem; // mehr Abstand zwischen Spalten/Titeln
+    padding: 10px 24px;
+  }
+
+  .overview-header {
+    font-weight: 600;
     border-bottom: 2px solid rgba(255, 255, 255, 0.7);
   }
 
-  .overview-row > div {
-    flex: 1;
-    text-align: left;
+  .overview-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   }
 
   .overview-row:last-child {
     border-bottom: none;
   }
 
-  .overview-row {
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 8px 0px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
-  }
-
+  .overview-header > div,
   .overview-row > div {
-    flex: 1;
-    text-align: left;
+    min-width: 0;
+    white-space: nowrap; // verhindert Umbruch
+    overflow: hidden;
+    text-overflow: ellipsis; // falls es doch zu lang ist
   }
-
-  .overview-row > div:first-child {
-    padding-left: 20px; /* NEU: Nur erste Spalte (Name) bekommt Abstand */
-  }
-
-  .overview-row > div:last-child {
-    padding-right: 20px; /* NEU: Letzte Spalte (Stornieren) bekommt Abstand */
+  /* Zellen mit Buttons / Toggle linksbündig unter dem Titel */
+  .cell-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
 
   .toggle {
-    text-align: center;
+    position: relative;
   }
 
-  .toggle input[type="checkbox"] {
+  .toggle input[type='checkbox'] {
     opacity: 0;
     width: 0;
     height: 0;
@@ -89,7 +100,6 @@
 
   .toggle label {
     display: inline-block;
-    left: 1rem;
     width: 113px;
     height: 34px;
     background-color: #ccc;
@@ -105,17 +115,17 @@
     top: 3px;
     width: 56px;
     height: 28px;
-    background-color: white;
+    background-color: #fff;
     border-radius: 14px;
     transition: transform 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 
-  .toggle input[type="checkbox"]:checked + label {
+  .toggle input[type='checkbox']:checked + label {
     background-color: rgb(49, 212, 77);
   }
 
-  .toggle input[type="checkbox"]:checked + label::after {
+  .toggle input[type='checkbox']:checked + label::after {
     transform: translateX(57px);
   }
 }
@@ -163,6 +173,21 @@
   font-family: 'Inter', sans-serif;
 }
 
+.nicht_eingecheckt {
+  width: 133px;
+  height: 34px;
+  background-color: rgba(255, 59, 48, 0.3);
+  border: 1px solid rgba(255, 59, 48, 0.6); 
+  border-radius: 7px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+
 .eingecheckt:hover {
   background-color: rgba(0, 176, 135, 0.3);
   border-color: rgba(0, 176, 135, 1);
@@ -171,6 +196,30 @@
 
 .eingecheckt:active {
   background-color: rgba(0, 176, 135, 0.4);
+  transform: scale(0.98);
+}
+
+.zimmer-ansehen {
+  width: 133px;
+  height: 34px;
+  background-color: rgba(123, 92, 255, 0.3);
+  border: 1px solid rgba(123, 92, 255, 0.6);
+  border-radius: 17px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.zimmer-ansehen:hover {
+  background-color: rgba(123, 92, 255, 0.4);
+  border-color: rgba(123, 92, 255, 0.8);
+}
+
+.zimmer-ansehen:active {
+  background-color: rgba(123, 92, 255, 0.5);
   transform: scale(0.98);
 }
 
@@ -201,4 +250,37 @@
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
+}
+.status-button {
+  width: 133px;
+  height: 34px;
+  border-radius: 7px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid transparent;
+}
+
+/* Eingecheckt = grün */
+.status-checked {
+  background-color: rgba(0, 176, 135, 0.2);
+  border-color: rgba(22, 171, 116, 1);
+  color: rgba(22, 171, 116, 1);
+}
+
+.status-checked:hover {
+  background-color: rgba(0, 176, 135, 0.3);
+}
+
+/* Nicht eingecheckt = rot */
+.status-not-checked {
+  background-color: rgba(255, 59, 48, 0.3);
+  border-color: rgba(255, 59, 48, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.status-not-checked:hover {
+  background-color: rgba(255, 59, 48, 0.4);
 }

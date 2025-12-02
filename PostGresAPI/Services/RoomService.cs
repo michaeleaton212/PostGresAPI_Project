@@ -70,4 +70,12 @@ public class RoomService : IRoomService
 
     // Delete
     public Task<bool> Delete(int id) => _repo.Delete(id);
+
+    // Update Image
+    public async Task<RoomDto?> UpdateImage(int id, string? imagePath)
+    {
+        var updated = await _repo.UpdateImage(id, imagePath);
+        return updated is null ? null : updated.ToDto();
+    }
+
 }

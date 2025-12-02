@@ -62,7 +62,7 @@ public class MeetingroomRepository : IMeetingroomRepository
     }
 
     // Update
-    public async Task<Meetingroom?> Update(int id, string name, int numberOfChairs)
+    public async Task<Meetingroom?> Update(int id, UpdateMeetingroomDto dto)
     {
         try
         {
@@ -70,7 +70,7 @@ public class MeetingroomRepository : IMeetingroomRepository
             if (entity is null)
                 return null;
 
-            entity.ApplyUpdate(name, numberOfChairs);
+            entity.ApplyUpdate(dto);
             _db.Meetingrooms.Update(entity);
             await _db.SaveChangesAsync();
             return entity;

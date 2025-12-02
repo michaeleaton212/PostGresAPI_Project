@@ -14,7 +14,7 @@ namespace PostGresAPI.Repository
         // Create
         Task<Bedroom> Add(CreateBedroomDto createBedroomDto);
         // Update
-        Task<Bedroom?> Update(int id, string name, int numberOfBeds); // Neue Signatur
+        Task<Bedroom?> Update(int id, UpdateBedroomDto dto);
         // Check if Bedroom exists
         Task<bool> ExistsAsync(int id);
         // Delete
@@ -22,5 +22,4 @@ namespace PostGresAPI.Repository
     }
 }
 
-
-// The interface tells my repository what it has to offer
+// The interface tells my repository what it has to offer// The interface tells my repository what it has to offer

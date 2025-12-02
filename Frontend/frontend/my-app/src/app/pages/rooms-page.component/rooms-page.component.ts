@@ -83,4 +83,20 @@ export class RoomsPageComponent implements OnInit {
       this.router.navigate(['/room-preview'], { queryParams: { id: room.id } });
     }
   }
+
+  // Get the first image from comma-separated image string
+  getFirstImage(imageString: string | undefined): string {
+    if (!imageString) {
+      return 'grey.png';
+    }
+    
+    // Split by comma and get first image, trim whitespace
+    const firstImage = imageString.split(',')[0].trim();
+    return firstImage || 'grey.png';
+  }
+
+  onImageError(event: any) {
+    event.target.src = 'grey.png';
+  }
+
 }

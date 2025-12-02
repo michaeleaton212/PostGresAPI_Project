@@ -24,9 +24,43 @@
         <div class="image-and-calendar">
 
           <div class="image-room">
-            <img class="room-preview-image" src="grey.png" [alt]="room.name">
-            <div class="bedroom-badge" i18n>Bedroom</div>
+            <img class="room-card-image"
+                 [src]="currentImage"
+                 (error)="onImageError($event)"
+                 loading="lazy">
+
+            <!-- arrows-->
+            <div class="image-controls" *ngIf="hasImages && room!.images!.length > 1">
+              <button class="nav-btn prev" (click)="prevImage()" aria-label="Previous image" i18n-aria-label>
+                ‹
+              </button>
+
+              <button class="nav-btn next" (click)="nextImage()" aria-label="Next image" i18n-aria-label>›</button>
+
+            </div>
+
+            <!-- show the number
+    -->
+
+            <div class="counter-badge"
+                 *ngIf="hasImages && room!.images!.length > 1"
+                 aria-live="polite">
+              {{ currentImageIndex + 1 }} / {{ room!.images!.length }}
+            </div>
+
+            <!-- Thumbnails bleiben unverändert -->
+            <div class="thumbnails" *ngIf="hasImages && room!.images!.length > 1">
+              <img *ngFor="let img of room!.images; let i = index"
+                   [src]="img"
+                   [class.active]="i === currentImageIndex"
+                   (click)="selectImage(i)"
+                   (error)="onImageError($event)"
+                   [attr.aria-label]="'Image ' + (i + 1)"
+                   loading="lazy">
+            </div>
+
           </div>
+
 
           <div class="calendar-wrapper">
             <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">

@@ -14,6 +14,7 @@ interface CalendarDay {
   isInRange: boolean;
   isRangeStart: boolean;
   isRangeEnd: boolean;
+  image?: string;
 }
 
 @Component({
@@ -44,9 +45,10 @@ export class MeetingroomPreviewPageComponent implements OnInit {
   showDateError = false;
   currentTimeIndex = 0;
 
+  // Slider: aktuelles Bild
+  currentImageIndex = 0;
 
-
-
+  // Timeslots
   timeSlots: string[] = [
     '08:00', '08:30',
     '09:00', '09:30',
@@ -60,24 +62,41 @@ export class MeetingroomPreviewPageComponent implements OnInit {
     '17:00', '17:30'
   ];
 
-monthNames = [
+  monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
   weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
+  // Heutiges Datum für Anzeige
+  today: Date = new Date();
+
+  get hasImages(): boolean {
+    return !!this.room && !!this.room.images && this.room.images.length > 0;
+  }
+
   ngOnInit() {
     this.generateCalendar();
 
-    this.route.queryParams.subscribe(params => {
-      const roomId = params['id'];
-      if (roomId) {
-        this.loadRoom(Number(roomId));
-      } else {
-     this.error = 'Keine Raum-ID angegeben.';
-this.loading = false;
+    // Versuche zuerst Route-Parameter, dann Query-Parameter
+    this.route.paramMap.subscribe(params => {
+      const routeId = params.get('id');
+    if (routeId) {
+        this.loadRoom(Number(routeId));
+        return;
       }
-  });
+
+      // Fallback auf Query-Parameter
+      this.route.queryParams.subscribe(queryParams => {
+  const queryId = queryParams['id'];
+        if (queryId) {
+          this.loadRoom(Number(queryId));
+        } else {
+          this.error = 'Keine Raum-ID angegeben.';
+       this.loading = false;
+  }
+      });
+    });
   }
 
   loadRoom(id: number) {
@@ -92,19 +111,67 @@ this.loading = false;
           return;
         }
         this.room = room as Meetingroom;
-  console.log('Meetingroom loaded:', this.room);
+
+        // String aus DB (z. B. "/alpenblick.jpg, /brainstorm.jpg")
+        // in ein Array von Pfaden umwandeln
+        if (this.room.image) {
+          this.room.images = this.room.image
+      .split(',')
+            .map(p => p.trim())
+            .filter(p => p.length > 0);
+        }
+
+        // Slider-Index zurücksetzen
+  this.currentImageIndex = 0;
+
+   console.log('Meetingroom loaded:', this.room);
         this.loading = false;
-    },
-      error: (err) => {
-     console.error('Error loading meetingroom:', err);
-this.error = 'Meetingroom konnte nicht geladen werden.';
-        this.loading = false;
-      }
+   },
+   error: (err) => {
+        console.error('Error loading meetingroom:', err);
+        this.error = 'Meetingroom konnte nicht geladen werden.';
+      this.loading = false;
+   }
     });
   }
 
   goBack() {
     this.router.navigate(['/rooms']);
+  }
+
+  onImageError(event: any) {
+    event.target.src = '/assets/grey.png';
+  }
+
+  // Aktuelles Bild (nimmt room.images, fällt zurück auf room.image oder grey.png)
+  get currentImage(): string {
+    if (this.hasImages) {
+      return this.room!.images![this.currentImageIndex];
+    }
+    // Fallback: single image or grey.png
+    return this.room?.image || '/assets/grey.png';
+  }
+
+  // Nächstes Bild im Slider
+  nextImage(): void {
+    if (!this.hasImages) return;
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.room!.images!.length;
+  }
+
+  // Vorheriges Bild im Slider
+  previousImage(): void {
+ if (!this.hasImages) return;
+    this.currentImageIndex =
+  (this.currentImageIndex - 1 + this.room!.images!.length) %
+      this.room!.images!.length;
+  }
+
+  // Direkt ein Bild per Thumbnail auswählen
+  selectImage(index: number): void {
+    if (!this.hasImages) return;
+    if (index < 0 || index >= this.room!.images!.length) return;
+
+    this.currentImageIndex = index;
   }
 
   openBooking() {
@@ -131,7 +198,7 @@ this.error = 'Meetingroom konnte nicht geladen werden.';
     startDateTime.setHours(hours, minutes, 0, 0);
 
     const endDateTime = new Date(startDateTime);
-    endDateTime.setMinutes(endDateTime.getMinutes() + 30); 
+    endDateTime.setMinutes(endDateTime.getMinutes() + 30);
 
     if (this.rangeEnd.getTime() !== this.rangeStart.getTime()) {
       endDateTime.setFullYear(this.rangeEnd.getFullYear());
@@ -158,14 +225,14 @@ this.error = 'Meetingroom konnte nicht geladen werden.';
     const firstDayOfWeek = firstDay.getDay();
 
     const lastDay = new Date(year, month + 1, 0);
-const daysInMonth = lastDay.getDate();
+    const daysInMonth = lastDay.getDate();
 
     for (let i = 0; i < firstDayOfWeek; i++) {
       this.calendarDays.push({
         day: 0,
         date: new Date(),
-    isPad: true,
-   isToday: false,
+        isPad: true,
+        isToday: false,
         isSelected: false,
         isInRange: false,
         isRangeStart: false,
@@ -173,12 +240,12 @@ const daysInMonth = lastDay.getDate();
       });
     }
 
-const today = new Date();
+    const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-  for (let day = 1; day <= daysInMonth; day++) {
+    for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
-date.setHours(0, 0, 0, 0);
+      date.setHours(0, 0, 0, 0);
 
       const isToday = date.getTime() === today.getTime();
       const rangeInfo = this.getDateRangeInfo(date);
@@ -186,10 +253,10 @@ date.setHours(0, 0, 0, 0);
       this.calendarDays.push({
         day,
         date,
-     isPad: false,
+        isPad: false,
         isToday,
         isSelected: rangeInfo.isSelected,
-     isInRange: rangeInfo.isInRange,
+        isInRange: rangeInfo.isInRange,
         isRangeStart: rangeInfo.isRangeStart,
         isRangeEnd: rangeInfo.isRangeEnd
       });
@@ -213,7 +280,7 @@ date.setHours(0, 0, 0, 0);
         isSelected: isRangeStart,
         isInRange: false,
         isRangeStart: isRangeStart,
-    isRangeEnd: false
+        isRangeEnd: false
       };
     }
 
@@ -275,7 +342,7 @@ date.setHours(0, 0, 0, 0);
       this.currentMonth.getFullYear(),
       this.currentMonth.getMonth() - 1,
       1
-);
+    );
     this.generateCalendar();
   }
 
@@ -284,8 +351,6 @@ date.setHours(0, 0, 0, 0);
     this.rangeEnd = null;
     this.generateCalendar();
   }
-
-  today: Date = new Date();
 
   get monthYearLabel(): string {
     return `${this.monthNames[this.currentMonth.getMonth()]} ${this.currentMonth.getFullYear()}`;
@@ -303,7 +368,6 @@ date.setHours(0, 0, 0, 0);
     return this.room?.numberOfChairs ?? undefined;
   }
 
-
   get selectedTimeSlotLabel(): string {
     return this.timeSlots[this.currentTimeIndex];
   }
@@ -319,6 +383,4 @@ date.setHours(0, 0, 0, 0);
       this.currentTimeIndex++;
     }
   }
-
 }
-

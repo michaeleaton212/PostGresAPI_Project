@@ -141,4 +141,16 @@ public class RoomRepository : IRoomRepository
             throw new Exception($"Fehler beim Prüfen der Existenz von Room mit ID {id}", ex);
         }
     }
+
+    public async Task<Room?> UpdateImage(int id, string? image)
+    {
+        var entity = await _db.Rooms.FirstOrDefaultAsync(r => r.Id == id);
+        if (entity == null) return null;
+
+        entity.SetImagePath(image);
+        _db.Rooms.Update(entity);
+        await _db.SaveChangesAsync();
+        return entity;
+    }
+
 }

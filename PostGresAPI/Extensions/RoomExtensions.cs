@@ -1,27 +1,39 @@
-using PostGresAPI.Models;
+﻿using PostGresAPI.Models;
 using PostGresAPI.Contracts;
 
 namespace PostGresAPI.Extensions;
 
 public static class RoomMappingExtensions
 {
-    // Apply name to Room entity
-    public static void ApplyName(this Room entity, string name)
-        => entity.SetName(name);
-
-    // Convert Room to RoomDto
     public static RoomDto ToDto(this Room room)
     {
-        string type = room switch
+        return room switch
         {
-            Meetingroom => "Meetingroom",
-            Bedroom => "Bedroom",
-            _ => "Unknown"
+            Bedroom b => new RoomDto
+            {
+                Id = b.Id,
+                Name = b.Name,
+                Type = "Bedroom",
+                NumberOfBeds = b.NumberOfBeds,
+                image = b.ImagePath
+            },
+
+            Meetingroom m => new RoomDto
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Type = "Meetingroom",
+                NumberOfChairs = m.NumberOfChairs,
+                image = m.ImagePath
+            },
+
+            _ => new RoomDto
+            {
+                Id = room.Id,
+                Name = room.Name,
+                Type = "Unknown",
+                image = room.ImagePath
+            }
         };
-
-        int? numberOfBeds = room is Bedroom bedroom ? bedroom.NumberOfBeds : null;
-        int? numberOfChairs = room is Meetingroom meetingroom ? meetingroom.NumberOfChairs : null;
-
-        return new RoomDto(room.Id, room.Name, type, numberOfBeds, numberOfChairs);
     }
 }

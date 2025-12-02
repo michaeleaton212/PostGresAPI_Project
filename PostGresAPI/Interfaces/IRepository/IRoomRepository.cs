@@ -29,6 +29,10 @@ namespace PostGresAPI.Repository
 
         // Check if Room exists
         Task<bool> Exists(int id);
+
+        // Update Image Path
+        Task<Room?> UpdateImage(int id, string? image);
+
     }
 }
 

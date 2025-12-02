@@ -74,7 +74,7 @@ public class BookingsController : ControllerBase
         if (bookingId is null)
             return Unauthorized(new { error = "Ungültige Kombination aus Buchungsnummer und Name." });
 
-        var token = _tokens.Create(bookingId.Value, DateTimeOffset.UtcNow.AddMinutes(10)); //set time
+        var token = _tokens.Create(bookingId.Value, DateTimeOffset.UtcNow.AddMinutes(30)); //set time
         return Ok(new LoginResponseDto(bookingId.Value, token));
     }
 

@@ -1,6 +1,11 @@
 namespace PostGresAPI.Contracts;
 
-public record RoomDto(int Id, string Name, string Type, int? NumberOfBeds, int? NumberOfChairs);
-public record CreateRoomDto(string Name, string Type);
-public record UpdateRoomDto(string Name, string Type);
-public record UpdateRoomNameDto(string Name);
+public record class RoomDto
+{
+    public int Id { get; init; }
+    public string Name { get; init; } = "";
+    public string Type { get; init; } = "";
+    public int? NumberOfBeds { get; init; }
+    public int? NumberOfChairs { get; init; }
+    public string? image { get; init; }
+}

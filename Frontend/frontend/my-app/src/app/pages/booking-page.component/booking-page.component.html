@@ -59,7 +59,7 @@
       <label for="firstName">
         <strong class="left" i18n>Enter Email:</strong>
       </label>
-      <input id="firstName" Fove
+      <input id="firstName"
              type="text"
              [(ngModel)]="firstName"
              placeholder="Enter your email"
@@ -79,25 +79,36 @@
     <!-- Show button only when not booked -->
     <div class="button-row" *ngIf="!bookingSuccess">
       <button class="confirmBooking"
-              (click)="confirmBooking()
-        "
+              (click)="confirmBooking()"
               [disabled]="bookingInProgress || !isFormValid"
               i18n>
-        {bookingInProgress, select,
-        true {Booking...}
-        false {Confirm Booking}
-        }
+        {{ bookingInProgress ? 'Booking...' : 'Confirm Booking' }}
       </button>
     </div>
 
-    <!-- Succestext -->
-    <div *ngIf="bookingSuccess">
-      <div class="success_text">
-        <div class="info">
-          <h4 i18n>Your booking was successful.</h4>
+    <!-- Success + Important text in cards -->
+    <div *ngIf="bookingSuccess" class="booking-status">
+      <div class="status-card status-success">
+        <div class="status-icon">
+          <span class="status-dot"></span>
         </div>
-        <div class="important">
-          <h4 i18n>Important: Keep your booking number.</h4>
+        <div class="status-content">
+          <h4 i18n>Your booking was successful.</h4>
+          <p i18n>
+            Thank you for your reservation. A confirmation has been created.
+          </p>
+        </div>
+      </div>
+
+      <div class="status-card status-important">
+        <div class="status-icon">
+          <span class="status-dot"></span>
+        </div>
+        <div class="status-content">
+          <h4 i18n>Important</h4>
+          <p i18n>
+            Keep your booking number in a safe place. You may need it for any changes or questions.
+          </p>
         </div>
       </div>
     </div>

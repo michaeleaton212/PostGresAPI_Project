@@ -1,6 +1,6 @@
 namespace PostGresAPI.Contracts
 {
-    public record BookingDto(int Id, int RoomId, DateTimeOffset StartTime, DateTimeOffset EndTime, string? Title);
+    public record BookingDto(int Id, int RoomId, DateTimeOffset StartTime, DateTimeOffset EndTime, string? Title, string BookingNumber);
 
     // Controller expects these DTOs when creating or updating a booking
     public record CreateBookingDto(int RoomId, DateTimeOffset StartUtc, DateTimeOffset EndUtc, string? Title);

@@ -2,63 +2,72 @@
   <h2 i18n>Booking</h2>
   <button class="back-button" (click)="goBackLogin()" i18n>← Back</button>
 
-  <!-- Booking overview + Input + Buttons / Booking number -->
+  <!-- Booking overview -->
   <div class="overview">
-    <br />
-    <br />
-
     <h3 i18n>Bookings</h3>
-    <div class="activeBookings">
-    </div>
+    <div class="activeBookings"></div>
 
-    <br />
+    <div class="overview-table">
+      <!-- Überschriften -->
+      <div class="overview-header">
+        <div>Name</div>
+        <div>Zimmer</div>
+        <div>Startdatum</div>
+        <div>Enddatum</div>
+        <div>Buchungsnummer</div>
+        <div>Status</div>
+        <div>Einchecken</div>
+        <div>Stornieren</div>
+        <div>Ansehen</div>
+      </div>
 
-    <!-- Überschriften -->
-    <div class="overview-row">
-      <div>Name</div>
-      <div>Zimmer</div>
-      <div>Startdatum</div>
-      <div>Enddatum</div>
-      <div>Buchungsnummer</div>
-      <div>Status</div>
-      <div>Einchecken</div>
-      <div>Stornieren</div>
-    </div>
+      <!-- Dynamische Daten -->
+      <div class="overview-row" *ngFor="let b of bookings">
+        <div>{{ b.name }}</div>
+        <div>{{ b.roomName }}</div>
+        <div>{{ b.startDate | date:'dd.MM.yyyy' }}</div>
+        <div>{{ b.endDate | date:'dd.MM.yyyy' }}</div>
+        <div>{{ b.bookingNumber }}</div>
 
-    <!-- Daten -->
-    <div class="overview-row">
-      <div>Peter Voger</div>
-      <div>Alpenblick</div>
-      <div>01.12.2021</div>
-      <div>02.01.2022</div>
-      <div>1</div>
-      <div>
-        <div class="eingecheckt">
-          <button class="eingecheckt">Eingecheckt</button>
+        <!-- Status -->
+        <!-- Status -->
+        <div class="cell-left">
+          <button class="status-button"
+                  [ngClass]="{
+      'status-checked': b.isCheckedIn,
+      'status-not-checked': !b.isCheckedIn
+    }">
+            {{ b.isCheckedIn ? 'Eingecheckt' : 'Nicht eingecheckt' }}
+          </button>
+        </div>
 
+
+        <!-- Toggle Einchecken -->
+        <div class="cell-left">
+          <div class="toggle">
+            <input type="checkbox"
+                   [id]="'checkin-' + b.bookingNumber"
+                   [(ngModel)]="b.isCheckedIn" />
+            <label [for]="'checkin-' + b.bookingNumber"></label>
+          </div>
+        </div>
+
+        <!-- Stornieren -->
+        <div class="cell-left">
+          <button class="stornieren" (click)="cancelBooking(b.bookingNumber)">
+            Stornieren
+          </button>
+        </div>
+
+        <!-- Zimmer ansehen -->
+        <div class="cell-left">
+          <button class="zimmer-ansehen" (click)="viewRoom(b)">
+            Zimmer ansehen
+          </button>
         </div>
       </div>
-      <div class="toggle">
-        <input type="checkbox" id="checkin-1" checked>
-        <label for="checkin-1"></label>
-      </div>
-      <div>
-
-        <div class="stornieren">
-          <button class="stornieren">Stornieren</button>
-
-        </div>
-      </div>
-
     </div>
-
-    <div class="overview-row">
-
-    </div>
-
-
   </div>
-
 
   <div class="footer-wrapper">
     <app-footer></app-footer>

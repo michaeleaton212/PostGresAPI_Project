@@ -1,7 +1,18 @@
+// src/app/core/booking.service.ts
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { Booking, CreateBookingDto } from './models/booking.model';
+
+// Login-DTOs passend zum Backend
+export interface LoginRequestDto {
+  bookingNumber: string;
+  name: string;
+}
+export interface LoginResponseDto {
+  bookingId: number;
+  token: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class BookingService {
@@ -36,15 +47,19 @@ export class BookingService {
   }
 
   /**
-   * Find booking by email (title) and booking number (id)
+   * Login with booking number and name
    */
-  findByEmailAndBookingNumber(
-    email: string,
-    bookingNumber: string
-  ): Observable<Booking> {
-    return this.api.get<Booking>('bookings/find', {
-      title: email,
-      id: bookingNumber,
+  login(req: LoginRequestDto): Observable<LoginResponseDto> {
+    return this.api.post<LoginResponseDto>('bookings/login', req);
+  }
+
+  /**
+   * Get booking with secure token
+   */
+  getBookingSecure(bookingId: number, token: string): Observable<Booking> {
+    const url = this.api.makeUrl(`bookings/${bookingId}/secure`);
+    return this.api.http.get<Booking>(url, { 
+headers: { 'X-Login-Token': token } 
     });
   }
 }

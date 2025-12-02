@@ -2,8 +2,10 @@ export interface Room {
   id: number;
   name: string;
   type: string;
-  numberOfBeds?: number | null;
-  numberOfChairs?: number | null;
+  numberOfBeds?: number;
+  numberOfChairs?: number;
+  image?: string;   // optional main image (for backward compatibility)
+  images?: string[];   // new property for multiple images
 }
 
 export interface Bedroom extends Room {

@@ -18,7 +18,7 @@ namespace PostGresAPI.Repository
         Task<Meetingroom> Add(CreateMeetingroomDto createMeetingroomDto);
 
         // Update
-        Task<Meetingroom?> Update(int id, string name, int numberOfChairs);
+        Task<Meetingroom?> Update(int id, UpdateMeetingroomDto dto);
 
         // Delete
         Task<bool> Delete(int id);

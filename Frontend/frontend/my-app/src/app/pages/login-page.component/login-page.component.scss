@@ -1,15 +1,14 @@
 .page {
-
   h2 {
     margin: 0 0 .5rem;
   }
 
   p {
     margin: 0;
-  }  padding: 1rem;
+  }
 
+  padding: 1rem;
 }
-
 
 .overview {
   width: 40rem;
@@ -38,7 +37,6 @@
   }
 }
 
-
 .form-group {
   margin-top: 20px;
   margin-bottom: 15px;
@@ -54,7 +52,9 @@
     width: 100%;
   }
 
-  input[type='text'] {
+  /* hier nur erweitert: text + email */
+  input[type='text'],
+  input[type='email'] {
     width: 100%;
     height: 3rem;
     padding: 10px 12px;
@@ -79,7 +79,17 @@
   }
 }
 
-.confirmBooking {
+.error {
+  color: red;
+  min-height: 1.2rem;
+  margin-top: 8px;
+}
+
+.error.hidden {
+  visibility: hidden;
+}
+
+.singin {
   position: relative;
   height: 3rem;
   width: 100%;
@@ -105,4 +115,8 @@
   &:hover {
     background: rgba(156, 156, 156);
   }
+}
+
+.button-row {
+  margin-top: 40px;
 }

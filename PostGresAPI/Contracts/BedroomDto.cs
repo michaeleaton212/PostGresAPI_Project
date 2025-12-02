@@ -1,8 +1,26 @@
-namespace PostGresAPI.Contracts
+namespace PostGresAPI.Contracts;
+
+public record class BedroomDto
 {
-    public record BedroomDto(int Id, string Name, int NumberOfBeds);
-    public record CreateBedroomDto(string Name, int NumberOfBeds);
-    public record UpdateBedroomDto(string Name, int NumberOfBeds);
+    public int Id { get; init; }
+    public string Name { get; init; } = "";
+    public int NumberOfBeds { get; init; }
+    public string? ImagePath { get; init; }
 }
 
-// recoord is an not changable datastrucure for objects that only contain data 
+public record class CreateBedroomDto
+{
+    public string Name { get; init; } = "";
+    public int NumberOfBeds { get; init; }
+    public string? ImagePath { get; init; }
+}
+
+public record class UpdateBedroomDto
+{
+    public string Name { get; init; } = "";
+    public int NumberOfBeds { get; init; }
+    public string? ImagePath { get; init; }
+}
+
+
+// record is an immutable data structure for objects that only contain data

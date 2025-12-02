@@ -1,8 +1,33 @@
-namespace PostGresAPI.Contracts
+namespace PostGresAPI.Contracts;
+
+public record class MeetingroomDto
 {
-    public record MeetingroomDto(int Id, string Name, int NumberOfChairs);
-    public record CreateMeetingroomDto(string Name, int NumberOfChairs);
-    public record UpdateMeetingroomDto(string Name, int NumberOfChairs);
+    public int Id { get; init; }
+    public string Name { get; init; } = "";
+    public int NumberOfChairs { get; init; }
+    public string? ImagePath { get; init; }
+    public MeetingroomDto(int id, string name, int numberOfChairs, string? imagePath)
+    {
+        Id = id;
+        Name = name;
+        NumberOfChairs = numberOfChairs;
+        ImagePath = imagePath;
+    }
+    public MeetingroomDto() { }
 }
 
-// recoord is an not changable datastrucure for objects that only contain data 
+public record class CreateMeetingroomDto
+{
+    public string Name { get; init; } = "";
+    public int NumberOfChairs { get; init; }
+    public string? ImagePath { get; init; }
+}
+
+public record class UpdateMeetingroomDto
+{
+    public string Name { get; init; } = "";
+    public int NumberOfChairs { get; init; }
+    public string? ImagePath { get; init; }
+}
+
+// record is an immutable data structure for objects that only contain data

@@ -1,16 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Contracts",
-    "\\Extensions",
-    "\\Interfaces",
-    "\\Interfaces\\IRepository",
-    "\\Persistence",
+    "\\bin\\Debug",
+    "\\Interfaces\\IServices",
+    "\\obj",
+    "\\Persistence\\Data",
     "\\Persistence\\Entities",
     "\\Persistence\\Migrations",
+    "\\Properties",
     "\\Repository",
     "\\Services"
   ],
-  "SelectedNode": "\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

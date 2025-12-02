@@ -15,6 +15,8 @@ export const routes: Routes = [
   { path: 'rooms', component: RoomsPageComponent },
   { path: 'room-preview/bedroom', component: BedroomPreviewPageComponent },
   { path: 'room-preview/meetingroom', component: MeetingroomPreviewPageComponent },
+  { path: 'bedroom-preview/:id', component: BedroomPreviewPageComponent },
+  { path: 'meetingroom-preview/:id', component: MeetingroomPreviewPageComponent },
   { path: 'rooms/preview/:type', component: RoomPreviewPageComponent },
   { path: 'booking', component: BookingPageComponent },
   { path: 'login', component: LoginPageComponent },

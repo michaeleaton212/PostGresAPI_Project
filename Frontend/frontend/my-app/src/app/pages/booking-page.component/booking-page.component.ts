@@ -98,14 +98,26 @@ export class BookingPageComponent implements OnInit {
   }
 
   confirmBooking() {
+    console.log('=== CONFIRM BOOKING STARTED ===');
+    console.log('Room:', this.room);
+    console.log('Start Date:', this.startDate);
+    console.log('End Date:', this.endDate);
+    console.log('First Name:', this.firstName);
+
     if (!this.room || !this.startDate || !this.endDate) {
       this.error = 'Unvollständige Buchungsinformationen.';
+   console.error('Missing required fields:', {
+     hasRoom: !!this.room,
+        hasStartDate: !!this.startDate,
+        hasEndDate: !!this.endDate
+      });
       return;
     }
 
     // Validate first name
     if (!this.firstName || this.firstName.trim() === '') {
       this.error = 'Bitte geben Sie Ihren Vornamen ein.';
+      console.error('First name is empty');
       return;
     }
 
@@ -119,19 +131,39 @@ export class BookingPageComponent implements OnInit {
       title: this.firstName.trim()
     };
 
-    this.bookingService.create(bookingDto).subscribe({
-      next: (booking) => {
-        console.log('Booking created:', booking);
-        this.bookingNumber = booking.id; // Booking number from  backend
+    console.log('=== BOOKING DTO ===');
+    console.log('DTO Object:', bookingDto);
+    console.log('DTO as JSON:', JSON.stringify(bookingDto, null, 2));
+
+ this.bookingService.create(bookingDto).subscribe({
+    next: (booking) => {
+        console.log('=== BOOKING SUCCESS ===');
+     console.log('Booking Response:', booking);
+        console.log('Booking Number:', booking.bookingNumber);
+        this.bookingNumber = booking.bookingNumber;
         this.bookingSuccess = true;
         this.bookingInProgress = false;
-
-
       },
       error: (err) => {
-        console.error('Error creating booking:', err);
-        this.error = err.error?.error || 'Buchung konnte nicht erstellt werden.';
-        this.bookingInProgress = false;
+        console.error('=== BOOKING ERROR ===');
+        console.error('Full Error Object:', err);
+  console.error('Error Status:', err.status);
+        console.error('Error Status Text:', err.statusText);
+      console.error('Error Body:', err.error);
+     console.error('Error Message:', err.message);
+        
+   // Detailed error message
+   let errorMessage = 'Buchung konnte nicht erstellt werden.';
+        if (err.error?.error) {
+      errorMessage = err.error.error;
+      } else if (err.error?.message) {
+          errorMessage = err.error.message;
+        } else if (err.message) {
+  errorMessage = err.message;
+        }
+        
+        this.error = errorMessage;
+  this.bookingInProgress = false;
       }
     });
   }

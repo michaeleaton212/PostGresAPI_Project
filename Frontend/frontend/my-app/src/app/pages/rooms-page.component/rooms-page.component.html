@@ -47,8 +47,8 @@
                (click)="openPreview(room)"
                style="cursor:pointer">
             <img class="room-image"
-                 src="grey.png"
-                 [alt]="room.type"
+                 [src]="getFirstImage(room.image)"
+                 (error)="onImageError($event)"
                  loading="lazy">
             <div class="bedrooms-row">
               <div class="room-name">
@@ -69,7 +69,10 @@
                class="room-card"
                (click)="openPreview(room)"
                style="cursor:pointer">
-            <img class="room-image" src="grey.png" alt="Bedroom" i18n-alt loading="lazy">
+            <img class="room-image"
+                 [src]="getFirstImage(room.image)"
+                 (error)="onImageError($event)"
+                 loading="lazy">
             <div class="bedrooms-row">
               <div class="room-name"><h4>{{ room.name }}</h4></div>
               <div class="room-type"><span class="room-type">{{ room.type }}</span></div>
@@ -86,9 +89,8 @@
                (click)="openPreview(room)"
                style="cursor:pointer">
             <img class="room-image"
-                 src="grey.png"
-                 alt="Meeting room"
-                 i18n-alt
+                 [src]="getFirstImage(room.image)"
+                 (error)="onImageError($event)"
                  loading="lazy">
             <div class="meetingrooms-row">
               <div class="room-name">

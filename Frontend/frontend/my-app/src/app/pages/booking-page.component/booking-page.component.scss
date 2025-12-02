@@ -9,6 +9,7 @@
     margin: 0;
   }
 }
+
 .left {
   font-size: 1.5rem;
   font-weight: 500;
@@ -19,29 +20,83 @@
 }
 
 .footer-wrapper {
-  margin-top: 4rem; 
+  margin-top: 4rem;
   margin-left: -3rem;
-
 }
+
 .bookingnumber {
   color: #FF0019;
   font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
 }
 
-.success_text {
+/* Neuer Bereich für Success + Important */
+.booking-status {
+  margin-top: 1.5rem;
+  padding: 0 3rem 1rem 3rem; /* innerhalb des Containers, gleiche Einrückung wie Text */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   font-family: 'Inter', sans-serif;
-  text-align: center;
 }
 
-.info {
-  color: #24A106;
+.status-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.25); /* Glas-Look, kein harter Farbbalken */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: none; /* keine Umrandung */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  color: #ffffff; /* gut sichtbare Schrift */
 }
 
-.important {
-  color: #FF0019;
+.status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15rem;
 }
 
+.status-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  background: currentColor;
+}
+
+.status-content h4 {
+  margin: 0 0 0.2rem 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+}
+
+.status-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Farb-Akzente */
+.status-success .status-dot {
+  color: #3DFF7A;
+}
+
+.status-success h4 {
+  color: #9DFFB5;
+}
+
+.status-important .status-dot {
+  color: #FF4B5E;
+}
+
+.status-important h4 {
+  color: #FF9AA6;
+}
 
 .back-button {
   position: fixed;
@@ -74,7 +129,8 @@
 
 .overview {
   width: 40rem;
-  height: 31rem;
+  height: auto; /* damit alles drin bleibt */
+  min-height: 31rem; /* ursprüngliche Höhe beibehalten */
   margin: 20px auto 0 auto;
   padding: 20px;
   letter-spacing: 1px;
@@ -169,14 +225,16 @@
     margin-top: 20px;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 1rem;
+    padding: 0;
   }
 
   .confirmBooking {
     position: relative;
     height: 3rem;
-    width: 100%;
+    width: 40rem; 
+    max-width: none;
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -200,14 +258,8 @@
       background: rgba(156, 156, 156);
     }
   }
-  /*  .cancelButton {
-  } */
 }
-
-
-
-
 
 /* Mobile */
 @media (max-width: 768px) {
-  }
+}
