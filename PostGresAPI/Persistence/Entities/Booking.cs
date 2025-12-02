@@ -10,18 +10,18 @@ public sealed class Booking
         StartTime = startUtc;
         EndTime = endUtc;
         Title = title;
-        BookingNumber = bookingNumber ?? Guid.NewGuid().ToString()[..8]; // Default:8-stelliger Code
+        BookingNumber = bookingNumber ?? Guid.NewGuid().ToString()[..8]; // Default:8 digit Code
     }
 
     public int Id { get; private set; }
     public int RoomId { get; private set; }
     public Room Room { get; private set; } = null!;
 
-    // vom Service änderbar
+    // changable from service
     public DateTimeOffset StartTime { get; internal set; }
     public DateTimeOffset EndTime { get; internal set; }
     public string? Title { get; internal set; }
 
-    // NEU: Öffentliche Buchungsnummer
+    // public bookingnumber
     public string BookingNumber { get; private set; } = null!;
 }

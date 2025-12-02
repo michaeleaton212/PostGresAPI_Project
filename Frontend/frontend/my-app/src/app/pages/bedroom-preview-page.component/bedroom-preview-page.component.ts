@@ -70,7 +70,7 @@ export class BedroomPreviewPageComponent implements OnInit {
   ngOnInit() {
     this.generateCalendar();
 
-    // Versuche zuerst Route-Parameter, dann Query-Parameter
+    // trys first Route-Parameter, then Query-Parameter
     this.route.paramMap.subscribe(params => {
       const routeId = params.get('id');
       if (routeId) {
@@ -78,7 +78,7 @@ export class BedroomPreviewPageComponent implements OnInit {
         return;
       }
 
-      // Fallback auf Query-Parameter
+      // Fallback on to Query-Parameter
       this.route.queryParams.subscribe(queryParams => {
         const queryId = queryParams['id'];
         if (queryId) {

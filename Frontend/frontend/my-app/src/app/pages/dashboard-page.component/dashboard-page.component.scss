@@ -7,7 +7,7 @@
 }
 
 .overview {
-  max-width: 120rem; // breiter
+  max-width: 120rem;
   width: 100%;
   margin: 90px auto 0 auto;
   padding: 0;
@@ -24,7 +24,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   text-align: left;
-  overflow-x: auto; // horizontales Scroll bei sehr kleinen Screens
+  overflow-x: auto; 
 
   h3 {
     margin-top: 0;
@@ -37,26 +37,25 @@
     color: rgb(34, 167, 136);
     padding: 0 20px 10px 20px;
   }
-  /* Tabelle-Container */
   .overview-table {
-    min-width: 1100px; // mehr Grundbreite
+    min-width: 1100px; 
     padding-bottom: 20px;
   }
 
   .overview-header,
   .overview-row {
     display: grid;
-    grid-template-columns: 3fr // Name (viel Platz für E-Mail)
-    2fr // Zimmer
-    1.5fr // Startdatum
-    1.5fr // Enddatum
-    2fr // Buchungsnummer
-    1.8fr // Status
-    1.6fr // Einchecken (Toggle)
-    1.6fr // Stornieren
-    1.6fr; // Ansehen
+    grid-template-columns: 3fr 
+    2fr 
+    1.5fr 
+    1.5fr 
+    2fr 
+    1.8fr 
+    1.6fr
+    1.6fr 
+    1.6fr; 
     align-items: center;
-    column-gap: 2.5rem; // mehr Abstand zwischen Spalten/Titeln
+    column-gap: 2.5rem; 
     padding: 10px 24px;
   }
 
@@ -263,7 +262,7 @@
   border: 1px solid transparent;
 }
 
-/* Eingecheckt = grün */
+/* checked in = green */
 .status-checked {
   background-color: rgba(0, 176, 135, 0.2);
   border-color: rgba(22, 171, 116, 1);
@@ -274,7 +273,7 @@
   background-color: rgba(0, 176, 135, 0.3);
 }
 
-/* Nicht eingecheckt = rot */
+/* not checked in = red */
 .status-not-checked {
   background-color: rgba(255, 59, 48, 0.3);
   border-color: rgba(255, 59, 48, 0.6);
