@@ -14,14 +14,15 @@
   }
 }
 
-
+/* Inhalt füllt den Platz, Footer sitzt unten,
+   Abstand zwischen Inhalt und Footer steuerst du mit app-footer */
 .content {
   flex: 1;
 }
 
 app-footer {
-  margin-top: 2rem; 
-  margin-left: -3rem;
+  margin-top: 2rem; /* Abstand nach oben */
+  margin-left: -3rem; /* oder 0, damit er weiter links ist als auf Rooms */
 }
 
 .back-button {
@@ -77,14 +78,14 @@ app-footer {
 
 .room-card-image {
   width: 50rem;
-  height: 30rem; 
+  height: 30rem; /* gleiche Höhe wie Preview */
   object-fit: cover;
-  border-radius: 14px; 
+  border-radius: 14px; /* abgerundete Ecken */
   display: block;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
-
+/* Image slider controls */
 .image-controls {
   position: absolute;
   top: 43%;
@@ -204,7 +205,6 @@ app-footer {
   h3 {
     color: #fff;
     margin: 0;
-
   }
 }
 

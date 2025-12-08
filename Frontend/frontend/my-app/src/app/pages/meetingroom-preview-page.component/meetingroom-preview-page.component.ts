@@ -300,13 +300,14 @@ export class MeetingroomPreviewPageComponent implements OnInit {
     const clickedDate = new Date(calendarDay.date);
     clickedDate.setHours(0, 0, 0, 0);
 
-   
+    // Wenn der gleiche Tag nochmal geklickt wird, deselektieren
     if (this.rangeStart && clickedDate.getTime() === this.rangeStart.getTime()) {
       this.rangeStart = null;
       this.rangeEnd = null;
     } else {
+      // Neuen Tag auswählen (kein Range mehr)
       this.rangeStart = clickedDate;
-      this.rangeEnd = null; 
+      this.rangeEnd = null; // Immer null, da nur ein Tag erlaubt ist
     }
 
     this.generateCalendar();

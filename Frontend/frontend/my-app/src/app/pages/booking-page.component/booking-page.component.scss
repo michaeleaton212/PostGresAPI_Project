@@ -30,9 +30,10 @@
   font-size: 1.8rem;
 }
 
+/* Neuer Bereich für Success + Important */
 .booking-status {
   margin-top: 1.5rem;
-  padding: 0 3rem 1rem 3rem;
+  padding: 0 3rem 1rem 3rem; /* innerhalb des Containers, gleiche Einrückung wie Text */
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -45,12 +46,12 @@
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: 16px;
-  background: rgba(0, 0, 0, 0.25); 
+  background: rgba(0, 0, 0, 0.25); /* Glas-Look, kein harter Farbbalken */
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: none; 
+  border: none; /* keine Umrandung */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-  color: #ffffff;
+  color: #ffffff; /* gut sichtbare Schrift */
 }
 
 .status-icon {
