@@ -404,6 +404,19 @@ app-footer {
       &.is-today.is-in-range {
         background: #7b5cff;
       }
+
+      &.is-booked {
+        opacity: 0.4;
+        text-decoration: line-through;
+        color: rgba(60, 60, 67, 0.5);
+        cursor: not-allowed;
+        background: rgba(200, 200, 200, 0.3);
+
+        &:hover {
+          transform: none;
+          background: rgba(200, 200, 200, 0.3);
+        }
+      }
     }
   }
 

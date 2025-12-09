@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\bin\\Debug",
-    "\\Interfaces\\IServices",
     "\\obj",
-    "\\Persistence\\Data",
-    "\\Persistence\\Entities",
-    "\\Persistence\\Migrations",
     "\\Properties",
     "\\Repository",
     "\\Services"

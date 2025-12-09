@@ -12,8 +12,8 @@ using PostGresAPI.Data;
 namespace PostGresAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251013061251_AddBookingsAndBedrooms")]
-    partial class AddBookingsAndBedrooms
+    [Migration("20251208140111_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,13 +33,15 @@ namespace PostGresAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BookingNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<DateTimeOffset>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("RoomId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("RoomId1")
                         .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("StartTime")
@@ -50,8 +52,6 @@ namespace PostGresAPI.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoomId1");
 
                     b.HasIndex("RoomId", "StartTime", "EndTime")
                         .HasDatabaseName("ix_booking_room_time");
@@ -66,6 +66,10 @@ namespace PostGresAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text")
+                        .HasColumnName("image");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -96,15 +100,21 @@ namespace PostGresAPI.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("character varying(320)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("PostGresAPI.Models.Bedroom", b =>
@@ -117,7 +127,33 @@ namespace PostGresAPI.Migrations
                         .HasDefaultValue(0)
                         .HasColumnName("number_of_beds");
 
-                    b.HasDiscriminator().HasValue("bedroom");
+                    b.HasDiscriminator().HasValue("Bedroom");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4,
+                            Name = "Room 101",
+                            NumberOfBeds = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Room 102",
+                            NumberOfBeds = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Room 103",
+                            NumberOfBeds = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Suite 201",
+                            NumberOfBeds = 3
+                        });
                 });
 
             modelBuilder.Entity("PostGresAPI.Models.Meetingroom", b =>
@@ -130,20 +166,36 @@ namespace PostGresAPI.Migrations
                         .HasDefaultValue(0)
                         .HasColumnName("number_of_chairs");
 
-                    b.HasDiscriminator().HasValue("meetingroom");
+                    b.HasDiscriminator().HasValue("Meetingroom");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Conference Room A",
+                            NumberOfChairs = 20
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Conference Room B",
+                            NumberOfChairs = 15
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Board Room",
+                            NumberOfChairs = 10
+                        });
                 });
 
             modelBuilder.Entity("PostGresAPI.Models.Booking", b =>
                 {
                     b.HasOne("PostGresAPI.Models.Room", "Room")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("PostGresAPI.Models.Room", null)
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoomId1");
 
                     b.Navigation("Room");
                 });

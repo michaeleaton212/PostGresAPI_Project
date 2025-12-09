@@ -20,6 +20,21 @@
         <button class="back-button" (click)="goBack()" i18n>← Back</button>
       </div>
 
+      <!-- Beispiel-Formfeld mit Fehlerzustand (rote Border) -->
+      <div class="form-field" [class.has-error]="ctrl.invalid && (ctrl.touched || ctrl.dirty)">
+        <label for="title" i18n>Title</label>
+        <input id="title"
+               type="text"
+               [formControl]="ctrl"
+               [attr.aria-invalid]="ctrl.invalid"
+               [attr.aria-describedby]="ctrl.invalid ? 'title-error' : null" />
+        <p id="title-error" class="field-error"
+           *ngIf="ctrl.invalid && (ctrl.touched || ctrl.dirty)"
+           i18n>
+          Bitte gib einen Titel ein.
+        </p>
+      </div>
+
       <div class="room-info">
         <div class="image-and-calendar">
 
@@ -29,40 +44,48 @@
             <img class="room-card-image"
                  [src]="currentImage"
                  (error)="onImageError($event)"
-                 loading="lazy">
+                 loading="lazy"
+                 alt="{{ room.name }}">
 
-            <!-- Slider-Pfeile -->
-            <div class="image-controls" *ngIf="room.images?.length">
+            <!-- Slider-Pfeile - nur bei mehreren Bildern -->
+            <div class="image-controls" *ngIf="hasImages && room.images!.length > 1">
               <button class="nav-btn prev"
                       (click)="previousImage()"
-                      aria-label="Previous image">
+                      aria-label="Previous image"
+                      i18n-aria-label>
                 ‹
               </button>
               <button class="nav-btn next"
                       (click)="nextImage()"
-                      aria-label="Next image">
+                      aria-label="Next image"
+                      i18n-aria-label>
                 ›
               </button>
             </div>
 
-            <!-- Counter -->
-            <div class="counter-badge" *ngIf="room.images?.length">
+            <!-- Counter - nur bei mehreren Bildern -->
+            <div class="counter-badge" *ngIf="hasImages && room.images!.length > 1">
               {{ currentImageIndex + 1 }} / {{ room.images!.length }}
             </div>
 
           </div>
 
-          <!-- Thumbnails unter dem Bild -->
-          <div class="thumbnails" *ngIf="room.images?.length">
-            <img *ngFor="let img of room.images; index as i"
+          <!-- Thumbnails - nur bei mehreren Bildern -->
+          <div class="thumbnails" *ngIf="hasImages && room.images!.length > 1">
+            <img *ngFor="let img of room.images; let i = index"
                  [src]="img"
                  [class.active]="i === currentImageIndex"
                  (click)="selectImage(i)"
-                 (error)="onImageError($event)">
+                 (error)="onImageError($event)"
+                 [attr.aria-label]="'Image ' + (i + 1)"
+                 loading="lazy">
           </div>
 
           <div class="calendar-wrapper">
-            <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">
+            <div class="calendar-card"
+                 [class.has-error]="showDateError"
+                 role="region"
+                 [attr.aria-label]="'Calendar ' + monthYearLabel">
 
               <div class="title">
                 {{ today | date:'EEE, MMM, d' }}
@@ -70,7 +93,7 @@
 
               <div class="monthbar">
                 <button class="month-nav-btn prev"
-                        (click)="previousMonth()"
+                        (click)="previousMonth"
                         aria-label="Previous month"
                         i18n-aria-label>
                   <i class="chev-left"></i>
@@ -119,6 +142,8 @@
                        [class.is-in-range]="calDay.isInRange"
                        [class.is-range-start]="calDay.isRangeStart"
                        [class.is-range-end]="calDay.isRangeEnd"
+                       [class.has-bookings]="hasBookings(calDay)"
+                       [attr.title]="hasBookings(calDay) ? getBookingTooltip(calDay) : null"
                        (click)="toggleDateSelection(calDay)"
                        role="gridcell"
                        [attr.aria-selected]="calDay.isSelected"
@@ -164,7 +189,7 @@
 
           <div class="detail-item">
             <strong i18n>Room Type:</strong>
-            <span class="meetingroom-type">Meeting Room</span>
+            <span class="meetingroom-type" i18n>Meeting Room</span>
           </div>
 
           <!-- Additional meetingroom-specific details can go here -->

@@ -23,20 +23,80 @@ export class LoginPageComponent {
   loginResult: boolean | null = null;
   error: string | null = null;
 
+  errorEmail: string | null = null;
+  errorBookingNumber: string | null = null;
+
+  // Track if fields have been touched
+  emailTouched = false;
+  bookingNumberTouched = false;
+
   get isFormValid(): boolean {
     return this.validateEmail(this.email) && this.bookingNumber.trim().length > 0;
   }
 
+  get showEmailError(): boolean {
+    return this.emailTouched && (this.email.trim() === '' || !this.validateEmail(this.email));
+  }
+
+  get showBookingNumberError(): boolean {
+    return this.bookingNumberTouched && this.bookingNumber.trim() === '';
+  }
+
   validateEmail(email: string): boolean {
+    if (!email.trim()) return false;
     // Simple email regex
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   }
 
-  onLogin(): void {
-    if (!this.isFormValid || this.bookingInProgress) return;
+  onEmailInput(): void {
+    this.emailTouched = true;
+    if (this.email.trim() === '') {
+      this.errorEmail = 'Bitte E-Mail eingeben.';
+    } else if (!this.validateEmail(this.email)) {
+      this.errorEmail = 'Bitte gültige E-Mail eingeben.';
+    } else {
+      this.errorEmail = null;
+    }
+  }
 
+  onBookingNumberInput(): void {
+    this.bookingNumberTouched = true;
+    if (this.bookingNumber.trim() === '') {
+      this.errorBookingNumber = 'Bitte Buchungsnummer eingeben.';
+    } else {
+      this.errorBookingNumber = null;
+    }
+  }
+
+  validateFields(): boolean {
+    this.emailTouched = true;
+    this.bookingNumberTouched = true;
+    
+    this.errorEmail = null;
+    this.errorBookingNumber = null;
+    let valid = true;
+    
+    if (!this.email.trim()) {
+      this.errorEmail = 'Bitte E-Mail eingeben.';
+      valid = false;
+    } else if (!this.validateEmail(this.email)) {
+      this.errorEmail = 'Bitte gültige E-Mail eingeben.';
+      valid = false;
+    }
+    
+    if (!this.bookingNumber.trim()) {
+      this.errorBookingNumber = 'Bitte Buchungsnummer eingeben.';
+      valid = false;
+    }
+    
+    return valid;
+  }
+
+  onLogin(): void {
+    if (this.bookingInProgress) return;
     this.error = null;
     this.loginResult = null;
+    if (!this.validateFields()) return;
     this.bookingInProgress = true;
 
     this.bookingService
@@ -68,5 +128,12 @@ export class LoginPageComponent {
           this.bookingInProgress = false;
         }
       });
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.onLogin();
+    }
   }
 }

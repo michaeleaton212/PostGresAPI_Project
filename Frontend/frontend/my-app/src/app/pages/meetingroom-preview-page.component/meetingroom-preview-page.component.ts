@@ -2,8 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
+import { BookingService } from '../../core/booking.service';
 import { Room, Meetingroom } from '../../core/models/room.model';
+import { Booking } from '../../core/models/booking.model';
 import { FooterComponent } from '../../components/core/footer/footer';
+
+/* Neu: Reactive Forms für Input-Validation */
+import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 
 interface CalendarDay {
   day: number;
@@ -15,12 +20,13 @@ interface CalendarDay {
   isRangeStart: boolean;
   isRangeEnd: boolean;
   image?: string;
+  bookings?: Array<{ startTime: string; endTime: string; title: string | null }>;
 }
 
 @Component({
   selector: 'meetingroom-preview-page',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule, FooterComponent, ReactiveFormsModule],
   templateUrl: './meetingroom-preview-page.component.html',
   styleUrls: ['./meetingroom-preview-page.component.scss']
 })
@@ -28,10 +34,12 @@ export class MeetingroomPreviewPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private roomService = inject(RoomService);
+  private bookingService = inject(BookingService);
 
   room: Meetingroom | null = null;
   loading = true;
   error: string | null = null;
+  roomBookings: Booking[] = [];
 
   // Calendar properties
   currentMonth: Date = new Date();
@@ -71,30 +79,31 @@ export class MeetingroomPreviewPageComponent implements OnInit {
   // Heutiges Datum für Anzeige
   today: Date = new Date();
 
+  // Neu: FormControl für Beispiel-Input (Pflichtfeld)
+  ctrl = new FormControl<string>('', { nonNullable: true, validators: [Validators.required] });
+
   get hasImages(): boolean {
     return !!this.room && !!this.room.images && this.room.images.length > 0;
   }
 
   ngOnInit() {
-    this.generateCalendar();
-
     // Versuche zuerst Route-Parameter, dann Query-Parameter
     this.route.paramMap.subscribe(params => {
       const routeId = params.get('id');
-    if (routeId) {
+      if (routeId) {
         this.loadRoom(Number(routeId));
         return;
       }
 
       // Fallback auf Query-Parameter
       this.route.queryParams.subscribe(queryParams => {
-  const queryId = queryParams['id'];
+        const queryId = queryParams['id'];
         if (queryId) {
           this.loadRoom(Number(queryId));
         } else {
           this.error = 'Keine Raum-ID angegeben.';
-       this.loading = false;
-  }
+          this.loading = false;
+        }
       });
     });
   }
@@ -112,26 +121,48 @@ export class MeetingroomPreviewPageComponent implements OnInit {
         }
         this.room = room as Meetingroom;
 
-        // String aus DB (z. B. "/alpenblick.jpg, /brainstorm.jpg")
-        // in ein Array von Pfaden umwandeln
+        // String aus DB (z. B. "/public/alpenblick.jpg, /public/brainstorm.jpg")
+        // in ein Array von Pfaden umwandeln und /public/ entfernen
         if (this.room.image) {
-          this.room.images = this.room.image
-      .split(',')
+          const rawImages = this.room.image;
+          console.log('Raw image string from DB:', rawImages);
+
+          this.room.images = rawImages
+            .split(',')
             .map(p => p.trim())
-            .filter(p => p.length > 0);
+            .filter(p => p.length > 0)
+            .map(p => p.replace('/public/', '/'));
+
+          console.log('Processed image paths:', this.room.images);
         }
 
         // Slider-Index zurücksetzen
-  this.currentImageIndex = 0;
+        this.currentImageIndex = 0;
 
-   console.log('Meetingroom loaded:', this.room);
-        this.loading = false;
-   },
-   error: (err) => {
+        // Load bookings for this room
+        this.loadRoomBookings(id);
+      },
+      error: (err) => {
         console.error('Error loading meetingroom:', err);
         this.error = 'Meetingroom konnte nicht geladen werden.';
-      this.loading = false;
-   }
+        this.loading = false;
+      }
+    });
+  }
+
+  loadRoomBookings(roomId: number) {
+    this.bookingService.getByRoomId(roomId).subscribe({
+      next: (bookings) => {
+        this.roomBookings = bookings;
+        this.generateCalendar();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading room bookings:', err);
+        // Auch bei Fehler Kalender generieren
+        this.generateCalendar();
+        this.loading = false;
+      }
     });
   }
 
@@ -140,7 +171,8 @@ export class MeetingroomPreviewPageComponent implements OnInit {
   }
 
   onImageError(event: any) {
-    event.target.src = '/assets/grey.png';
+    console.warn('Image load error:', event.target.src);
+    event.target.src = '/grey.png';
   }
 
   // Aktuelles Bild (nimmt room.images, fällt zurück auf room.image oder grey.png)
@@ -149,7 +181,7 @@ export class MeetingroomPreviewPageComponent implements OnInit {
       return this.room!.images![this.currentImageIndex];
     }
     // Fallback: single image or grey.png
-    return this.room?.image || '/assets/grey.png';
+    return this.room?.image || '/grey.png';
   }
 
   // Nächstes Bild im Slider
@@ -160,9 +192,9 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   // Vorheriges Bild im Slider
   previousImage(): void {
- if (!this.hasImages) return;
+    if (!this.hasImages) return;
     this.currentImageIndex =
-  (this.currentImageIndex - 1 + this.room!.images!.length) %
+      (this.currentImageIndex - 1 + this.room!.images!.length) %
       this.room!.images!.length;
   }
 
@@ -236,7 +268,8 @@ export class MeetingroomPreviewPageComponent implements OnInit {
         isSelected: false,
         isInRange: false,
         isRangeStart: false,
-        isRangeEnd: false
+        isRangeEnd: false,
+        bookings: []
       });
     }
 
@@ -249,6 +282,7 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
       const isToday = date.getTime() === today.getTime();
       const rangeInfo = this.getDateRangeInfo(date);
+      const dayBookings = this.getBookingsForDate(date);
 
       this.calendarDays.push({
         day,
@@ -258,9 +292,30 @@ export class MeetingroomPreviewPageComponent implements OnInit {
         isSelected: rangeInfo.isSelected,
         isInRange: rangeInfo.isInRange,
         isRangeStart: rangeInfo.isRangeStart,
-        isRangeEnd: rangeInfo.isRangeEnd
+        isRangeEnd: rangeInfo.isRangeEnd,
+        bookings: dayBookings
       });
     }
+  }
+
+  getBookingsForDate(date: Date): Array<{ startTime: string; endTime: string; title: string | null }> {
+    const dateTime = date.getTime();
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const nextDayTime = nextDay.getTime();
+
+    return this.roomBookings
+      .filter(booking => {
+        const bookingStart = new Date(booking.startTime);
+        const bookingEnd = new Date(booking.endTime);
+
+        return bookingStart.getTime() < nextDayTime && bookingEnd.getTime() > dateTime;
+      })
+      .map(booking => ({
+        startTime: booking.startTime,
+        endTime: booking.endTime,
+        title: booking.title
+      }));
   }
 
   getDateRangeInfo(
@@ -382,5 +437,25 @@ export class MeetingroomPreviewPageComponent implements OnInit {
     if (this.currentTimeIndex < this.timeSlots.length - 1) {
       this.currentTimeIndex++;
     }
+  }
+
+  getBookingTooltip(calendarDay: CalendarDay): string {
+    if (!calendarDay.bookings || calendarDay.bookings.length === 0) {
+      return '';
+    }
+
+    return calendarDay.bookings
+      .map(booking => {
+        const start = new Date(booking.startTime);
+        const end = new Date(booking.endTime);
+        const startTime = start.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+        const endTime = end.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+        return `${startTime} - ${endTime}`;
+      })
+      .join('\n');
+  }
+
+  hasBookings(calendarDay: CalendarDay): boolean {
+    return !!(calendarDay.bookings && calendarDay.bookings.length > 0);
   }
 }

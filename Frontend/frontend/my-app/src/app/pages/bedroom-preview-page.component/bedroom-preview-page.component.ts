@@ -2,7 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
+import { BookingService } from '../../core/booking.service';
 import { Room, Bedroom } from '../../core/models/room.model';
+import { Booking } from '../../core/models/booking.model';
 import { FooterComponent } from '../../components/core/footer/footer';
 
 interface CalendarDay {
@@ -14,6 +16,7 @@ interface CalendarDay {
   isInRange: boolean;
   isRangeStart: boolean;
   isRangeEnd: boolean;
+  isBooked: boolean;
 }
 
 @Component({
@@ -27,10 +30,12 @@ export class BedroomPreviewPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private roomService = inject(RoomService);
+  private bookingService = inject(BookingService);
 
   room: Bedroom | null = null;
   loading = true;
   error: string | null = null;
+  roomBookings: Booking[] = [];
 
   // Image slider properties
   currentImageIndex = 0;
@@ -64,12 +69,10 @@ export class BedroomPreviewPageComponent implements OnInit {
       return this.room!.images![this.currentImageIndex];
     }
     // Fallback: single image or grey.png
-    return this.room?.image || '/assets/grey.png';
+    return this.room?.image || '/grey.png';
   }
 
   ngOnInit() {
-    this.generateCalendar();
-
     // Versuche zuerst Route-Parameter, dann Query-Parameter
     this.route.paramMap.subscribe(params => {
       const routeId = params.get('id');
@@ -104,23 +107,41 @@ export class BedroomPreviewPageComponent implements OnInit {
         }
         this.room = room as Bedroom;
 
-        // String aus DB (z. B. "/alpenblick.jpg, /brainstorm.jpg")
-        // in ein Array von Pfaden umwandeln
+        // String aus DB (z. B. "/public/alpenblick.jpg, /public/brainstorm.jpg")
+        // in ein Array von Pfaden umwandeln und /public/ entfernen
         if (this.room.image) {
           this.room.images = this.room.image
             .split(',')
             .map(p => p.trim())
-            .filter(p => p.length > 0);
+            .filter(p => p.length > 0)
+            .map(p => p.replace('/public/', '/'));
         }
 
         // falls kein Array rauskommt, Index zurücksetzen
         this.currentImageIndex = 0;
 
-        this.loading = false;
+        // Buchungen für dieses Zimmer laden
+        this.loadRoomBookings(id);
       },
       error: (err) => {
         console.error('Error loading bedroom:', err);
         this.error = 'Bedroom konnte nicht geladen werden.';
+        this.loading = false;
+      }
+    });
+  }
+
+  loadRoomBookings(roomId: number) {
+    this.bookingService.getByRoomId(roomId).subscribe({
+      next: (bookings) => {
+        this.roomBookings = bookings;
+        this.generateCalendar();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading room bookings:', err);
+        // Auch bei Fehler Kalender generieren
+        this.generateCalendar();
         this.loading = false;
       }
     });
@@ -131,7 +152,8 @@ export class BedroomPreviewPageComponent implements OnInit {
   }
 
   onImageError(event: any) {
-    event.target.src = '/assets/grey.png';
+    console.warn('Image load error:', event.target.src);
+    event.target.src = '/grey.png';
   }
 
   openBooking() {
@@ -194,7 +216,8 @@ export class BedroomPreviewPageComponent implements OnInit {
         isSelected: false,
         isInRange: false,
         isRangeStart: false,
-        isRangeEnd: false
+        isRangeEnd: false,
+        isBooked: false
       });
     }
 
@@ -207,6 +230,7 @@ export class BedroomPreviewPageComponent implements OnInit {
 
       const isToday = date.getTime() === today.getTime();
       const rangeInfo = this.getDateRangeInfo(date);
+      const isBooked = this.isDateBooked(date);
 
       this.calendarDays.push({
         day,
@@ -216,9 +240,29 @@ export class BedroomPreviewPageComponent implements OnInit {
         isSelected: rangeInfo.isSelected,
         isInRange: rangeInfo.isInRange,
         isRangeStart: rangeInfo.isRangeStart,
-        isRangeEnd: rangeInfo.isRangeEnd
+        isRangeEnd: rangeInfo.isRangeEnd,
+        isBooked
       });
     }
+  }
+
+  isDateBooked(date: Date): boolean {
+    const dateTime = date.getTime();
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const nextDayTime = nextDay.getTime();
+
+    return this.roomBookings.some(booking => {
+      const bookingStart = new Date(booking.startTime);
+      const bookingEnd = new Date(booking.endTime);
+      bookingStart.setHours(0, 0, 0, 0);
+      bookingEnd.setHours(0, 0, 0, 0);
+
+      const startTime = bookingStart.getTime();
+      const endTime = bookingEnd.getTime();
+
+      return dateTime >= startTime && dateTime < endTime;
+    });
   }
 
   getDateRangeInfo(
@@ -251,7 +295,7 @@ export class BedroomPreviewPageComponent implements OnInit {
   }
 
   toggleDateSelection(calendarDay: CalendarDay) {
-    if (calendarDay.isPad) return;
+    if (calendarDay.isPad || calendarDay.isBooked) return;
 
     this.showDateError = false;
 

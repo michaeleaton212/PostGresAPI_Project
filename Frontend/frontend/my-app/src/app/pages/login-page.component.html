@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="overview">
+    <h3>Login</h3>
+    <form (keydown)="onKeyDown($event)" (ngSubmit)="onLogin()" autocomplete="off">
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          [class.input-error]="errorEmail"
+          required
+          autocomplete="username"
+        />
+        <div class="error" *ngIf="errorEmail">{{ errorEmail }}</div>
+      </div>
+      <div class="form-group">
+        <label for="bookingNumber">Buchungsnummer</label>
+        <input
+          id="bookingNumber"
+          type="text"
+          [(ngModel)]="bookingNumber"
+          name="bookingNumber"
+          [class.input-error]="errorBookingNumber"
+          required
+          autocomplete="off"
+        />
+        <div class="error" *ngIf="errorBookingNumber">{{ errorBookingNumber }}</div>
+      </div>
+      <div class="button-row">
+        <button class="singin" type="submit" [disabled]="bookingInProgress">Login</button>
+      </div>
+      <div class="error" *ngIf="error">{{ error }}</div>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

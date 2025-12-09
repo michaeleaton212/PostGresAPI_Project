@@ -33,6 +33,12 @@ namespace PostGresAPI.Services
             return b is null ? null : b.ToDto();
         }
 
+        public async Task<List<BookingDto>> GetByRoomId(int roomId)
+        {
+            var list = await _bookings.GetByRoomId(roomId);
+            return list.Select(b => b.ToDto()).ToList();
+        }
+
         // Helper
         public bool IsActive(BookingDto booking, DateTimeOffset atUtc)
             => booking.StartTime <= atUtc && atUtc < booking.EndTime;

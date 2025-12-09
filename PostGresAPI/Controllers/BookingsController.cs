@@ -37,6 +37,14 @@ public class BookingsController : ControllerBase
         return Ok(dto);
     }
 
+    // GET /api/bookings/room/{roomId}
+    [HttpGet("room/{roomId:int}")]
+    public async Task<ActionResult<IEnumerable<BookingDto>>> GetByRoomId(int roomId)
+    {
+        var dtos = await _svc.GetByRoomId(roomId);
+        return Ok(dtos);
+    }
+
     // POST /api/bookings
     [HttpPost]
     public async Task<ActionResult<BookingDto>> Create(CreateBookingDto dto)

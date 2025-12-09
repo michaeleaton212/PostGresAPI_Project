@@ -33,6 +33,13 @@ export class BookingService {
   }
 
   /**
+   * Get bookings by room ID
+   */
+  getByRoomId(roomId: number): Observable<Booking[]> {
+    return this.api.get<Booking[]>(`bookings/room/${roomId}`);
+  }
+
+  /**
    * Create a new booking
    */
   create(booking: CreateBookingDto): Observable<Booking> {
