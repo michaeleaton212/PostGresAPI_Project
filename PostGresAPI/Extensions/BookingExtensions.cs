@@ -8,7 +8,7 @@ public static class BookingMappingExtensions
 {
     // Entity to BookingDto
     public static BookingDto ToDto(this Booking b)
-        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber);
+        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber, b.Status.ToString());
 
 
     // CreateBookingDto to Entity
@@ -35,5 +35,11 @@ public static class BookingMappingExtensions
         entity.StartTime = startUtc;
         entity.EndTime = endUtc;
         entity.Title = title;
+    }
+
+    // Apply status update to Booking entity
+    public static void ApplyStatusUpdate(this Booking entity, BookingStatus status)
+    {
+        entity.Status = status;
     }
 }

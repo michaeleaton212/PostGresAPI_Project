@@ -48,6 +48,7 @@
                style="cursor:pointer">
             <img class="room-image"
                  [src]="getFirstImage(room.image)"
+                 [attr.alt]="room.name"
                  (error)="onImageError($event)"
                  loading="lazy">
             <div class="bedrooms-row">
@@ -71,6 +72,7 @@
                style="cursor:pointer">
             <img class="room-image"
                  [src]="getFirstImage(room.image)"
+                 [attr.alt]="room.name"
                  (error)="onImageError($event)"
                  loading="lazy">
             <div class="bedrooms-row">
@@ -90,6 +92,7 @@
                style="cursor:pointer">
             <img class="room-image"
                  [src]="getFirstImage(room.image)"
+                 [attr.alt]="room.name"
                  (error)="onImageError($event)"
                  loading="lazy">
             <div class="meetingrooms-row">

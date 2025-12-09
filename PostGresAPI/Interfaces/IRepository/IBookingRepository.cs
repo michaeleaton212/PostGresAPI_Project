@@ -31,6 +31,9 @@ namespace PostGresAPI.Repository
         // Update
         Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title);
 
+        // Update Status
+        Task<Booking?> UpdateStatus(int id, BookingStatus status);
+
         // Delete
         Task<bool> Delete(int id);
     }

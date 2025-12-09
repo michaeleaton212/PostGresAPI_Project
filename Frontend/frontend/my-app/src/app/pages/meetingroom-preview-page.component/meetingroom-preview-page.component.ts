@@ -7,8 +7,7 @@ import { Room, Meetingroom } from '../../core/models/room.model';
 import { Booking } from '../../core/models/booking.model';
 import { FooterComponent } from '../../components/core/footer/footer';
 
-/* Neu: Reactive Forms für Input-Validation */
-import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
+/* Removed: Reactive Forms für Input-Validation */
 
 interface CalendarDay {
   day: number;
@@ -26,7 +25,7 @@ interface CalendarDay {
 @Component({
   selector: 'meetingroom-preview-page',
   standalone: true,
-  imports: [CommonModule, FooterComponent, ReactiveFormsModule],
+  imports: [CommonModule, FooterComponent],
   templateUrl: './meetingroom-preview-page.component.html',
   styleUrls: ['./meetingroom-preview-page.component.scss']
 })
@@ -78,9 +77,6 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   // Heutiges Datum für Anzeige
   today: Date = new Date();
-
-  // Neu: FormControl für Beispiel-Input (Pflichtfeld)
-  ctrl = new FormControl<string>('', { nonNullable: true, validators: [Validators.required] });
 
   get hasImages(): boolean {
     return !!this.room && !!this.room.images && this.room.images.length > 0;

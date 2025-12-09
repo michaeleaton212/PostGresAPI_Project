@@ -1,12 +1,13 @@
 <div class="page">
-  <h2 i18n>Booking</h2>
-  <button class="back-button" (click)="goBackLogin()" i18n>← Back</button>
+  <div class="page-header">
+    <h2 i18n></h2>
+    <button class="back-button" (click)="goBackLogin()" i18n>← Back</button>
+  </div>
 
   <!-- Booking overview -->
   <div class="overview">
     <h3 i18n>Bookings</h3>
-    <div class="activeBookings"></div>
-
+    <div class="activeBookings">{{ bookings.length }} Buchung(en)</div>
     <div class="overview-table">
       <!-- Überschriften -->
       <div class="overview-header">
@@ -22,45 +23,58 @@
       </div>
 
       <!-- Dynamische Daten -->
-      <div class="overview-row" *ngFor="let b of bookings">
-        <div>{{ b.name }}</div>
-        <div>{{ b.roomName }}</div>
-        <div>{{ b.startDate | date:'dd.MM.yyyy' }}</div>
-        <div>{{ b.endDate | date:'dd.MM.yyyy' }}</div>
-        <div>{{ b.bookingNumber }}</div>
+      <div class="overview-row" *ngFor="let b of bookings" [class.cancelled-row]="isCancelled(b)">
+        <div data-label="Name:">
+          <span class="value-text" [title]="b.name">{{ b.name }}</span>
+        </div>
+        <div data-label="Zimmer:">
+          <span class="value-text" [title]="b.roomName">{{ b.roomName }}</span>
+        </div>
+        <div data-label="Startdatum:">
+          <span class="value-text" [title]="b.startDate | date: 'dd.MM.yyyy'">{{ b.startDate | date: 'dd.MM.yyyy' }}</span>
+        </div>
+        <div data-label="Enddatum:">
+          <span class="value-text" [title]="b.endDate | date: 'dd.MM.yyyy'">{{ b.endDate | date: 'dd.MM.yyyy' }}</span>
+        </div>
+        <div data-label="Buchungsnummer:">
+          <span class="value-text" [title]="b.bookingNumber">{{ b.bookingNumber }}</span>
+        </div>
 
-        <!-- Status -->
-        <!-- Status -->
-        <div class="cell-left">
+        <!-- Status Button -->
+        <div data-label="Status:">
           <button class="status-button"
                   [ngClass]="{
-      'status-checked': b.isCheckedIn,
-      'status-not-checked': !b.isCheckedIn
-    }">
-            {{ b.isCheckedIn ? 'Eingecheckt' : 'Nicht eingecheckt' }}
+              'status-checked': isCheckedIn(b),
+              'status-not-checked': !isCheckedIn(b) && !isCancelled(b),
+              'status-pending': b.status === BookingStatus.Pending,
+              'status-cancelled': isCancelled(b)
+            }"
+                  [title]="getStatusText(b.status)">
+            {{ getStatusText(b.status) }}
           </button>
         </div>
 
-
-        <!-- Toggle Einchecken -->
-        <div class="cell-left">
-          <div class="toggle">
+        <!-- Toggle Einchecken/Auschecken -->
+        <div data-label="Einchecken/Auschecken:">
+          <div class="toggle" [class.disabled]="isCancelled(b)">
             <input type="checkbox"
                    [id]="'checkin-' + b.bookingNumber"
-                   [(ngModel)]="b.isCheckedIn" />
+                   [checked]="isCheckedIn(b)"
+                   [disabled]="isCancelled(b)"
+                   (change)="toggleCheckIn(b)" />
             <label [for]="'checkin-' + b.bookingNumber"></label>
           </div>
         </div>
 
         <!-- Stornieren -->
-        <div class="cell-left">
-          <button class="stornieren" (click)="cancelBooking(b.bookingNumber)">
-            Stornieren
+        <div data-label="Stornieren:">
+          <button class="stornieren" (click)="cancelBooking(b.bookingNumber)" [disabled]="isCancelled(b)">
+            {{ isCancelled(b) ? 'Storniert' : 'Stornieren' }}
           </button>
         </div>
 
         <!-- Zimmer ansehen -->
-        <div class="cell-left">
+        <div data-label="Zimmer ansehen:">
           <button class="zimmer-ansehen" (click)="viewRoom(b)">
             Zimmer ansehen
           </button>

@@ -95,6 +95,21 @@ return throwError(() => error);
   }
 
   /**
+   * HTTP PATCH request
+   */
+  patch<T>(path: string, body: any): Observable<T> {
+    const url = this.makeUrl(path);
+    console.debug('[ApiService] PATCH', url, body);
+    return this.http.patch<T>(url, body, this.jsonHeaders()).pipe(
+      tap(response => console.log('[ApiService] PATCH Response:', response)),
+      catchError(error => {
+        console.error('[ApiService] PATCH Error:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  /**
    * HTTP DELETE request
    */
   delete<T>(path: string): Observable<T> {

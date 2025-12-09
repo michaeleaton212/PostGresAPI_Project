@@ -319,8 +319,30 @@ export class BedroomPreviewPageComponent implements OnInit {
         // clicked before start -> swap so start <= end
         this.rangeEnd = this.rangeStart;
         this.rangeStart = clickedDate;
+        
+        // Check if range is at least 2 days
+        const diffDays = Math.floor(
+          (this.rangeEnd.getTime() - this.rangeStart.getTime()) / (1000 * 60 * 60 * 24)
+        ) + 1;
+        
+        if (diffDays < 2) {
+          this.dateErrorText = 'Bitte mindestens 2 Tage auswählen.';
+          this.showDateError = true;
+          this.rangeEnd = null;
+        }
       } else {
         // normal case -> set end
+        // Check if range is at least 2 days
+        const diffDays = Math.floor(
+          (clickedTime - startTime) / (1000 * 60 * 60 * 24)
+        ) + 1;
+        
+        if (diffDays < 2) {
+          this.dateErrorText = 'Bitte mindestens 2 Tage auswählen.';
+          this.showDateError = true;
+          return;
+        }
+        
         this.rangeEnd = clickedDate;
       }
     } else {

@@ -21,6 +21,9 @@ namespace PostGresAPI.Services
         // Update
         Task<(bool Ok, string? Error, BookingDto? Result)> Update(int id, UpdateBookingDto updateBookingDto);
 
+        // Update Status
+        Task<(bool Ok, string? Error, BookingDto? Result)> UpdateStatus(int id, UpdateBookingStatusDto updateStatusDto);
+
         // Delete
         Task<(bool Ok, string? Error)> Delete(int id);
 

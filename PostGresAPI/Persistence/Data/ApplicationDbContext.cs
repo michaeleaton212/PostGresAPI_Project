@@ -80,6 +80,13 @@ public sealed class ApplicationDbContext : DbContext
             .HasMaxLength(50)
             .IsRequired();
 
+        // Status configuration
+        booking.Property(b => b.Status)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired()
+            .HasDefaultValue(BookingStatus.Pending);
+
         // VORHER (FALSCH):
         //booking.HasOne<Room>()           // Keine Navigation Property angegeben
         //       .WithMany()                // Keine Navigation Property angegeben

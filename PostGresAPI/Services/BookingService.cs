@@ -82,6 +82,23 @@ namespace PostGresAPI.Services
             return (true, null, updated.ToDto());
         }
 
+        // Update Status
+        public async Task<(bool Ok, string? Error, BookingDto? Result)> UpdateStatus(int id, UpdateBookingStatusDto updateStatusDto)
+        {
+            if (!Enum.TryParse<BookingStatus>(updateStatusDto.Status, true, out var status))
+                return (false, "Invalid status. Valid values are: Pending, CheckedIn, CheckedOut, Cancelled", null);
+
+            var existing = await _bookings.GetById(id);
+            if (existing is null)
+                return (false, "Booking not found.", null);
+
+            var updated = await _bookings.UpdateStatus(id, status);
+            if (updated is null)
+                return (false, "Booking not found.", null);
+
+            return (true, null, updated.ToDto());
+        }
+
         // Delete
         public async Task<(bool Ok, string? Error)> Delete(int id)
         {

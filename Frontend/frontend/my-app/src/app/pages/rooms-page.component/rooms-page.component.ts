@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
 import { Room } from '../../core/models/room.model';
-import { FooterComponent } from '../../components/core/footer/footer'; 
-
-
-
+import { FooterComponent } from '../../components/core/footer/footer';
 
 @Component({
   selector: 'rooms-page',
@@ -28,9 +25,7 @@ export class RoomsPageComponent implements OnInit {
   // defines allowed types for view
   view: 'bedroom' | 'meeting' | null = 'bedroom';
 
-  // set view gets called when user clicks on a view button
   setView(v: 'bedroom' | 'meeting') {
-    // If same view is clicked again, deselect it
     this.view = this.view === v ? null : v;
   }
 
@@ -42,7 +37,6 @@ export class RoomsPageComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    // Load all rooms
     this.roomService.getAll().subscribe({
       next: (rooms) => {
         console.log('Loaded rooms:', rooms);
@@ -53,14 +47,13 @@ export class RoomsPageComponent implements OnInit {
         this.bedrooms = this.rooms.filter(r =>
           r.type.toLowerCase() === 'bedroom'
         );
-        this.meetingrooms = this.rooms.filter(r =>
-          r.type.toLowerCase() === 'meetingroom' ||
-          r.type.toLowerCase() === 'meeting room'
-        );
+        this.meetingrooms = this.rooms.filter(r => {
+          const t = r.type.toLowerCase();
+          return t === 'meetingroom' || t === 'meeting room';
+        });
 
         console.log('Bedrooms:', this.bedrooms);
         console.log('Meetingrooms:', this.meetingrooms);
-
         this.loading = false;
       },
       error: (err) => {
@@ -73,30 +66,51 @@ export class RoomsPageComponent implements OnInit {
 
   // Navigation when clicking a room card or image
   openPreview(room: Room) {
-    // Navigate to specific room type preview page with room ID as query parameter
-    if (room.type.toLowerCase() === 'bedroom') {
+    const type = room.type.toLowerCase();
+    if (type === 'bedroom') {
       this.router.navigate(['/room-preview/bedroom'], { queryParams: { id: room.id } });
-    } else if (room.type.toLowerCase() === 'meetingroom' || room.type.toLowerCase() === 'meeting room') {
+    } else if (type === 'meetingroom' || type === 'meeting room') {
       this.router.navigate(['/room-preview/meetingroom'], { queryParams: { id: room.id } });
     } else {
-      // Fallback to generic preview if room type is unknown
       this.router.navigate(['/room-preview'], { queryParams: { id: room.id } });
     }
   }
 
-  // Get the first image from comma-separated image string
+  /**
+   * Returns the first image from a comma-separated string and normalizes it.
+   * - picks first non-empty entry
+   * - strips quotes
+   * - keeps absolute URLs
+   * - replaces leading "/public/" or "public/" with "/"
+   * - ensures leading "/" for relative asset paths
+   * - falls back to "/grey.png"
+   */
   getFirstImage(imageString: string | undefined): string {
-    if (!imageString) {
-      return 'grey.png';
-    }
-    
-    // Split by comma and get first image, trim whitespace
-    const firstImage = imageString.split(',')[0].trim();
-    return firstImage || 'grey.png';
+    const FALLBACK = '/grey.png';
+    if (!imageString) return FALLBACK;
+
+    const firstRaw = imageString
+      .split(',')
+      .map(s => s.trim())
+      .find(s => s.length > 0) || '';
+
+    if (!firstRaw) return FALLBACK;
+
+    let url = firstRaw.replace(/^['"]|['"]$/g, '');
+
+    // absolute URL? leave as-is
+    if (/^https?:\/\//i.test(url)) return url;
+
+    // drop leading "/public/" or "public/"
+    url = url.replace(/^\/?public\//, '/');
+
+    // ensure leading slash for relative paths
+    if (!url.startsWith('/')) url = `/${url}`;
+
+    return url || FALLBACK;
   }
 
   onImageError(event: any) {
-    event.target.src = 'grey.png';
+    event.target.src = '/grey.png';
   }
-
 }

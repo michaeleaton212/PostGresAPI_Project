@@ -26,7 +26,6 @@ export class LoginPageComponent {
   errorEmail: string | null = null;
   errorBookingNumber: string | null = null;
 
-  // Track if fields have been touched
   emailTouched = false;
   bookingNumberTouched = false;
 
@@ -94,40 +93,48 @@ export class LoginPageComponent {
 
   onLogin(): void {
     if (this.bookingInProgress) return;
+    
     this.error = null;
     this.loginResult = null;
+    
     if (!this.validateFields()) return;
+    
     this.bookingInProgress = true;
 
-    this.bookingService
-      .login({
-        bookingNumber: this.bookingNumber.trim(),
-        name: this.email.trim() // <--- send email as 'name'
-      })
-      .subscribe({
-        next: (res) => {
-          // Token safe in sessionStorage
-          sessionStorage.setItem('loginToken', res.token);
-          sessionStorage.setItem('bookingId', String(res.bookingId));
+    const loginRequest = {
+      bookingNumber: this.bookingNumber.trim(),
+      name: this.email.trim()
+    };
 
-          // Navigate to dashboard with bookingId as query param
-          this.router.navigate(['/dashboard'], {
-            queryParams: { bookingId: res.bookingId }
-          });
-          this.loginResult = true;
-        },
-        error: (err) => {
-          this.error =
-            err?.status === 401
-              ? 'Invalid Login'
-              : 'Login fehlgeschlagen. Bitte später erneut versuchen.';
-          this.bookingInProgress = false;
-          this.loginResult = false;
-        },
-        complete: () => {
-          this.bookingInProgress = false;
+    this.bookingService.login(loginRequest).subscribe({
+      next: (res) => {
+        sessionStorage.setItem('loginToken', res.token);
+        sessionStorage.setItem('bookingId', String(res.bookingId));
+
+        this.loginResult = true;
+        this.bookingInProgress = false;
+
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        if (err?.status === 401) {
+          this.error = 'Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Buchungsnummer.';
+        } else if (err?.status === 404) {
+          this.error = 'Buchung nicht gefunden.';
+        } else if (err?.status === 0) {
+          this.error = 'Verbindung zum Server fehlgeschlagen. Bitte starten Sie das Backend.';
+        } else if (err?.error?.error) {
+          this.error = err.error.error;
+        } else if (err?.error?.message) {
+          this.error = err.error.message;
+        } else {
+          this.error = 'Login fehlgeschlagen. Bitte später erneut versuchen.';
         }
-      });
+        
+        this.bookingInProgress = false;
+        this.loginResult = false;
+      }
+    });
   }
 
   onKeyDown(event: KeyboardEvent): void {

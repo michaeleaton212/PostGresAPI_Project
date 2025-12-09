@@ -56,10 +56,6 @@
   font-family: 'Inter', sans-serif;
 }
 
-.room-name h4 {
-  margin: 0;
-}
-
 .room-type {
 }
 
@@ -68,10 +64,6 @@
     margin: 0.5rem 0;
   }
 }
-
-
-
-
 
 .buttons-row-rooms {
   display: flex;
@@ -154,8 +146,6 @@
     grid-template-columns: 1fr;
     gap: 4rem;
   }
-
-  
 
   .buttons-row-rooms {
     margin-left: 1rem;

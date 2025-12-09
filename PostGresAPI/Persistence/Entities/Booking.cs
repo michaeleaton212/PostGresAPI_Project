@@ -11,6 +11,7 @@ public sealed class Booking
         EndTime = endUtc;
         Title = title;
         BookingNumber = bookingNumber ?? Guid.NewGuid().ToString()[..8]; // Default:8-stelliger Code
+        Status = BookingStatus.Pending; // Default status
     }
 
     public int Id { get; private set; }
@@ -22,6 +23,9 @@ public sealed class Booking
     public DateTimeOffset EndTime { get; internal set; }
     public string? Title { get; internal set; }
 
-    // NEU: Öffentliche Buchungsnummer
+    // NEU: öffentliche Buchungsnummer
     public string BookingNumber { get; private set; } = null!;
+
+    // NEU: Booking Status
+    public BookingStatus Status { get; internal set; }
 }

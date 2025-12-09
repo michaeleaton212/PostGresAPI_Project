@@ -66,6 +66,16 @@ public class BookingsController : ControllerBase
         return Ok(result!);
     }
 
+    // PATCH /api/bookings/{id}/status
+    [HttpPatch("{id:int}/status")]
+    public async Task<ActionResult<BookingDto>> UpdateStatus(int id, UpdateBookingStatusDto dto)
+    {
+        var (ok, err, result) = await _svc.UpdateStatus(id, dto);
+        if (!ok) return BadRequest(new { error = err });
+
+        return Ok(result!);
+    }
+
     // DELETE /api/bookings/{id}
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)

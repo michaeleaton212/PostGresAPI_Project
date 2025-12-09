@@ -3400,11 +3400,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.csproj",
+      "projectUniqueName": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.csproj",
       "projectName": "PostGresAPI",
-      "projectPath": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.csproj",
+      "projectPath": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\PostGresAPI.csproj",
       "packagesPath": "C:\\Users\\a944918\\.nuget\\packages\\",
-      "outputPath": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\obj\\",
+      "outputPath": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

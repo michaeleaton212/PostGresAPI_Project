@@ -39,16 +39,14 @@
 
             </div>
 
-            <!-- show the number
-    -->
-
+            <!-- Counter badge -->
             <div class="counter-badge"
                  *ngIf="hasImages && room!.images!.length > 1"
                  aria-live="polite">
               {{ currentImageIndex + 1 }} / {{ room!.images!.length }}
             </div>
 
-            <!-- Thumbnails bleiben unverändert -->
+            <!-- Thumbnails -->
             <div class="thumbnails" *ngIf="hasImages && room!.images!.length > 1">
               <img *ngFor="let img of room!.images; let i = index"
                    [src]="img"
@@ -58,12 +56,14 @@
                    [attr.aria-label]="'Image ' + (i + 1)"
                    loading="lazy">
             </div>
-
           </div>
 
 
           <div class="calendar-wrapper">
-            <div class="calendar-card" role="region" [attr.aria-label]="'Calendar ' + monthYearLabel">
+            <div class="calendar-card" 
+                 [class.has-error]="showDateError"
+                 role="region" 
+                 [attr.aria-label]="'Calendar ' + monthYearLabel">
 
               <div class="title">
                 {{ today | date:'EEE, MMM, d' }}
@@ -149,7 +149,6 @@
             <span class="bedroom-type">Bedroom</span>
           </div>
 
-          <!-- Additional bedroom-specific details can go here -->
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { Booking, CreateBookingDto } from './models/booking.model';
+import { Booking, CreateBookingDto, UpdateBookingStatusDto } from './models/booking.model';
 
 // Login-DTOs passend zum Backend
 export interface LoginRequestDto {
@@ -44,6 +44,13 @@ export class BookingService {
    */
   create(booking: CreateBookingDto): Observable<Booking> {
     return this.api.post<Booking>('bookings', booking);
+  }
+
+  /**
+   * Update booking status
+   */
+  updateStatus(id: number, dto: UpdateBookingStatusDto): Observable<Booking> {
+    return this.api.patch<Booking>(`bookings/${id}/status`, dto);
   }
 
   /**

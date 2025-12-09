@@ -144,6 +144,26 @@ public class BookingRepository : IBookingRepository
         }
     }
 
+    // Update Status
+    public async Task<Booking?> UpdateStatus(int id, BookingStatus status)
+    {
+        try
+        {
+            var entity = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+            if (entity is null)
+                return null;
+
+            entity.ApplyStatusUpdate(status);
+            _db.Bookings.Update(entity);
+            await _db.SaveChangesAsync();
+            return entity;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Aktualisieren des Status von Booking mit ID {id}", ex);
+        }
+    }
+
     // Delete
     public async Task<bool> Delete(int id)
     {
