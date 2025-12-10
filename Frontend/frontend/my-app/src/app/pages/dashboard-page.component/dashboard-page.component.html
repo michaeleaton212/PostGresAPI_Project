@@ -3,7 +3,7 @@
     <div class="user-info" *ngIf="userName">
       <span i18n>Logged in as:</span> <strong>{{ userName }}</strong>
     </div>
-    <button class="back-button" (click)="goBackLogin()" i18n>Logout</button>
+    <button class="back-button hide-mobile" (click)="goBackLogin()" i18n>Logout</button>
   </div>
 
   <!-- Booking overview -->
@@ -32,36 +32,37 @@
       <div class="overview-row"
            *ngFor="let b of bookings"
            [class.cancelled-row]="isCancelled(b)">
-        <div attr.data-label="Name:" i18n-attr.data-label>
+
+        <div data-label="Name:" i18n-data-label>
           <span class="value-text" [title]="b.name">{{ b.name }}</span>
         </div>
 
-        <div attr.data-label="Room:" i18n-attr.data-label>
+        <div data-label="Room:" i18n-data-label>
           <span class="value-text" [title]="b.roomName">{{ b.roomName }}</span>
         </div>
 
-        <div attr.data-label="Start date:" i18n-attr.data-label>
+        <div data-label="Start date:" i18n-data-label>
           <span class="value-text"
                 [title]="b.startDate | date: 'dd.MM.yyyy'">
             {{ b.startDate | date: 'dd.MM.yyyy' }}
           </span>
         </div>
 
-        <div attr.data-label="End date:" i18n-attr.data-label>
+        <div data-label="End date:" i18n-data-label>
           <span class="value-text"
                 [title]="b.endDate | date: 'dd.MM.yyyy'">
             {{ b.endDate | date: 'dd.MM.yyyy' }}
           </span>
         </div>
 
-        <div attr.data-label="Booking number:" i18n-attr.data-label>
+        <div data-label="Booking number:" i18n-data-label>
           <span class="value-text" [title]="b.bookingNumber">
             {{ b.bookingNumber }}
           </span>
         </div>
 
         <!-- Status Button -->
-        <div attr.data-label="Status:" i18n-attr.data-label>
+        <div data-label="Status:" i18n-data-label>
           <button class="status-button"
                   [ngClass]="{
               'status-checked': isCheckedIn(b),
@@ -75,19 +76,19 @@
         </div>
 
         <!-- Toggle Einchecken/Auschecken -->
-        <div attr.data-label="Check in / Check out:" i18n-attr.data-label>
-          <div class="toggle" [class.disabled]="isCancelled(b)">
+        <div data-label="Check in:" i18n-data-label>
+          <div class="toggle" [class.disabled]="isCancelled(b) || isCheckedIn(b)">
             <input type="checkbox"
                    [id]="'checkin-' + b.bookingNumber"
                    [checked]="isCheckedIn(b)"
-                   [disabled]="isCancelled(b)"
+                   [disabled]="isCancelled(b) || isCheckedIn(b)"
                    (change)="toggleCheckIn(b)" />
             <label [for]="'checkin-' + b.bookingNumber"></label>
           </div>
         </div>
 
         <!-- Stornieren -->
-        <div attr.data-label="Cancel:" i18n-attr.data-label>
+        <div data-label="Cancel:" i18n-data-label>
           <button class="stornieren"
                   (click)="cancelBooking(b.bookingNumber)"
                   [disabled]="isCancelled(b)"
@@ -100,7 +101,7 @@
         </div>
 
         <!-- Zimmer ansehen -->
-        <div attr.data-label="View room:" i18n-attr.data-label>
+        <div data-label="View room:" i18n-data-label>
           <button class="zimmer-ansehen"
                   (click)="viewRoom(b)"
                   i18n>
@@ -108,6 +109,11 @@
           </button>
         </div>
       </div>
+    </div>
+
+    <!-- Logout Button für Mobile -->
+    <div class="mobile-logout-wrapper show-mobile">
+      <button class="mobile-logout-button" (click)="goBackLogin()" i18n>Logout</button>
     </div>
   </div>
 

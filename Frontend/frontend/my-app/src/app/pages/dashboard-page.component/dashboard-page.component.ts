@@ -143,16 +143,15 @@ export class DashboardPageComponent implements OnInit {
   }
 
   toggleCheckIn(booking: BookingDisplay) {
-    // Don't allow toggle for cancelled bookings
-    if (this.isCancelled(booking)) {
+    // Don't allow toggle for cancelled bookings or already checked-in bookings
+    if (this.isCancelled(booking) || this.isCheckedIn(booking)) {
       return;
     }
 
-    const newStatus = this.isCheckedIn(booking) 
-      ? BookingStatus.CheckedOut 
-      : BookingStatus.CheckedIn;
+    // Only allow checking in (not checking out)
+    const newStatus = BookingStatus.CheckedIn;
 
-    console.log(`Toggling check-in for booking ${booking.id}: ${booking.status} -> ${newStatus}`);
+    console.log(`Checking in booking ${booking.id}: ${booking.status} -> ${newStatus}`);
 
     this.bookingService.updateStatus(booking.id, { status: newStatus }).subscribe({
       next: (updatedBooking) => {
