@@ -1,47 +1,67 @@
 <div class="page">
   <div class="page-header">
-    <h2 i18n></h2>
-    <button class="back-button" (click)="goBackLogin()" i18n>← Back</button>
+    <div class="user-info" *ngIf="userName">
+      <span i18n>Logged in as:</span> <strong>{{ userName }}</strong>
+    </div>
+    <button class="back-button" (click)="goBackLogin()" i18n>Logout</button>
   </div>
 
   <!-- Booking overview -->
   <div class="overview">
-    <h3 i18n>Bookings</h3>
-    <div class="activeBookings">{{ bookings.length }} Buchung(en)</div>
+    <h3 i18n>My Bookings</h3>
+
+    <div class="activeBookings" i18n>
+      {{ bookings.length }} booking(s)
+    </div>
+
     <div class="overview-table">
       <!-- Überschriften -->
       <div class="overview-header">
-        <div>Name</div>
-        <div>Zimmer</div>
-        <div>Startdatum</div>
-        <div>Enddatum</div>
-        <div>Buchungsnummer</div>
-        <div>Status</div>
-        <div>Einchecken</div>
-        <div>Stornieren</div>
-        <div>Ansehen</div>
+        <div i18n>Name</div>
+        <div i18n>Room</div>
+        <div i18n>Start date</div>
+        <div i18n>End date</div>
+        <div i18n>Booking number</div>
+        <div i18n>Status</div>
+        <div i18n>Check in</div>
+        <div i18n>Cancel</div>
+        <div i18n>View</div>
       </div>
 
       <!-- Dynamische Daten -->
-      <div class="overview-row" *ngFor="let b of bookings" [class.cancelled-row]="isCancelled(b)">
-        <div data-label="Name:">
+      <div class="overview-row"
+           *ngFor="let b of bookings"
+           [class.cancelled-row]="isCancelled(b)">
+        <div attr.data-label="Name:" i18n-attr.data-label>
           <span class="value-text" [title]="b.name">{{ b.name }}</span>
         </div>
-        <div data-label="Zimmer:">
+
+        <div attr.data-label="Room:" i18n-attr.data-label>
           <span class="value-text" [title]="b.roomName">{{ b.roomName }}</span>
         </div>
-        <div data-label="Startdatum:">
-          <span class="value-text" [title]="b.startDate | date: 'dd.MM.yyyy'">{{ b.startDate | date: 'dd.MM.yyyy' }}</span>
+
+        <div attr.data-label="Start date:" i18n-attr.data-label>
+          <span class="value-text"
+                [title]="b.startDate | date: 'dd.MM.yyyy'">
+            {{ b.startDate | date: 'dd.MM.yyyy' }}
+          </span>
         </div>
-        <div data-label="Enddatum:">
-          <span class="value-text" [title]="b.endDate | date: 'dd.MM.yyyy'">{{ b.endDate | date: 'dd.MM.yyyy' }}</span>
+
+        <div attr.data-label="End date:" i18n-attr.data-label>
+          <span class="value-text"
+                [title]="b.endDate | date: 'dd.MM.yyyy'">
+            {{ b.endDate | date: 'dd.MM.yyyy' }}
+          </span>
         </div>
-        <div data-label="Buchungsnummer:">
-          <span class="value-text" [title]="b.bookingNumber">{{ b.bookingNumber }}</span>
+
+        <div attr.data-label="Booking number:" i18n-attr.data-label>
+          <span class="value-text" [title]="b.bookingNumber">
+            {{ b.bookingNumber }}
+          </span>
         </div>
 
         <!-- Status Button -->
-        <div data-label="Status:">
+        <div attr.data-label="Status:" i18n-attr.data-label>
           <button class="status-button"
                   [ngClass]="{
               'status-checked': isCheckedIn(b),
@@ -55,7 +75,7 @@
         </div>
 
         <!-- Toggle Einchecken/Auschecken -->
-        <div data-label="Einchecken/Auschecken:">
+        <div attr.data-label="Check in / Check out:" i18n-attr.data-label>
           <div class="toggle" [class.disabled]="isCancelled(b)">
             <input type="checkbox"
                    [id]="'checkin-' + b.bookingNumber"
@@ -67,16 +87,24 @@
         </div>
 
         <!-- Stornieren -->
-        <div data-label="Stornieren:">
-          <button class="stornieren" (click)="cancelBooking(b.bookingNumber)" [disabled]="isCancelled(b)">
-            {{ isCancelled(b) ? 'Storniert' : 'Stornieren' }}
+        <div attr.data-label="Cancel:" i18n-attr.data-label>
+          <button class="stornieren"
+                  (click)="cancelBooking(b.bookingNumber)"
+                  [disabled]="isCancelled(b)"
+                  i18n>
+            { isCancelled(b), select,
+            true {Cancelled}
+            false {Cancel}
+            }
           </button>
         </div>
 
         <!-- Zimmer ansehen -->
-        <div data-label="Zimmer ansehen:">
-          <button class="zimmer-ansehen" (click)="viewRoom(b)">
-            Zimmer ansehen
+        <div attr.data-label="View room:" i18n-attr.data-label>
+          <button class="zimmer-ansehen"
+                  (click)="viewRoom(b)"
+                  i18n>
+            View room
           </button>
         </div>
       </div>

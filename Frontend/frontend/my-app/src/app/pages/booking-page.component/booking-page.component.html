@@ -40,27 +40,28 @@
       <span>{{ endDate | date:'dd.MM.yyyy' }}</span>
     </div>
 
-    <!-- Bedroom: nur Anzahl Tage -->
+    <!-- Bedroom: only number of days -->
     <div *ngIf="room?.type === 'Bedroom'" class="overview-row">
       <strong i18n>Duration:</strong>
       <span i18n>{{ numberOfDays }} day(s)</span>
     </div>
 
-    <!-- Meetingroom: Anzahl Tage + Uhrzeiten -->
+    <!-- Meetingroom: number of days + times -->
     <div *ngIf="room?.type === 'Meetingroom'" class="overview-row">
       <strong i18n>Duration:</strong>
-      <span>
+      <span i18n>
         {{ numberOfDays }} day(s), {{ startDate | date:'HH:mm' }} - {{ endDate | date:'HH:mm' }} ({{ durationInMinutes }} min)
       </span>
     </div>
 
-    <!-- If not booked show formular -->
+    <!-- If not booked show form -->
     <div class="form-group" *ngIf="!bookingSuccess">
-      <label for="firstName">
-        <strong class="left" i18n>Enter Email:</strong>
+      <label for="email">
+        <strong class="left" i18n>Enter email:</strong>
       </label>
-      <input id="firstName"
-             type="text"
+      <input id="email"
+             name="email"
+             type="email"
              [(ngModel)]="firstName"
              placeholder="Enter your email"
              i18n-placeholder
@@ -82,7 +83,10 @@
               (click)="confirmBooking()"
               [disabled]="bookingInProgress || !isFormValid"
               i18n>
-        {{ bookingInProgress ? 'Booking...' : 'Confirm Booking' }}
+        { bookingInProgress, select,
+        true {Booking...}
+        false {Confirm booking}
+        }
       </button>
     </div>
 

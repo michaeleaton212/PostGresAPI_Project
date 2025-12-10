@@ -39,6 +39,12 @@ namespace PostGresAPI.Services
             return list.Select(b => b.ToDto()).ToList();
         }
 
+        public async Task<List<BookingDto>> GetByName(string name)
+        {
+            var list = await _bookings.GetByName(name);
+            return list.Select(b => b.ToDto()).ToList();
+        }
+
         // Helper
         public bool IsActive(BookingDto booking, DateTimeOffset atUtc)
             => booking.StartTime <= atUtc && atUtc < booking.EndTime;
@@ -107,23 +113,25 @@ namespace PostGresAPI.Services
         }
 
 
-        // Login (Booking Id)   
-        public async Task<int?> GetBookingIdByCredentials(string bookingNumber, string name)
+        // Login (Booking Ids) - Unterstützt mehrere Buchungen auf denselben Namen
+        public async Task<List<int>> GetBookingIdsByCredentials(string bookingNumber, string name)
         {
             if (string.IsNullOrWhiteSpace(bookingNumber) || string.IsNullOrWhiteSpace(name))
-                return null;
+                return new List<int>();
 
             var b = await _bookings.GetByBookingNumber(bookingNumber.Trim());
-            if (b is null) return null;
+            if (b is null) return new List<int>();
 
             var matches = string.Equals(
                 (b.Title ?? string.Empty).Trim(),
                 name.Trim(),
                 StringComparison.OrdinalIgnoreCase);
 
-            return matches ? b.Id : (int?)null; 
+            if (!matches) return new List<int>();
+
+            // Alle Buchungen mit demselben Namen finden
+            var allBookings = await _bookings.GetByName(name.Trim());
+            return allBookings.Select(booking => booking.Id).ToList();
         }
-
-
     }
 }

@@ -30,7 +30,8 @@
                  [src]="currentImage"
                  (error)="onImageError($event)"
                  loading="lazy"
-                 alt="{{ room.name }}">
+                 alt="Image of {{ room.name }}"
+                 i18n-alt>
 
             <!-- Slider-Pfeile - nur bei mehreren Bildern -->
             <div class="image-controls" *ngIf="hasImages && room.images!.length > 1">
@@ -61,7 +62,8 @@
                  [class.active]="i === currentImageIndex"
                  (click)="selectImage(i)"
                  (error)="onImageError($event)"
-                 [attr.aria-label]="'Image ' + (i + 1)"
+                 attr.aria-label="Image {{ i + 1 }}"
+                 i18n-attr.aria-label
                  loading="lazy">
           </div>
 
@@ -69,7 +71,8 @@
             <div class="calendar-card"
                  [class.has-error]="showDateError"
                  role="region"
-                 [attr.aria-label]="'Calendar ' + monthYearLabel">
+                 attr.aria-label="Calendar {{ monthYearLabel }}"
+                 i18n-attr.aria-label>
 
               <div class="title">
                 {{ today | date:'EEE, MMM, d' }}
@@ -77,7 +80,7 @@
 
               <div class="monthbar">
                 <button class="month-nav-btn prev"
-                        (click)="previousMonth"
+                        (click)="previousMonth()"
                         aria-label="Previous month"
                         i18n-aria-label>
                   <i class="chev-left"></i>

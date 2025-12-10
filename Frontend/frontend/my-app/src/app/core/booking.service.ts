@@ -10,7 +10,7 @@ export interface LoginRequestDto {
   name: string;
 }
 export interface LoginResponseDto {
-  bookingId: number;
+  bookingIds: number[];
   token: string;
 }
 
@@ -30,6 +30,13 @@ export class BookingService {
    */
   getById(id: number): Observable<Booking> {
     return this.api.get<Booking>(`bookings/${id}`);
+  }
+
+  /**
+   * Get bookings by name
+   */
+  getByName(name: string): Observable<Booking[]> {
+    return this.api.get<Booking[]>(`bookings/by-name/${encodeURIComponent(name)}`);
   }
 
   /**
@@ -73,7 +80,7 @@ export class BookingService {
   getBookingSecure(bookingId: number, token: string): Observable<Booking> {
     const url = this.api.makeUrl(`bookings/${bookingId}/secure`);
     return this.api.http.get<Booking>(url, { 
-headers: { 'X-Login-Token': token } 
+      headers: { 'X-Login-Token': token } 
     });
   }
 }

@@ -27,16 +27,25 @@
             <img class="room-card-image"
                  [src]="currentImage"
                  (error)="onImageError($event)"
-                 loading="lazy">
+                 loading="lazy"
+                 alt="Image of {{ room.name }}"
+                 i18n-alt>
 
             <!-- arrows-->
             <div class="image-controls" *ngIf="hasImages && room!.images!.length > 1">
-              <button class="nav-btn prev" (click)="prevImage()" aria-label="Previous image" i18n-aria-label>
+              <button class="nav-btn prev"
+                      (click)="prevImage()"
+                      aria-label="Previous image"
+                      i18n-aria-label>
                 ‹
               </button>
 
-              <button class="nav-btn next" (click)="nextImage()" aria-label="Next image" i18n-aria-label>›</button>
-
+              <button class="nav-btn next"
+                      (click)="nextImage()"
+                      aria-label="Next image"
+                      i18n-aria-label>
+                ›
+              </button>
             </div>
 
             <!-- Counter badge -->
@@ -53,17 +62,18 @@
                    [class.active]="i === currentImageIndex"
                    (click)="selectImage(i)"
                    (error)="onImageError($event)"
-                   [attr.aria-label]="'Image ' + (i + 1)"
+                   attr.aria-label="Image {{ i + 1 }}"
+                   i18n-attr.aria-label
                    loading="lazy">
             </div>
           </div>
 
-
           <div class="calendar-wrapper">
-            <div class="calendar-card" 
+            <div class="calendar-card"
                  [class.has-error]="showDateError"
-                 role="region" 
-                 [attr.aria-label]="'Calendar ' + monthYearLabel">
+                 role="region"
+                 attr.aria-label="Calendar {{ monthYearLabel }}"
+                 i18n-attr.aria-label>
 
               <div class="title">
                 {{ today | date:'EEE, MMM, d' }}
@@ -146,7 +156,7 @@
 
           <div class="detail-item">
             <strong i18n>Room Type:</strong>
-            <span class="bedroom-type">Bedroom</span>
+            <span class="bedroom-type" i18n>Bedroom</span>
           </div>
 
         </div>

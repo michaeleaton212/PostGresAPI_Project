@@ -16,24 +16,34 @@ namespace PostGresAPI.Auth
             _key = Encoding.UTF8.GetBytes(secret);
         }
 
-        public string Create(int bookingId, DateTimeOffset expiresUtc)
+        public string Create(List<int> bookingIds, DateTimeOffset expiresUtc)
         {
-            var payload = $"{bookingId}|{expiresUtc.ToUnixTimeSeconds()}";
+            var idsString = string.Join(",", bookingIds);
+            var payload = $"{idsString}|{expiresUtc.ToUnixTimeSeconds()}";
             using var hmac = new HMACSHA256(_key);
             var sig = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(payload)));
             return Convert.ToBase64String(Encoding.UTF8.GetBytes($"{payload}|{sig}"));
         }
 
-        public bool TryValidate(string token, out int bookingId)
+        public bool TryValidate(string token, out List<int> bookingIds)
         {
-            bookingId = 0;
+            bookingIds = new List<int>();
             string decoded;
             try { decoded = Encoding.UTF8.GetString(Convert.FromBase64String(token)); }
             catch { return false; }
 
             var parts = decoded.Split('|');
             if (parts.Length != 3) return false;
-            if (!int.TryParse(parts[0], out bookingId)) return false;
+            
+            // Parse booking IDs
+            var idStrings = parts[0].Split(',', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var idStr in idStrings)
+            {
+                if (!int.TryParse(idStr, out var id)) return false;
+                bookingIds.Add(id);
+            }
+            
+            if (bookingIds.Count == 0) return false;
             if (!long.TryParse(parts[1], out var expUnix)) return false;
 
             var exp = DateTimeOffset.FromUnixTimeSeconds(expUnix);

@@ -11,6 +11,7 @@ namespace PostGresAPI.Services
         Task<List<BookingDto>> GetAll();
         Task<BookingDto?> GetById(int id);
         Task<List<BookingDto>> GetByRoomId(int roomId);
+        Task<List<BookingDto>> GetByName(string name);
 
         // Check if booking is active at given time
         bool IsActive(BookingDto booking, DateTimeOffset atUtc);
@@ -27,7 +28,7 @@ namespace PostGresAPI.Services
         // Delete
         Task<(bool Ok, string? Error)> Delete(int id);
 
-        // Login (Booking Id)
-        Task<int?> GetBookingIdByCredentials(string bookingNumber, string name);
+        // Login (Booking Ids)
+        Task<List<int>> GetBookingIdsByCredentials(string bookingNumber, string name);
     }
 }

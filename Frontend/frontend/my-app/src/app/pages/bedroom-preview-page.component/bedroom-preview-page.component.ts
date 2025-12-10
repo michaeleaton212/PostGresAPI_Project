@@ -50,13 +50,32 @@ export class BedroomPreviewPageComponent implements OnInit {
 
   // Error state
   showDateError = false;
-  dateErrorText = 'Please select a date!';
+  dateErrorText = $localize`:Error when no date is selected@@bedroomDateError:Please select a date!`;
 
   monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    $localize`January`,
+    $localize`February`,
+    $localize`March`,
+    $localize`April`,
+    $localize`May`,
+    $localize`June`,
+    $localize`July`,
+    $localize`August`,
+    $localize`September`,
+    $localize`October`,
+    $localize`November`,
+    $localize`December`,
   ];
-  weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  weekDays = [
+    $localize`S`,
+    $localize`M`,
+    $localize`T`,
+    $localize`W`,
+    $localize`T`,
+    $localize`F`,
+    $localize`S`,
+  ];
 
   today: Date = new Date();
 
@@ -87,7 +106,7 @@ export class BedroomPreviewPageComponent implements OnInit {
         if (queryId) {
           this.loadRoom(Number(queryId));
         } else {
-          this.error = 'Keine Raum-ID angegeben.';
+          this.error = $localize`:No room id provided error@@bedroomNoRoomIdError:No room id provided.`;
           this.loading = false;
         }
       });
@@ -101,7 +120,7 @@ export class BedroomPreviewPageComponent implements OnInit {
     this.roomService.getById(id).subscribe({
       next: (room) => {
         if (room.type !== 'Bedroom') {
-          this.error = 'Dies ist kein Bedroom.';
+          this.error = $localize`:Wrong room type error@@bedroomWrongTypeError:This is not a bedroom.`;
           this.loading = false;
           return;
         }
@@ -125,7 +144,7 @@ export class BedroomPreviewPageComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading bedroom:', err);
-        this.error = 'Bedroom konnte nicht geladen werden.';
+        this.error = $localize`:Bedroom load error@@bedroomLoadError:The bedroom could not be loaded.`;
         this.loading = false;
       }
     });
@@ -164,7 +183,8 @@ export class BedroomPreviewPageComponent implements OnInit {
 
     // Both start and end must be chosen
     if (!this.rangeStart || !this.rangeEnd) {
-      this.dateErrorText = 'Bitte Start- und Enddatum wählen (mindestens 2 Tage).';
+      this.dateErrorText = $localize
+        `:Error when start or end date missing@@bedroomMissingRange:Please select a start and end date (at least 2 days).`;
       this.showDateError = true;
       return;
     }
@@ -181,7 +201,8 @@ export class BedroomPreviewPageComponent implements OnInit {
     ) + 1;
 
     if (diffDaysInclusive < 2) {
-      this.dateErrorText = 'Bitte mindestens 2 Tage auswählen.';
+      this.dateErrorText = $localize
+        `:Error when range shorter than 2 days@@bedroomTooShortRange:Please select at least 2 days.`;
       this.showDateError = true;
       return;
     }
@@ -319,14 +340,15 @@ export class BedroomPreviewPageComponent implements OnInit {
         // clicked before start -> swap so start <= end
         this.rangeEnd = this.rangeStart;
         this.rangeStart = clickedDate;
-        
+
         // Check if range is at least 2 days
         const diffDays = Math.floor(
           (this.rangeEnd.getTime() - this.rangeStart.getTime()) / (1000 * 60 * 60 * 24)
         ) + 1;
-        
+
         if (diffDays < 2) {
-          this.dateErrorText = 'Bitte mindestens 2 Tage auswählen.';
+          this.dateErrorText = $localize
+            `:Error when range shorter than 2 days@@bedroomTooShortRange:Please select at least 2 days.`;
           this.showDateError = true;
           this.rangeEnd = null;
         }
@@ -336,13 +358,14 @@ export class BedroomPreviewPageComponent implements OnInit {
         const diffDays = Math.floor(
           (clickedTime - startTime) / (1000 * 60 * 60 * 24)
         ) + 1;
-        
+
         if (diffDays < 2) {
-          this.dateErrorText = 'Bitte mindestens 2 Tage auswählen.';
+          this.dateErrorText = $localize
+            `:Error when range shorter than 2 days@@bedroomTooShortRange:Please select at least 2 days.`;
           this.showDateError = true;
           return;
         }
-        
+
         this.rangeEnd = clickedDate;
       }
     } else {
@@ -418,7 +441,7 @@ export class BedroomPreviewPageComponent implements OnInit {
   prevImage(): void {
     if (!this.hasImages) return;
     this.currentImageIndex =
-      (this.currentImageIndex - 1 + this.room!.images!.length) %// % Modulo-Operator makes that when first last pictuere it goes back to the last
+      (this.currentImageIndex - 1 + this.room!.images!.length) %
       this.room!.images!.length;
   }
 

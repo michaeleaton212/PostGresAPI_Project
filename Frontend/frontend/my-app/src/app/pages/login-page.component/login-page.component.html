@@ -1,44 +1,59 @@
 <div class="page">
   <div class="overview">
-    <h3>Login</h3>
+    <h3 i18n>Login</h3>
+
     <form (keydown)="onKeyDown($event)" (ngSubmit)="onLogin()" autocomplete="off">
       <div class="form-group">
-        <label for="email">E-Mail</label>
-        <input
-          id="email"
-          type="email"
-          [(ngModel)]="email"
-          (input)="onEmailInput()"
-          name="email"
-          [class.input-error]="errorEmail"
-          required
-          autocomplete="username"
-          placeholder="ihre.email@beispiel.com"
-        />
-        <div class="error" [class.hidden]="!errorEmail">{{ errorEmail || '&nbsp;' }}</div>
+        <label for="email" i18n>Email</label>
+        <input id="email"
+               type="email"
+               [(ngModel)]="email"
+               (input)="onEmailInput()"
+               name="email"
+               [class.input-error]="errorEmail"
+               required
+               autocomplete="username"
+               placeholder="your.email@example.com"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorEmail">
+          <span i18n>{{ errorEmail || '&nbsp;' }}</span>
+        </div>
       </div>
+
       <div class="form-group">
-        <label for="bookingNumber">Buchungsnummer</label>
-        <input
-          id="bookingNumber"
-          type="text"
-          [(ngModel)]="bookingNumber"
-          (input)="onBookingNumberInput()"
-          name="bookingNumber"
-          [class.input-error]="errorBookingNumber"
-          required
-          autocomplete="off"
-          placeholder="z.B. 18F6ADB8"
-        />
-        <div class="error" [class.hidden]="!errorBookingNumber">{{ errorBookingNumber || '&nbsp;' }}</div>
+        <label for="bookingNumber" i18n>Booking number</label>
+        <input id="bookingNumber"
+               type="text"
+               [(ngModel)]="bookingNumber"
+               (input)="onBookingNumberInput()"
+               name="bookingNumber"
+               [class.input-error]="errorBookingNumber"
+               required
+               autocomplete="off"
+               placeholder="e.g. 18F6ADB8"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorBookingNumber">
+          <span i18n>{{ errorBookingNumber || '&nbsp;' }}</span>
+        </div>
       </div>
+
       <div class="button-row">
-        <button class="singin" type="submit" [disabled]="bookingInProgress">
-          {{ bookingInProgress ? 'Wird geladen...' : 'Login' }}
+        <button class="singin"
+                type="submit"
+                [disabled]="bookingInProgress"
+                i18n>
+          { bookingInProgress, select,
+          true {Loading...}
+          false {Login}
+          }
         </button>
       </div>
-      <div class="error" *ngIf="error">{{ error }}</div>
+
+      <div class="error" *ngIf="error">
+        <span i18n>{{ error }}</span>
+      </div>
     </form>
   </div>
 </div>
+
 <app-footer></app-footer>

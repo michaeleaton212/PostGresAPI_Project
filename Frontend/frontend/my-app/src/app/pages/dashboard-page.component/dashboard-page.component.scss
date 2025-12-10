@@ -1,4 +1,40 @@
 .page {
+  padding: 1rem;
+
+  h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.user-info {
+  font-size: 1.1rem;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+
+  strong {
+    color: #3DFF7A;
+    font-weight: 600;
+  }
+}
+
+.left {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.page {
   padding: 1rem 3rem 3rem;
 }
 
@@ -214,6 +250,10 @@
 }
 
 .back-button {
+  position: fixed;
+  top: 8rem;
+  right: 3rem;
+  z-index: 10;
   display: inline-flex;
   align-items: center;
   justify-content: center;

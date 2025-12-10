@@ -109,7 +109,8 @@ export class LoginPageComponent {
     this.bookingService.login(loginRequest).subscribe({
       next: (res) => {
         sessionStorage.setItem('loginToken', res.token);
-        sessionStorage.setItem('bookingId', String(res.bookingId));
+        sessionStorage.setItem('bookingIds', JSON.stringify(res.bookingIds));
+        sessionStorage.setItem('userName', this.email.trim());
 
         this.loginResult = true;
         this.bookingInProgress = false;

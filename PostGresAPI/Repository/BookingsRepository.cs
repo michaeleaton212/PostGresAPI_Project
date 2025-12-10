@@ -58,6 +58,23 @@ public class BookingRepository : IBookingRepository
         }
     }
 
+    // Get bookings by name
+    public async Task<List<Booking>> GetByName(string name)
+    {
+        try
+        {
+            return await _db.Bookings
+                .AsNoTracking()
+                .Where(b => b.Title != null && b.Title.ToLower() == name.ToLower())
+                .OrderBy(b => b.StartTime)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Abrufen von Bookings für Name {name}", ex);
+        }
+    }
+
     // Get bookings by room ID
     public async Task<List<Booking>> GetByRoomId(int roomId)
     {

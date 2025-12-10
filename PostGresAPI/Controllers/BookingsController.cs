@@ -88,12 +88,12 @@ public class BookingsController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
-        var bookingId = await _svc.GetBookingIdByCredentials(dto.BookingNumber, dto.Name);
-        if (bookingId is null)
+        var bookingIds = await _svc.GetBookingIdsByCredentials(dto.BookingNumber, dto.Name);
+        if (bookingIds == null || bookingIds.Count == 0)
             return Unauthorized(new { error = "Ungültige Kombination aus Buchungsnummer und Name." });
 
-        var token = _tokens.Create(bookingId.Value, DateTimeOffset.UtcNow.AddMinutes(30)); //set time
-        return Ok(new LoginResponseDto(bookingId.Value, token));
+        var token = _tokens.Create(bookingIds, DateTimeOffset.UtcNow.AddMinutes(30));
+        return Ok(new LoginResponseDto(bookingIds, token));
     }
 
     [HttpGet("{bookingId:int}/secure")]
@@ -105,10 +105,18 @@ public class BookingsController : ControllerBase
         var t = tokenHeader ?? token;
         if (string.IsNullOrWhiteSpace(t)) return Unauthorized();
 
-        if (!_tokens.TryValidate(t, out var tokenBookingId) || tokenBookingId != bookingId)
+        if (!_tokens.TryValidate(t, out var tokenBookingIds) || !tokenBookingIds.Contains(bookingId))
             return Unauthorized();
 
         var dto = await _svc.GetById(bookingId);
         return dto is null ? NotFound() : Ok(dto);
+    }
+
+    // GET /api/bookings/by-name/{name}
+    [HttpGet("by-name/{name}")]
+    public async Task<ActionResult<IEnumerable<BookingDto>>> GetByName(string name)
+    {
+        var dtos = await _svc.GetByName(name);
+        return Ok(dtos);
     }
 }

@@ -34,28 +34,41 @@ export class DashboardPageComponent implements OnInit {
 
   bookings: BookingDisplay[] = [];
   rooms: Room[] = [];
+  userName: string = '';
 
   readonly BookingStatus = BookingStatus;
 
   ngOnInit() {
     console.log('=== DASHBOARD INIT ===');
+    
+    // Check if user is logged in
+    const bookingIds = sessionStorage.getItem('bookingIds');
+    const userName = sessionStorage.getItem('userName');
+    
+    if (!bookingIds || !userName) {
+      console.log('User not logged in, redirecting to login');
+      this.router.navigate(['/login']);
+      return;
+    }
+    
+    this.userName = userName;
     this.loadBookings();
   }
 
   loadBookings() {
-    console.log('Loading rooms and bookings...');
+    console.log('Loading rooms and bookings for user:', this.userName);
     
     this.roomService.getAll().subscribe({
       next: (rooms) => {
         console.log('Rooms loaded:', rooms.length);
         this.rooms = rooms;
         
-        this.bookingService.getAll().subscribe({
+        // Get only bookings for the logged-in user
+        this.bookingService.getByName(this.userName).subscribe({
           next: (bookings) => {
-            console.log('All bookings received:', bookings.length);
+            console.log('User bookings received:', bookings.length);
             console.log('Bookings:', bookings);
             
-            // Show ALL bookings including cancelled ones
             this.bookings = bookings.map(b => this.mapBookingToDisplay(b));
             console.log('Mapped bookings:', this.bookings);
           },
@@ -170,6 +183,9 @@ export class DashboardPageComponent implements OnInit {
   }
 
   goBackLogin() {
+    sessionStorage.removeItem('loginToken');
+    sessionStorage.removeItem('bookingIds');
+    sessionStorage.removeItem('userName');
     this.router.navigate(['/login']);
   }
 }

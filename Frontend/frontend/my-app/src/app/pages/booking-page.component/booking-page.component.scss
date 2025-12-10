@@ -176,9 +176,9 @@
     }
   }
 
-  .overview-row:last-child {
-    border-bottom: none;
-  }
+    .overview-row:last-child {
+      border-bottom: none;
+    }
 
   .form-group {
     margin-top: 20px;
@@ -195,7 +195,8 @@
       width: 100%;
     }
 
-    input[type='text'] {
+    input[type='text'],
+    input[type='email'] {
       width: 100%;
       height: 3rem;
       padding: 10px 12px;
@@ -233,7 +234,7 @@
   .confirmBooking {
     position: relative;
     height: 3rem;
-    width: 40rem; 
+    width: 40rem;
     max-width: none;
     box-sizing: border-box;
     display: inline-flex;
@@ -256,6 +257,11 @@
 
     &:hover {
       background: rgba(156, 156, 156);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }

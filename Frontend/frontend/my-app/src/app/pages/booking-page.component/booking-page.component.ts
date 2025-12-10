@@ -24,13 +24,16 @@ export class BookingPageComponent implements OnInit {
   room: Room | null = null;
   startDate: Date | null = null;
   endDate: Date | null = null;
-  firstName = '';
+  firstName = ''; // wird als E-Mail verwendet
   loading = true;
   error: string | null = null;
   bookingSuccess = false;
   bookingInProgress = false;
   currentRoomId = this.route.snapshot.queryParams['roomId'];
-  bookingNumber: string | number | null = null; // Property for booking number
+  bookingNumber: string | number | null = null;
+
+  // einfache E-Mail-Validierung
+  private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -54,7 +57,6 @@ export class BookingPageComponent implements OnInit {
         return;
       }
 
-      // Parse dates from either startDate/endDate (Bedroom) or startTime/endTime (Meetingroom)
       if (startTimeStr) {
         this.startDate = new Date(startTimeStr);
         console.log('Parsed startTime:', this.startDate);
@@ -75,7 +77,6 @@ export class BookingPageComponent implements OnInit {
         console.warn('No endDate or endTime in query params');
       }
 
-      // Load room details
       this.loadRoom(Number(roomId));
     });
   }
@@ -102,22 +103,31 @@ export class BookingPageComponent implements OnInit {
     console.log('Room:', this.room);
     console.log('Start Date:', this.startDate);
     console.log('End Date:', this.endDate);
-    console.log('First Name:', this.firstName);
+    console.log('Email (firstName):', this.firstName);
 
     if (!this.room || !this.startDate || !this.endDate) {
       this.error = 'Unvollständige Buchungsinformationen.';
-   console.error('Missing required fields:', {
-     hasRoom: !!this.room,
+      console.error('Missing required fields:', {
+        hasRoom: !!this.room,
         hasStartDate: !!this.startDate,
         hasEndDate: !!this.endDate
       });
       return;
     }
 
-    // Validate first name
-    if (!this.firstName || this.firstName.trim() === '') {
-      this.error = 'Bitte geben Sie Ihren Vornamen ein.';
-      console.error('First name is empty');
+    const email = this.firstName.trim();
+
+    // Feld leer
+    if (!email) {
+      this.error = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
+      console.error('Email is empty');
+      return;
+    }
+
+    // Format ungültig -> neue Errornachricht
+    if (!this.emailRegex.test(email)) {
+      this.error = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
+      console.error('Email is invalid');
       return;
     }
 
@@ -128,17 +138,17 @@ export class BookingPageComponent implements OnInit {
       roomId: this.room.id,
       startUtc: this.startDate.toISOString(),
       endUtc: this.endDate.toISOString(),
-      title: this.firstName.trim()
+      title: email
     };
 
     console.log('=== BOOKING DTO ===');
     console.log('DTO Object:', bookingDto);
     console.log('DTO as JSON:', JSON.stringify(bookingDto, null, 2));
 
- this.bookingService.create(bookingDto).subscribe({
-    next: (booking) => {
+    this.bookingService.create(bookingDto).subscribe({
+      next: (booking) => {
         console.log('=== BOOKING SUCCESS ===');
-     console.log('Booking Response:', booking);
+        console.log('Booking Response:', booking);
         console.log('Booking Number:', booking.bookingNumber);
         this.bookingNumber = booking.bookingNumber;
         this.bookingSuccess = true;
@@ -147,23 +157,22 @@ export class BookingPageComponent implements OnInit {
       error: (err) => {
         console.error('=== BOOKING ERROR ===');
         console.error('Full Error Object:', err);
-  console.error('Error Status:', err.status);
+        console.error('Error Status:', err.status);
         console.error('Error Status Text:', err.statusText);
-      console.error('Error Body:', err.error);
-     console.error('Error Message:', err.message);
-        
-   // Detailed error message
-   let errorMessage = 'Buchung konnte nicht erstellt werden.';
+        console.error('Error Body:', err.error);
+        console.error('Error Message:', err.message);
+
+        let errorMessage = 'Buchung konnte nicht erstellt werden.';
         if (err.error?.error) {
-      errorMessage = err.error.error;
-      } else if (err.error?.message) {
+          errorMessage = err.error.error;
+        } else if (err.error?.message) {
           errorMessage = err.error.message;
         } else if (err.message) {
-  errorMessage = err.message;
+          errorMessage = err.message;
         }
-        
+
         this.error = errorMessage;
-  this.bookingInProgress = false;
+        this.bookingInProgress = false;
       }
     });
   }
@@ -205,6 +214,10 @@ export class BookingPageComponent implements OnInit {
   }
 
   get isFormValid(): boolean {
-    return !!(this.startDate && this.endDate && this.firstName.trim());
+    if (!this.startDate || !this.endDate) {
+      return false;
+    }
+    const email = this.firstName.trim();
+    return !!email && this.emailRegex.test(email);
   }
 }

@@ -8,6 +8,7 @@ import { BookingPageComponent } from './pages/booking-page.component/booking-pag
 import { LoginPageComponent } from './pages/login-page.component/login-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page.component/dashboard-page.component';
 import { UsersPageComponent } from './pages/users-page.component/users-page.component';
+import { authGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent, pathMatch: 'full' },
@@ -20,7 +21,7 @@ export const routes: Routes = [
   { path: 'rooms/preview/:type', component: RoomPreviewPageComponent },
   { path: 'booking', component: BookingPageComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'dashboard', component: DashboardPageComponent },
+  { path: 'dashboard', component: DashboardPageComponent, canActivate: [authGuard] },
   { path: 'users', component: UsersPageComponent }
 ];
 
