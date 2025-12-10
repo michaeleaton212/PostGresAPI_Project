@@ -10,6 +10,7 @@ namespace PostGresAPI.Services
         // Read
         Task<List<BookingDto>> GetAll();
         Task<BookingDto?> GetById(int id);
+        Task<List<BookingDto>> GetByIds(List<int> ids);
         Task<List<BookingDto>> GetByRoomId(int roomId);
         Task<List<BookingDto>> GetByName(string name);
 

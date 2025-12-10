@@ -45,6 +45,12 @@ namespace PostGresAPI.Services
             return list.Select(b => b.ToDto()).ToList();
         }
 
+        public async Task<List<BookingDto>> GetByIds(List<int> ids)
+        {
+            var list = await _bookings.GetByIds(ids);
+            return list.Select(b => b.ToDto()).ToList();
+        }
+
         // Helper
         public bool IsActive(BookingDto booking, DateTimeOffset atUtc)
             => booking.StartTime <= atUtc && atUtc < booking.EndTime;

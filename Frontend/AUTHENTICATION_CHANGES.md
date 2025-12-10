@@ -4,18 +4,22 @@
 
 ### Backend (C# .NET)
 
-1. **IBookingRepository** - Neue Methode hinzugefügt:
+1. **IBookingRepository** - Neue Methoden hinzugefügt:
    - `Task<List<Booking>> GetByName(string name)` - Ruft alle Buchungen für einen bestimmten Namen ab
+   - `Task<List<Booking>> GetByIds(List<int> ids)` - Ruft Buchungen anhand einer ID-Liste ab
 
 2. **BookingRepository** - Implementierung:
    - `GetByName()` Methode implementiert, die alle Buchungen mit einem bestimmten Namen (case-insensitive) zurückgibt
+   - `GetByIds()` Methode implementiert, die alle Buchungen mit den angegebenen IDs zurückgibt
 
 3. **IBookingService** - Interface aktualisiert:
    - `Task<List<BookingDto>> GetByName(string name)` hinzugefügt
+   - `Task<List<BookingDto>> GetByIds(List<int> ids)` hinzugefügt
    - `GetBookingIdByCredentials()` geändert zu `GetBookingIdsByCredentials()` - gibt jetzt eine Liste zurück
 
 4. **BookingService** - Implementierung:
    - `GetByName()` Methode implementiert
+   - `GetByIds()` Methode implementiert
    - `GetBookingIdsByCredentials()` aktualisiert, um alle Buchungen für einen Benutzer zu finden
 
 5. **LoginDtos** - Response DTO geändert:
@@ -30,12 +34,14 @@
    - `POST /api/bookings/login` - Aktualisiert für mehrere Buchungs-IDs
    - `GET /api/bookings/{bookingId}/secure` - Validiert Token gegen Liste von IDs
    - `GET /api/bookings/by-name/{name}` - Neuer Endpoint zum Abrufen von Buchungen nach Name
+   - `POST /api/bookings/by-ids` - Neuer Endpoint zum Abrufen von Buchungen nach ID-Liste
 
 ### Frontend (Angular)
 
 1. **BookingService** - Interface aktualisiert:
    - `LoginResponseDto` Interface angepasst: `bookingIds: number[]`
    - Neue Methode `getByName(name: string)` hinzugefügt
+   - Neue Methode `getByIds(ids: number[])` hinzugefügt
 
 2. **LoginPageComponent** - Login-Logik erweitert:
    - Speichert jetzt `bookingIds` (als JSON Array), `userName` und `token` im sessionStorage
@@ -43,7 +49,8 @@
 
 3. **DashboardPageComponent** - Benutzer-spezifische Ansicht:
    - Prüft beim Initialisieren, ob Benutzer eingeloggt ist
-   - Lädt nur Buchungen für den eingeloggten Benutzer (via `getByName()`)
+   - Lädt nur Buchungen für den eingeloggten Benutzer (via `getByIds()` mit bookingIds aus sessionStorage)
+   - Fallback auf `getByName()` falls Backend-Endpoint noch nicht verfügbar
    - Zeigt Benutzernamen im Header an
    - Logout-Funktion löscht alle Session-Daten
 
@@ -51,10 +58,15 @@
    - Schützt das Dashboard vor unautorisierten Zugriffen
    - Leitet nicht-eingeloggte Benutzer zur Login-Seite
 
-5. **App Routes** - Route-Schutz:
+5. **AuthInterceptor** - HTTP-Interceptor:
+   - Fügt automatisch `Authorization: Bearer {token}` Header zu allen API-Requests hinzu
+   - Fügt `X-Login-Token: {token}` Header hinzu
+   - Registriert in `app.config.ts`
+
+6. **App Routes** - Route-Schutz:
    - Dashboard-Route mit `canActivate: [authGuard]` geschützt
 
-6. **Dashboard UI** - Verbesserungen:
+7. **Dashboard UI** - Verbesserungen:
    - Header zeigt "Logged in as: [Email]"
    - "Back" Button geändert zu "Logout"
    - Titel geändert von "Bookings" zu "My Bookings"
@@ -65,9 +77,36 @@
 2. **Validierung**: Backend prüft, ob Buchungsnummer mit Namen übereinstimmt
 3. **Token-Erstellung**: Wenn valide, werden ALLE Buchungen mit diesem Namen gefunden
 4. **Token**: Ein signiertes Token wird erstellt mit allen Buchungs-IDs des Benutzers
-5. **Dashboard**: Nur die Buchungen des eingeloggten Benutzers werden angezeigt
+5. **Dashboard**: Nur die Buchungen des eingeloggten Benutzers werden geladen (via `getByIds()`)
 6. **Mehrere Buchungen**: Wenn ein Benutzer mehrere Buchungen hat, werden alle angezeigt
-7. **Sicherheit**: AuthGuard verhindert direkten Zugriff auf Dashboard ohne Login
+7. **Sicherheit**: 
+   - AuthGuard verhindert direkten Zugriff auf Dashboard ohne Login
+   - AuthInterceptor fügt Token automatisch zu allen API-Requests hinzu
+   - Backend validiert Token bei jedem Request
+
+## API-Endpoints
+
+### Login
+```
+POST /api/bookings/login
+Body: { bookingNumber: string, name: string }
+Response: { bookingIds: number[], token: string }
+```
+
+### Buchungen laden (nach IDs)
+```
+POST /api/bookings/by-ids
+Body: [1, 2, 3, ...]
+Headers: { Authorization: "Bearer {token}" }
+Response: BookingDto[]
+```
+
+### Buchungen laden (nach Name)
+```
+GET /api/bookings/by-name/{name}
+Headers: { Authorization: "Bearer {token}" }
+Response: BookingDto[]
+```
 
 ## Voraussetzungen zum Testen
 
@@ -81,3 +120,5 @@
 2. Logge dich mit dieser E-Mail und einer der Buchungsnummern ein
 3. Dashboard sollte BEIDE Buchungen anzeigen
 4. Logout und versuche direkt auf `/dashboard` zuzugreifen ? Umleitung zu Login
+5. Browser-Console sollte zeigen: "User booking IDs: [2, 4]"
+6. Network-Tab sollte zeigen: POST zu `/api/bookings/by-ids` mit `[2, 4]` im Body

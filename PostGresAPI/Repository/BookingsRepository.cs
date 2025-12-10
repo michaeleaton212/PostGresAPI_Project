@@ -75,6 +75,23 @@ public class BookingRepository : IBookingRepository
         }
     }
 
+    // Get bookings by list of ids
+    public async Task<List<Booking>> GetByIds(List<int> ids)
+    {
+        try
+        {
+            return await _db.Bookings
+                .AsNoTracking()
+                .Where(b => ids.Contains(b.Id))
+                .OrderBy(b => b.StartTime)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Abrufen von Bookings für IDs: {string.Join(", ", ids)}", ex);
+        }
+    }
+
     // Get bookings by room ID
     public async Task<List<Booking>> GetByRoomId(int roomId)
     {

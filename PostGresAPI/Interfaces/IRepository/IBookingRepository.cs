@@ -15,6 +15,9 @@ namespace PostGresAPI.Repository
         // Get booking via id
         Task<Booking?> GetById(int id);
 
+        // Get bookings by list of ids
+        Task<List<Booking>> GetByIds(List<int> ids);
+
         // Get booking via booking number
         Task<Booking?> GetByBookingNumber(string bookingNumber);
 

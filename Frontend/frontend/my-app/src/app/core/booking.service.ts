@@ -33,6 +33,13 @@ export class BookingService {
   }
 
   /**
+   * Get bookings by list of IDs
+   */
+  getByIds(ids: number[]): Observable<Booking[]> {
+    return this.api.post<Booking[]>('bookings/by-ids', ids);
+  }
+
+  /**
    * Get bookings by name
    */
   getByName(name: string): Observable<Booking[]> {
