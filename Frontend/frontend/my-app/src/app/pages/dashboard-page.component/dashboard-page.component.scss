@@ -110,6 +110,15 @@
         color: rgba(200, 200, 200, 0.6);
       }
     }
+
+    &.expired-row {
+      opacity: 0.5;
+      background: rgba(80, 50, 50, 0.3);
+
+      > div:not(.cell-left) {
+        color: rgba(200, 180, 180, 0.6);
+      }
+    }
   }
 
     .overview-row:last-child {
@@ -299,7 +308,7 @@
   color: rgba(22, 171, 116, 1);
 }
 
-/* Ausgecheckt / Nicht eingecheckt = rot */
+/* Abgelaufen / Nicht eingecheckt = rot */
 .status-not-checked {
   background-color: rgba(255, 59, 48, 0.3);
   border-color: rgba(255, 59, 48, 0.6);

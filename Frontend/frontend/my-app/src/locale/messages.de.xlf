@@ -1210,6 +1210,78 @@
           <context context-type="linenumber">117,118</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="booking.status.pending" datatype="html">
+        <source>Pending</source>
+        <target>Ausstehend</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Pending</note>
+      </trans-unit>
+      <trans-unit id="booking.status.checkedIn" datatype="html">
+        <source>Checked In</source>
+        <target>Eingecheckt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Checked In</note>
+      </trans-unit>
+      <trans-unit id="booking.status.expired" datatype="html">
+        <source>Expired</source>
+        <target>Abgelaufen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Expired</note>
+      </trans-unit>
+      <trans-unit id="booking.status.cancelled" datatype="html">
+        <source>Cancelled</source>
+        <target>Storniert</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Cancelled</note>
+      </trans-unit>
+      <trans-unit id="booking.status.unknown" datatype="html">
+        <source>Unknown</source>
+        <target>Unbekannt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Unknown</note>
+      </trans-unit>
+      <trans-unit id="dashboard.loggedInAs" datatype="html">
+        <source>Logged in as:</source>
+        <target>Angemeldet als:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Dashboard user info label</note>
+      </trans-unit>
+      <trans-unit id="dashboard.logout" datatype="html">
+        <source>Logout</source>
+        <target>Abmelden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">Logout button text</note>
+      </trans-unit>
+      <trans-unit id="dashboard.myBookings" datatype="html">
+        <source>My Bookings</source>
+        <target>Meine Buchungen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">My bookings title</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>

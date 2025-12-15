@@ -132,6 +132,8 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/room-preview-page.component/room-preview-page.component.html</context>
+          <context context-type="sourcefile">src/app/pages/room-preview-page.component/room-preview-page.component.html</context>
+          <context context-type="sourcefile">src/app/pages/room-preview-page.component/room-preview-page.component.html</context>
           <context context-type="linenumber">20,21</context>
         </context-group>
       </trans-unit>
@@ -762,6 +764,8 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/room-preview-page.component/room-preview-page.component.html</context>
+          <context context-type="sourcefile">src/app/pages/room-preview-page.component/room-preview-page.component.html</context>
+          <context context-type="sourcefile">src/app/pages/room-preview-page.component/room-preview-page.component.html</context>
           <context context-type="linenumber">104,105</context>
         </context-group>
       </trans-unit>
@@ -888,6 +892,8 @@
       <trans-unit id="6979612587505002728" datatype="html">
         <source>e.g. 18F6ADB8</source>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login-page.component/login-page.component.html</context>
+          <context context-type="sourcefile">src/app/pages/login-page.component/login-page.component.html</context>
           <context context-type="sourcefile">src/app/pages/login-page.component/login-page.component.html</context>
           <context context-type="linenumber">33,34</context>
         </context-group>
@@ -1043,6 +1049,70 @@
           <context context-type="sourcefile">src/app/pages/rooms-page.component/rooms-page.component.html</context>
           <context context-type="linenumber">117,118</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="booking.status.pending" datatype="html">
+        <source>Pending</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Pending</note>
+      </trans-unit>
+      <trans-unit id="booking.status.checkedIn" datatype="html">
+        <source>Checked In</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Checked In</note>
+      </trans-unit>
+      <trans-unit id="booking.status.expired" datatype="html">
+        <source>Expired</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Expired</note>
+      </trans-unit>
+      <trans-unit id="booking.status.cancelled" datatype="html">
+        <source>Cancelled</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Cancelled</note>
+      </trans-unit>
+      <trans-unit id="booking.status.unknown" datatype="html">
+        <source>Unknown</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">Booking status: Unknown</note>
+      </trans-unit>
+      <trans-unit id="dashboard.loggedInAs" datatype="html">
+        <source>Logged in as:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Dashboard user info label</note>
+      </trans-unit>
+      <trans-unit id="dashboard.logout" datatype="html">
+        <source>Logout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">Logout button text</note>
+      </trans-unit>
+      <trans-unit id="dashboard.myBookings" datatype="html">
+        <source>My Bookings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">My bookings title</note>
       </trans-unit>
     </body>
   </file>

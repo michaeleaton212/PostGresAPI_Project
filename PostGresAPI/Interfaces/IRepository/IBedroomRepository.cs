@@ -22,4 +22,4 @@ namespace PostGresAPI.Repository
     }
 }
 
-// The interface tells my repository what it has to offer// The interface tells my repository what it has to offer
+// The interface tells my repository what it has to offer, but not how

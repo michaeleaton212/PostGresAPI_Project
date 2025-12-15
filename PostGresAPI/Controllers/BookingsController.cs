@@ -63,18 +63,12 @@ public class BookingsController : ControllerBase
     }
 
     // GET /api/bookings/room/{roomId}
+    // PUBLIC: Availability requires all bookings for the room, regardless of user
     [HttpGet("room/{roomId:int}")]
     public async Task<ActionResult<IEnumerable<BookingDto>>> GetByRoomId(int roomId)
     {
-        // This endpoint should return all bookings for a room (for availability)
-        // but filtered by authorized bookings
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
-        
         var allDtos = await _svc.GetByRoomId(roomId);
-        // Only return bookings that the user is authorized to see
-        var filtered = allDtos.Where(b => authorizedIds.Contains(b.Id)).ToList();
-        return Ok(filtered);
+        return Ok(allDtos);
     }
 
     // POST /api/bookings

@@ -28,3 +28,5 @@ public static class BedroomMappingExtensions
         entity.SetImagePath(dto.ImagePath);
     }
 }
+
+//extension files are for mapping between entities and DTOs

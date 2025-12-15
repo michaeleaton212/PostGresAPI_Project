@@ -23,32 +23,54 @@ namespace PostGresAPI.Services
         // Read
         public async Task<List<BookingDto>> GetAll()
         {
+            await UpdateExpiredBookings();
             var list = await _bookings.GetAll();
             return list.Select(b => b.ToDto()).ToList();
         }
 
         public async Task<BookingDto?> GetById(int id)
         {
+            await UpdateExpiredBookings();
             var b = await _bookings.GetById(id);
             return b is null ? null : b.ToDto();
         }
 
         public async Task<List<BookingDto>> GetByRoomId(int roomId)
         {
+            await UpdateExpiredBookings();
             var list = await _bookings.GetByRoomId(roomId);
             return list.Select(b => b.ToDto()).ToList();
         }
 
         public async Task<List<BookingDto>> GetByName(string name)
         {
+            await UpdateExpiredBookings();
             var list = await _bookings.GetByName(name);
             return list.Select(b => b.ToDto()).ToList();
         }
 
         public async Task<List<BookingDto>> GetByIds(List<int> ids)
         {
+            await UpdateExpiredBookings();
             var list = await _bookings.GetByIds(ids);
             return list.Select(b => b.ToDto()).ToList();
+        }
+
+        // Helper method to automatically update expired bookings
+        private async Task UpdateExpiredBookings()
+        {
+            var allBookings = await _bookings.GetAll();
+            var now = DateTimeOffset.UtcNow;
+
+            foreach (var booking in allBookings)
+            {
+                // Only update bookings that are Pending or CheckedIn and have ended
+                if ((booking.Status == BookingStatus.Pending || booking.Status == BookingStatus.CheckedIn) 
+                    && booking.EndTime < now)
+                {
+                    await _bookings.UpdateStatus(booking.Id, BookingStatus.Expired);
+                }
+            }
         }
 
         // Helper
@@ -98,7 +120,7 @@ namespace PostGresAPI.Services
         public async Task<(bool Ok, string? Error, BookingDto? Result)> UpdateStatus(int id, UpdateBookingStatusDto updateStatusDto)
         {
             if (!Enum.TryParse<BookingStatus>(updateStatusDto.Status, true, out var status))
-                return (false, "Invalid status. Valid values are: Pending, CheckedIn, CheckedOut, Cancelled", null);
+                return (false, "Invalid status. Valid values are: Pending, CheckedIn, Expired, Cancelled", null);
 
             var existing = await _bookings.GetById(id);
             if (existing is null)

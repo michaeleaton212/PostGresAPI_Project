@@ -1,14 +1,14 @@
 <div class="page">
   <div class="page-header">
     <div class="user-info" *ngIf="userName">
-      <span i18n>Logged in as:</span> <strong>{{ userName }}</strong>
+      <span i18n="@@dashboard.loggedInAs">Logged in as:</span> <strong>{{ userName }}</strong>
     </div>
-    <button class="back-button hide-mobile" (click)="goBackLogin()" i18n>Logout</button>
+    <button class="back-button hide-mobile" (click)="goBackLogin()" i18n="@@dashboard.logout">Logout</button>
   </div>
 
   <!-- Booking overview -->
   <div class="overview">
-    <h3 i18n>My Bookings</h3>
+    <h3 i18n="@@dashboard.myBookings">My Bookings</h3>
 
     <div class="activeBookings" i18n>
       {{ bookings.length }} booking(s)
@@ -31,7 +31,8 @@
       <!-- Dynamische Daten -->
       <div class="overview-row"
            *ngFor="let b of bookings"
-           [class.cancelled-row]="isCancelled(b)">
+           [class.cancelled-row]="isCancelled(b)"
+           [class.expired-row]="isExpired(b)">
 
         <div data-label="Name:" i18n-data-label>
           <span class="value-text" [title]="b.name">{{ b.name }}</span>
@@ -77,11 +78,11 @@
 
         <!-- Toggle Einchecken/Auschecken -->
         <div data-label="Check in:" i18n-data-label>
-          <div class="toggle" [class.disabled]="isCancelled(b) || isCheckedIn(b)">
+          <div class="toggle" [class.disabled]="isCancelled(b) || isExpired(b) || isCheckedIn(b)">
             <input type="checkbox"
                    [id]="'checkin-' + b.bookingNumber"
                    [checked]="isCheckedIn(b)"
-                   [disabled]="isCancelled(b) || isCheckedIn(b)"
+                   [disabled]="isCancelled(b) || isExpired(b) || isCheckedIn(b)"
                    (change)="toggleCheckIn(b)" />
             <label [for]="'checkin-' + b.bookingNumber"></label>
           </div>
@@ -91,7 +92,7 @@
         <div data-label="Cancel:" i18n-data-label>
           <button class="stornieren"
                   (click)="cancelBooking(b.bookingNumber)"
-                  [disabled]="isCancelled(b)"
+                  [disabled]="isCancelled(b) || isExpired(b)"
                   i18n>
             { isCancelled(b), select,
             true {Cancelled}
@@ -113,7 +114,7 @@
 
     <!-- Logout Button für Mobile -->
     <div class="mobile-logout-wrapper show-mobile">
-      <button class="mobile-logout-button" (click)="goBackLogin()" i18n>Logout</button>
+      <button class="mobile-logout-button" (click)="goBackLogin()" i18n="@@dashboard.logout">Logout</button>
     </div>
   </div>
 

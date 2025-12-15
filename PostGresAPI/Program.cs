@@ -31,6 +31,9 @@ builder.Services.AddScoped<IBookingService, BookingService>(); // add booking se
 // Dependency Injection - Token Service (für sichere Login-Tokens)
 builder.Services.AddSingleton<ITokenService, TokenService>(); // TokenService erzeugt und prüft HMAC-Token für Login
 
+// Dependency Injection - Background Services
+builder.Services.AddHostedService<BookingExpirationService>(); // Automatically expire bookings after EndTime
+
 builder.Services.AddControllers() // add controllers
     .AddJsonOptions(options =>
     {

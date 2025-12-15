@@ -15,5 +15,5 @@ namespace PostGresAPI.Services
 }
 
 
-// The interface tells my service what it has to offer
+// The interface tells my service what it has to offer, but not how
 

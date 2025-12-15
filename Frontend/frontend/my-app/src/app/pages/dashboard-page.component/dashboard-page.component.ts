@@ -38,6 +38,13 @@ export class DashboardPageComponent implements OnInit {
 
   readonly BookingStatus = BookingStatus;
 
+  // Status texts for i18n
+  statusPending = $localize`:@@booking.status.pending:Pending`;
+  statusCheckedIn = $localize`:@@booking.status.checkedIn:Checked In`;
+  statusExpired = $localize`:@@booking.status.expired:Expired`;
+  statusCancelled = $localize`:@@booking.status.cancelled:Cancelled`;
+  statusUnknown = $localize`:@@booking.status.unknown:Unknown`;
+
   ngOnInit() {
     console.log('=== DASHBOARD INIT ===');
     
@@ -142,9 +149,13 @@ export class DashboardPageComponent implements OnInit {
     return booking.status === BookingStatus.Cancelled;
   }
 
+  isExpired(booking: BookingDisplay): boolean {
+    return booking.status === BookingStatus.Expired;
+  }
+
   toggleCheckIn(booking: BookingDisplay) {
-    // Don't allow toggle for cancelled bookings or already checked-in bookings
-    if (this.isCancelled(booking) || this.isCheckedIn(booking)) {
+    // Don't allow toggle for cancelled, expired bookings or already checked-in bookings
+    if (this.isCancelled(booking) || this.isExpired(booking) || this.isCheckedIn(booking)) {
       return;
     }
 
@@ -169,8 +180,8 @@ export class DashboardPageComponent implements OnInit {
     const booking = this.bookings.find(b => b.bookingNumber === bookingNumber);
     if (!booking) return;
 
-    // Don't allow cancelling if already cancelled
-    if (this.isCancelled(booking)) {
+    // Don't allow cancelling if already cancelled or expired
+    if (this.isCancelled(booking) || this.isExpired(booking)) {
       return;
     }
 
@@ -194,15 +205,15 @@ export class DashboardPageComponent implements OnInit {
   getStatusText(status: BookingStatus): string {
     switch (status) {
       case BookingStatus.Pending:
-        return 'Ausstehend';
+        return this.statusPending;
       case BookingStatus.CheckedIn:
-        return 'Eingecheckt';
-      case BookingStatus.CheckedOut:
-        return 'Ausgecheckt';
+        return this.statusCheckedIn;
+      case BookingStatus.Expired:
+        return this.statusExpired;
       case BookingStatus.Cancelled:
-        return 'Storniert';
+        return this.statusCancelled;
       default:
-        return 'Unbekannt';
+        return this.statusUnknown;
     }
   }
 

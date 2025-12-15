@@ -46,3 +46,4 @@ namespace PostGresAPI.Services
         public Task<bool> Delete(int id) => _repo.Delete(id);
     }
 }
+// The service contains the business logic and interacts with the repository
