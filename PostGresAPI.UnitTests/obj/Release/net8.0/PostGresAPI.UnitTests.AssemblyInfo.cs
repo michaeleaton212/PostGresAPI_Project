@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PostGresAPI.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+560cf13aba9b211d28e1c482d0da300f3de2229b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee01733cb97f8b5384aaff11a55599af53d9f2cd")]
 [assembly: System.Reflection.AssemblyProductAttribute("PostGresAPI.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PostGresAPI.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
