@@ -1,0 +1,8 @@
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\bin\Debug\net10.0\.msCoverageSourceRootsMapping_PostGresAPI.UnitTests
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\bin\Debug\net10.0\CoverletSourceRootsMapping_PostGresAPI.UnitTests
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net10.0\PostGresAPI.UnitTests.csproj.AssemblyReference.cache
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net10.0\PostGresAPI.UnitTests.GeneratedMSBuildEditorConfig.editorconfig
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net10.0\PostGresAPI.UnitTests.AssemblyInfoInputs.cache
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net10.0\PostGresAPI.UnitTests.AssemblyInfo.cs
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net10.0\PostGresAPI.UnitTests.csproj.CoreCompileInputs.cache
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net10.0\PostGresAPI.UnitTests.sourcelink.json
