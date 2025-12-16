@@ -23,8 +23,8 @@ public class RoomServiceTests
         // Arrange
         var rooms = new List<Room>
         {
-            new Bedroom { Id = 1, Name = "Room 1" },
-            new Meetingroom { Id = 2, Name = "Room 2", NumberOfChairs = 10 }
+            new Bedroom("Room 1", 2),
+            new Meetingroom("Room 2", 10)
         };
 
         _mockRepo.Setup(r => r.GetAll()).ReturnsAsync(rooms);
@@ -42,7 +42,7 @@ public class RoomServiceTests
         // Arrange
         var bedrooms = new List<Bedroom>
         {
-            new Bedroom { Id = 1, Name = "Bedroom 1" }
+            new Bedroom("Bedroom 1", 2)
         };
 
         _mockRepo.Setup(r => r.GetBedrooms()).ReturnsAsync(bedrooms);
@@ -61,7 +61,7 @@ public class RoomServiceTests
         // Arrange
         var meetingrooms = new List<Meetingroom>
         {
-            new Meetingroom { Id = 2, Name = "Meeting 1", NumberOfChairs = 10 }
+            new Meetingroom("Meeting 1", 10)
         };
 
         _mockRepo.Setup(r => r.GetMeetingrooms()).ReturnsAsync(meetingrooms);
@@ -90,7 +90,7 @@ public class RoomServiceTests
         // Arrange
         var bedrooms = new List<Bedroom>
         {
-            new Bedroom { Id = 1, Name = "Bedroom 1" }
+            new Bedroom("Bedroom 1", 2)
         };
 
         _mockRepo.Setup(r => r.GetBedrooms()).ReturnsAsync(bedrooms);
@@ -107,7 +107,7 @@ public class RoomServiceTests
     public async Task GetById_ExistingRoom_ReturnsRoom()
     {
         // Arrange
-        var room = new Bedroom { Id = 1, Name = "Test Room" };
+        var room = new Bedroom("Test Room", 2);
         _mockRepo.Setup(r => r.GetById(1)).ReturnsAsync(room);
 
         // Act
@@ -115,7 +115,6 @@ public class RoomServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(1, result.Id);
         Assert.Equal("Test Room", result.Name);
     }
 
@@ -140,16 +139,10 @@ public class RoomServiceTests
         {
             Name = "New Meeting Room",
             NumberOfChairs = 20,
-            Image = "/images/meeting.jpg"
+            ImagePath = "/images/meeting.jpg"
         };
 
-        var createdRoom = new Meetingroom
-        {
-            Id = 1,
-            Name = dto.Name,
-            NumberOfChairs = dto.NumberOfChairs,
-            ImagePath = dto.Image
-        };
+        var createdRoom = new Meetingroom("New Meeting Room", 20);
 
         _mockRepo.Setup(r => r.Add(It.IsAny<Room>())).ReturnsAsync(createdRoom);
 
@@ -172,12 +165,7 @@ public class RoomServiceTests
             NumberOfChairs = 15
         };
 
-        var createdRoom = new Meetingroom
-        {
-            Id = 1,
-            Name = dto.Name,
-            NumberOfChairs = dto.NumberOfChairs
-        };
+        var createdRoom = new Meetingroom("Meeting Room", 15);
 
         _mockRepo.Setup(r => r.Add(It.IsAny<Room>())).ReturnsAsync(createdRoom);
 
@@ -196,15 +184,11 @@ public class RoomServiceTests
         var dto = new CreateBedroomDto
         {
             Name = "New Bedroom",
-            Image = "/images/bedroom.jpg"
+            NumberOfBeds = 2,
+            ImagePath = "/images/bedroom.jpg"
         };
 
-        var createdRoom = new Bedroom
-        {
-            Id = 1,
-            Name = dto.Name,
-            ImagePath = dto.Image
-        };
+        var createdRoom = new Bedroom("New Bedroom", 2);
 
         _mockRepo.Setup(r => r.Add(It.IsAny<Room>())).ReturnsAsync(createdRoom);
 
@@ -221,7 +205,7 @@ public class RoomServiceTests
     public async Task UpdateName_ExistingRoom_ReturnsUpdatedRoom()
     {
         // Arrange
-        var updatedRoom = new Bedroom { Id = 1, Name = "Updated Name" };
+        var updatedRoom = new Bedroom("Updated Name", 2);
         _mockRepo.Setup(r => r.UpdateName(1, "Updated Name")).ReturnsAsync(updatedRoom);
 
         // Act
@@ -249,15 +233,16 @@ public class RoomServiceTests
     public async Task UpdateImage_ExistingRoom_ReturnsUpdatedRoom()
     {
         // Arrange
-        var updatedRoom = new Bedroom { Id = 1, Name = "Room", ImagePath = "/new-image.jpg" };
-        _mockRepo.Setup(r => r.UpdateImage(1, "/new-image.jpg")).ReturnsAsync(updatedRoom);
+        var room = new Bedroom("Room", 2);
+        room.SetImagePath("/new-image.jpg");
+        _mockRepo.Setup(r => r.UpdateImage(1, "/new-image.jpg")).ReturnsAsync(room);
 
         // Act
         var result = await _service.UpdateImage(1, "/new-image.jpg");
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal("/new-image.jpg", result.Image);
+        Assert.Equal("/new-image.jpg", result.image);
     }
 
     [Fact]

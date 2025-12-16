@@ -29,9 +29,9 @@ public class BookingRepositoryIntegrationTests : IDisposable
         // Add test rooms
         var rooms = new List<Room>
         {
-            new Bedroom { Name = "Bedroom 1" },
-            new Bedroom { Name = "Bedroom 2" },
-            new Meetingroom { Name = "Meeting Room 1", NumberOfChairs = 10 }
+            new Bedroom("Bedroom 1", 2),
+            new Bedroom("Bedroom 2", 2),
+            new Meetingroom("Meeting Room 1", 10)
         };
         _context.Rooms.AddRange(rooms);
         _context.SaveChanges();
@@ -228,13 +228,12 @@ public class BookingRepositoryIntegrationTests : IDisposable
     public async Task Add_CreatesNewBooking()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 1,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "New Booking"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 1,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "New Booking"
+        );
 
         // Act
         var result = await _repository.Add(dto);

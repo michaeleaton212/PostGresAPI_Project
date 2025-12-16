@@ -24,8 +24,8 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task GetAll_ReturnsAllRooms()
     {
         // Arrange
-        _context.Rooms.Add(new Bedroom { Name = "Bedroom 1" });
-        _context.Rooms.Add(new Meetingroom { Name = "Meeting 1", NumberOfChairs = 10 });
+        _context.Rooms.Add(new Bedroom("Bedroom 1", 2));
+        _context.Rooms.Add(new Meetingroom("Meeting 1", 10));
         await _context.SaveChangesAsync();
 
         // Act
@@ -39,9 +39,9 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task GetBedrooms_ReturnsOnlyBedrooms()
     {
         // Arrange
-        _context.Rooms.Add(new Bedroom { Name = "Bedroom 1" });
-        _context.Rooms.Add(new Bedroom { Name = "Bedroom 2" });
-        _context.Rooms.Add(new Meetingroom { Name = "Meeting 1", NumberOfChairs = 10 });
+        _context.Rooms.Add(new Bedroom("Bedroom 1", 2));
+        _context.Rooms.Add(new Bedroom("Bedroom 2", 1));
+        _context.Rooms.Add(new Meetingroom("Meeting 1", 10));
         await _context.SaveChangesAsync();
 
         // Act
@@ -56,9 +56,9 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task GetMeetingrooms_ReturnsOnlyMeetingrooms()
     {
         // Arrange
-        _context.Rooms.Add(new Bedroom { Name = "Bedroom 1" });
-        _context.Rooms.Add(new Meetingroom { Name = "Meeting 1", NumberOfChairs = 10 });
-        _context.Rooms.Add(new Meetingroom { Name = "Meeting 2", NumberOfChairs = 20 });
+        _context.Rooms.Add(new Bedroom("Bedroom 1", 2));
+        _context.Rooms.Add(new Meetingroom("Meeting 1", 10));
+        _context.Rooms.Add(new Meetingroom("Meeting 2", 20));
         await _context.SaveChangesAsync();
 
         // Act
@@ -73,7 +73,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task GetById_ExistingRoom_ReturnsRoom()
     {
         // Arrange
-        var room = new Bedroom { Name = "Test Room" };
+        var room = new Bedroom("Test Room", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
 
@@ -100,7 +100,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task Add_CreatesBedroom()
     {
         // Arrange
-        var bedroom = new Bedroom { Name = "New Bedroom" };
+        var bedroom = new Bedroom("New Bedroom", 2);
 
         // Act
         var result = await _repository.Add(bedroom);
@@ -119,7 +119,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task Add_CreatesMeetingroom()
     {
         // Arrange
-        var meetingroom = new Meetingroom { Name = "New Meeting Room", NumberOfChairs = 15 };
+        var meetingroom = new Meetingroom("New Meeting Room", 15);
 
         // Act
         var result = await _repository.Add(meetingroom);
@@ -135,7 +135,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task UpdateName_UpdatesRoomName()
     {
         // Arrange
-        var room = new Bedroom { Name = "Original Name" };
+        var room = new Bedroom("Original Name", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
 
@@ -165,7 +165,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task UpdateImage_UpdatesRoomImage()
     {
         // Arrange
-        var room = new Bedroom { Name = "Test Room" };
+        var room = new Bedroom("Test Room", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
 
@@ -191,7 +191,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task Delete_RemovesRoom()
     {
         // Arrange
-        var room = new Bedroom { Name = "To Delete" };
+        var room = new Bedroom("To Delete", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
         var roomId = room.Id;
@@ -221,7 +221,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task Exists_ExistingRoom_ReturnsTrue()
     {
         // Arrange
-        var room = new Bedroom { Name = "Test Room" };
+        var room = new Bedroom("Test Room", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
 
@@ -246,9 +246,9 @@ public class RoomRepositoryIntegrationTests : IDisposable
     public async Task GetAll_ReturnsSortedById()
     {
         // Arrange
-        var room3 = new Bedroom { Name = "Room 3" };
-        var room1 = new Bedroom { Name = "Room 1" };
-        var room2 = new Bedroom { Name = "Room 2" };
+        var room3 = new Bedroom("Room 3", 3);
+        var room1 = new Bedroom("Room 1", 1);
+        var room2 = new Bedroom("Room 2", 2);
         
         _context.Rooms.Add(room3);
         _context.Rooms.Add(room1);

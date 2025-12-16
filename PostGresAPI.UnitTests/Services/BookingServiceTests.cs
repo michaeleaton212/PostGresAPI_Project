@@ -23,13 +23,12 @@ public class BookingServiceTests
     public async Task Create_ValidBooking_ReturnsSuccess()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 1,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Test Booking"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 1,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Test Booking"
+        );
 
         _mockRoomRepo.Setup(r => r.Exists(1)).ReturnsAsync(true);
         _mockBookingRepo.Setup(r => r.HasOverlap(It.IsAny<int>(), It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>()))
@@ -51,13 +50,12 @@ public class BookingServiceTests
     public async Task Create_StartAfterEnd_ReturnsError()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 1,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(2),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(1),
-            Title = "Invalid Booking"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 1,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(2),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(1),
+            Title: "Invalid Booking"
+        );
 
         // Act
         var result = await _service.Create(dto);
@@ -72,13 +70,12 @@ public class BookingServiceTests
     public async Task Create_RoomDoesNotExist_ReturnsError()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 999,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Test Booking"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 999,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Test Booking"
+        );
 
         _mockRoomRepo.Setup(r => r.Exists(999)).ReturnsAsync(false);
 
@@ -95,13 +92,12 @@ public class BookingServiceTests
     public async Task Create_TimeRangeOverlaps_ReturnsError()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 1,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Test Booking"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 1,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Test Booking"
+        );
 
         _mockRoomRepo.Setup(r => r.Exists(1)).ReturnsAsync(true);
         _mockBookingRepo.Setup(r => r.HasOverlap(1, dto.StartUtc, dto.EndUtc))
@@ -120,12 +116,11 @@ public class BookingServiceTests
     public async Task Update_ValidBooking_ReturnsSuccess()
     {
         // Arrange
-        var updateDto = new UpdateBookingDto
-        {
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Updated Booking"
-        };
+        var updateDto = new UpdateBookingDto(
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Updated Booking"
+        );
 
         var existingBooking = new Booking(
             1,
@@ -155,12 +150,11 @@ public class BookingServiceTests
     public async Task Update_StartAfterEnd_ReturnsError()
     {
         // Arrange
-        var updateDto = new UpdateBookingDto
-        {
-            StartUtc = DateTimeOffset.UtcNow.AddDays(2),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(1),
-            Title = "Invalid Update"
-        };
+        var updateDto = new UpdateBookingDto(
+            StartUtc: DateTimeOffset.UtcNow.AddDays(2),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(1),
+            Title: "Invalid Update"
+        );
 
         // Act
         var result = await _service.Update(1, updateDto);
@@ -175,12 +169,11 @@ public class BookingServiceTests
     public async Task Update_BookingNotFound_ReturnsError()
     {
         // Arrange
-        var updateDto = new UpdateBookingDto
-        {
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Update"
-        };
+        var updateDto = new UpdateBookingDto(
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Update"
+        );
 
         _mockBookingRepo.Setup(r => r.GetById(999)).ReturnsAsync((Booking?)null);
 
@@ -196,7 +189,7 @@ public class BookingServiceTests
     public async Task UpdateStatus_ValidStatus_ReturnsSuccess()
     {
         // Arrange
-        var statusDto = new UpdateBookingStatusDto { Status = "CheckedIn" };
+        var statusDto = new UpdateBookingStatusDto(Status: "CheckedIn");
         var existingBooking = new Booking(
             1,
             DateTimeOffset.UtcNow,
@@ -222,7 +215,7 @@ public class BookingServiceTests
     public async Task UpdateStatus_InvalidStatus_ReturnsError()
     {
         // Arrange
-        var statusDto = new UpdateBookingStatusDto { Status = "InvalidStatus" };
+        var statusDto = new UpdateBookingStatusDto(Status: "InvalidStatus");
         var existingBooking = new Booking(
             1,
             DateTimeOffset.UtcNow,
@@ -245,7 +238,7 @@ public class BookingServiceTests
     public async Task UpdateStatus_BookingNotFound_ReturnsError()
     {
         // Arrange
-        var statusDto = new UpdateBookingStatusDto { Status = "CheckedIn" };
+        var statusDto = new UpdateBookingStatusDto(Status: "CheckedIn");
         _mockBookingRepo.Setup(r => r.GetAll()).ReturnsAsync(new List<Booking>());
         _mockBookingRepo.Setup(r => r.GetById(999)).ReturnsAsync((Booking?)null);
 

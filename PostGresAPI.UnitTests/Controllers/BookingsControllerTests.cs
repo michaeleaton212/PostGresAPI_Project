@@ -31,13 +31,12 @@ public class BookingsControllerTests
     public async Task Create_ValidBooking_ReturnsCreatedAtAction()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 1,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Test"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 1,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Test"
+        );
 
         var createdBooking = new BookingDto(
             1,
@@ -65,13 +64,12 @@ public class BookingsControllerTests
     public async Task Create_InvalidBooking_ReturnsBadRequest()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 1,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(2),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(1),
-            Title = "Test"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 1,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(2),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(1),
+            Title: "Test"
+        );
 
         _mockService.Setup(s => s.Create(dto))
             .ReturnsAsync((false, "Start must be before End.", null));
@@ -88,13 +86,12 @@ public class BookingsControllerTests
     public async Task Create_RoomNotFound_ReturnsBadRequest()
     {
         // Arrange
-        var dto = new CreateBookingDto
-        {
-            RoomId = 999,
-            StartUtc = DateTimeOffset.UtcNow.AddDays(1),
-            EndUtc = DateTimeOffset.UtcNow.AddDays(2),
-            Title = "Test"
-        };
+        var dto = new CreateBookingDto(
+            RoomId: 999,
+            StartUtc: DateTimeOffset.UtcNow.AddDays(1),
+            EndUtc: DateTimeOffset.UtcNow.AddDays(2),
+            Title: "Test"
+        );
 
         _mockService.Setup(s => s.Create(dto))
             .ReturnsAsync((false, "Room 999 not found.", null));
@@ -111,11 +108,10 @@ public class BookingsControllerTests
     public async Task Login_ValidCredentials_ReturnsToken()
     {
         // Arrange
-        var loginDto = new LoginRequestDto
-        {
-            BookingNumber = "BK123",
-            Name = "test@example.com"
-        };
+        var loginDto = new LoginRequestDto(
+            BookingNumber: "BK123",
+            Name: "test@example.com"
+        );
 
         var bookingIds = new List<int> { 1, 2 };
         _mockService.Setup(s => s.GetBookingIdsByCredentials("BK123", "test@example.com"))
@@ -137,11 +133,10 @@ public class BookingsControllerTests
     public async Task Login_InvalidCredentials_ReturnsUnauthorized()
     {
         // Arrange
-        var loginDto = new LoginRequestDto
-        {
-            BookingNumber = "INVALID",
-            Name = "test@example.com"
-        };
+        var loginDto = new LoginRequestDto(
+            BookingNumber: "INVALID",
+            Name: "test@example.com"
+        );
 
         _mockService.Setup(s => s.GetBookingIdsByCredentials("INVALID", "test@example.com"))
             .ReturnsAsync(new List<int>());
@@ -157,11 +152,10 @@ public class BookingsControllerTests
     public async Task Login_EmptyBookingIds_ReturnsUnauthorized()
     {
         // Arrange
-        var loginDto = new LoginRequestDto
-        {
-            BookingNumber = "BK123",
-            Name = "test@example.com"
-        };
+        var loginDto = new LoginRequestDto(
+            BookingNumber: "BK123",
+            Name: "test@example.com"
+        );
 
         _mockService.Setup(s => s.GetBookingIdsByCredentials("BK123", "test@example.com"))
             .ReturnsAsync((List<int>?)null);
