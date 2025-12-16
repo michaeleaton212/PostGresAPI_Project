@@ -9,7 +9,6 @@
       "PostGresAPI.UnitTests/1.0.0": {
         "dependencies": {
           "FluentAssertions": "8.8.0",
-          "Microsoft.EntityFrameworkCore.InMemory": "8.0.11",
           "Microsoft.NET.Test.Sdk": "17.14.1",
           "Moq": "4.20.72",
           "PostGresAPI": "1.0.0",
@@ -72,17 +71,6 @@
           "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
             "assemblyVersion": "9.0.9.0",
             "fileVersion": "9.0.925.41909"
-          }
-        }
-      },
-      "Microsoft.EntityFrameworkCore.InMemory/8.0.11": {
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "9.0.9"
-        },
-        "runtime": {
-          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
-            "assemblyVersion": "8.0.11.0",
-            "fileVersion": "8.0.1124.52104"
           }
         }
       },
@@ -660,13 +648,6 @@
       "sha512": "sha512-QdM2k3Mnip2QsaxJbCI95dc2SajRMENdmaMhVKj4jPC5dmkoRcu3eEdvZAgDbd4bFVV1jtPGdHtXewtoBMlZqA==",
       "path": "microsoft.entityframeworkcore.abstractions/9.0.9",
       "hashPath": "microsoft.entityframeworkcore.abstractions.9.0.9.nupkg.sha512"
-    },
-    "Microsoft.EntityFrameworkCore.InMemory/8.0.11": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-gFFdubZlRfudSw94OxO7s8OvLQZncnR0S1ll//wRtZP3mMYVeq8DrMnEILK6hBJwbTBB1SNm3apg9SdvdE/ySg==",
-      "path": "microsoft.entityframeworkcore.inmemory/8.0.11",
-      "hashPath": "microsoft.entityframeworkcore.inmemory.8.0.11.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/9.0.9": {
       "type": "package",
