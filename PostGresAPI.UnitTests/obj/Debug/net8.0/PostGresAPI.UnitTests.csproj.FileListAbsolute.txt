@@ -130,3 +130,5 @@ C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net8.
 C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net8.0\PostGresAPI.UnitTests.pdb
 C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net8.0\PostGresAPI.UnitTests.genruntimeconfig.cache
 C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\obj\Debug\net8.0\ref\PostGresAPI.UnitTests.dll
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI.UnitTests\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll

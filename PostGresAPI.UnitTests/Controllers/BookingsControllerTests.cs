@@ -8,6 +8,9 @@ using PostGresAPI.Contracts;
 
 namespace PostGresAPI.UnitTests.Controllers;
 
+// tests HTTP-Result-Typ, Data in Result, and mapping of the data (Output test)
+// defines service output in mock and verifies controller output
+
 public class BookingsControllerTests
 {
     private readonly Mock<IBookingService> _mockService;

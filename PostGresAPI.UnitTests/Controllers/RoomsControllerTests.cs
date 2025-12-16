@@ -5,6 +5,9 @@ using PostGresAPI.Services;
 using PostGresAPI.Contracts;
 
 namespace PostGresAPI.UnitTests.Controllers;
+// tests HTTP-Result-Typ, Data in Result, and mappin gof the data(Output test)
+
+//defines service putput in mock and verifies controller output
 
 public class RoomsControllerTests
 {

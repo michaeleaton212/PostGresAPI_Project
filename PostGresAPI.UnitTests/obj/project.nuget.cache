@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "a3io1C7gH9c=",
+  "dgSpecHash": "PAodatBZepo=",
   "success": true,
   "projectFilePath": "C:\\PostGresAPI_Project\\PostGresAPI_Project\\PostGresAPI.UnitTests\\PostGresAPI.UnitTests.csproj",
   "expectedPackageFiles": [
@@ -47,7 +47,7 @@
     "C:\\Users\\a944918\\.nuget\\packages\\xunit.core\\2.9.3\\xunit.core.2.9.3.nupkg.sha512",
     "C:\\Users\\a944918\\.nuget\\packages\\xunit.extensibility.core\\2.9.3\\xunit.extensibility.core.2.9.3.nupkg.sha512",
     "C:\\Users\\a944918\\.nuget\\packages\\xunit.extensibility.execution\\2.9.3\\xunit.extensibility.execution.2.9.3.nupkg.sha512",
-    "C:\\Users\\a944918\\.nuget\\packages\\xunit.runner.visualstudio\\3.1.4\\xunit.runner.visualstudio.3.1.4.nupkg.sha512"
+    "C:\\Users\\a944918\\.nuget\\packages\\xunit.runner.visualstudio\\2.5.7\\xunit.runner.visualstudio.2.5.7.nupkg.sha512"
   ],
   "logs": []
 }

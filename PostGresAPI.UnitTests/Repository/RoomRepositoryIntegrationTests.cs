@@ -4,6 +4,7 @@ using PostGresAPI.Repository;
 using PostGresAPI.Models;
 
 namespace PostGresAPI.UnitTests.Repository;
+// test crude operations with temporary db in ram
 
 public class RoomRepositoryIntegrationTests : IDisposable
 {

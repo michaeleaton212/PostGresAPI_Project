@@ -8,6 +8,7 @@ namespace PostGresAPI.UnitTests.Services;
 
 public class RoomServiceTests
 {
+    //logic tests
     private readonly Mock<IRoomRepository> _mockRepo;
     private readonly RoomService _service;
 

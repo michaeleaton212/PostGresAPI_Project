@@ -5,7 +5,7 @@ using PostGresAPI.Models;
 using PostGresAPI.Contracts;
 
 namespace PostGresAPI.UnitTests.Repository;
-
+//test crude operations with temprary db in ram
 public class BookingRepositoryIntegrationTests : IDisposable
 {
     private readonly ApplicationDbContext _context;

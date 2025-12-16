@@ -6,6 +6,10 @@ using PostGresAPI.Contracts;
 
 namespace PostGresAPI.UnitTests.Services;
 
+
+// logic tests
+
+
 public class BookingServiceTests
 {
     private readonly Mock<IBookingRepository> _mockBookingRepo;
