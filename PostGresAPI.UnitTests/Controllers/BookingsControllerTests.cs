@@ -161,7 +161,7 @@ public class BookingsControllerTests
         );
 
         _mockService.Setup(s => s.GetBookingIdsByCredentials("BK123", "test@example.com"))
-            .ReturnsAsync((List<int>?)null);
+            .ReturnsAsync(new List<int>());
 
         // Act
         var result = await _controller.Login(loginDto);
