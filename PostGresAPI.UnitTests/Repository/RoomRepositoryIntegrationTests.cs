@@ -76,13 +76,15 @@ public class RoomRepositoryIntegrationTests : IDisposable
         var room = new Bedroom("Test Room", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
+        var roomId = room.Id;
+        _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.GetById(room.Id);
+        var result = await _repository.GetById(roomId);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(room.Id, result.Id);
+        Assert.Equal(roomId, result.Id);
         Assert.Equal("Test Room", result.Name);
     }
 
@@ -110,8 +112,9 @@ public class RoomRepositoryIntegrationTests : IDisposable
         Assert.True(result.Id > 0);
         Assert.Equal("New Bedroom", result.Name);
         
-        // Verify it was saved
-        var savedRoom = await _context.Rooms.FindAsync(result.Id);
+        // Clear and verify
+        _context.ChangeTracker.Clear();
+        var savedRoom = await _context.Rooms.FirstOrDefaultAsync(r => r.Id == result.Id);
         Assert.NotNull(savedRoom);
     }
 
@@ -138,16 +141,19 @@ public class RoomRepositoryIntegrationTests : IDisposable
         var room = new Bedroom("Original Name", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
+        var roomId = room.Id;
+        _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.UpdateName(room.Id, "Updated Name");
+        var result = await _repository.UpdateName(roomId, "Updated Name");
 
         // Assert
         Assert.NotNull(result);
         Assert.Equal("Updated Name", result.Name);
         
         // Verify in database
-        var updatedRoom = await _context.Rooms.FindAsync(room.Id);
+        _context.ChangeTracker.Clear();
+        var updatedRoom = await _context.Rooms.FirstOrDefaultAsync(r => r.Id == roomId);
         Assert.Equal("Updated Name", updatedRoom?.Name);
     }
 
@@ -168,9 +174,11 @@ public class RoomRepositoryIntegrationTests : IDisposable
         var room = new Bedroom("Test Room", 2);
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
+        var roomId = room.Id;
+        _context.ChangeTracker.Clear();
 
         // Act
-        var result = await _repository.UpdateImage(room.Id, "/images/new-image.jpg");
+        var result = await _repository.UpdateImage(roomId, "/images/new-image.jpg");
 
         // Assert
         Assert.NotNull(result);
@@ -195,6 +203,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
         var roomId = room.Id;
+        _context.ChangeTracker.Clear();
 
         // Act
         var result = await _repository.Delete(roomId);
@@ -203,7 +212,7 @@ public class RoomRepositoryIntegrationTests : IDisposable
         Assert.True(result);
         
         // Verify it was deleted
-        var deletedRoom = await _context.Rooms.FindAsync(roomId);
+        var deletedRoom = await _context.Rooms.FirstOrDefaultAsync(r => r.Id == roomId);
         Assert.Null(deletedRoom);
     }
 
