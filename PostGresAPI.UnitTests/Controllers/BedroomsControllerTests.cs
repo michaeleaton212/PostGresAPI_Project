@@ -25,8 +25,8 @@ public class BedroomsControllerTests
         // Arrange
         var bedrooms = new List<BedroomDto>
         {
-            new BedroomDto { Id = 1, Name = "Bedroom 1", NumberOfBeds = 2 },
-            new BedroomDto { Id = 2, Name = "Bedroom 2", NumberOfBeds = 1 }
+            new BedroomDto { Id = 1, Name = "Bedroom 1", NumberOfBeds = 2, PricePerNight = 100.00m },
+            new BedroomDto { Id = 2, Name = "Bedroom 2", NumberOfBeds = 1, PricePerNight = 75.50m }
         };
 
         _mockService.Setup(s => s.GetAll()).ReturnsAsync(bedrooms);
@@ -59,7 +59,7 @@ public class BedroomsControllerTests
     public async Task GetById_ExistingBedroom_ReturnsBedroom()
     {
         // Arrange
-        var bedroom = new BedroomDto { Id = 1, Name = "Test Bedroom", NumberOfBeds = 2 };
+        var bedroom = new BedroomDto { Id = 1, Name = "Test Bedroom", NumberOfBeds = 2, PricePerNight = 120.00m };
         _mockService.Setup(s => s.GetById(1)).ReturnsAsync(bedroom);
 
         // Act
@@ -70,6 +70,7 @@ public class BedroomsControllerTests
         var returnedBedroom = Assert.IsType<BedroomDto>(okResult.Value);
         Assert.Equal(1, returnedBedroom.Id);
         Assert.Equal("Test Bedroom", returnedBedroom.Name);
+        Assert.Equal(120.00m, returnedBedroom.PricePerNight);
     }
 
     [Fact]
@@ -92,7 +93,7 @@ public class BedroomsControllerTests
     public async Task GetById_VariousIds_ReturnsCorrectBedroom(int bedroomId)
     {
         // Arrange
-        var bedroom = new BedroomDto { Id = bedroomId, Name = $"Bedroom {bedroomId}", NumberOfBeds = 2 };
+        var bedroom = new BedroomDto { Id = bedroomId, Name = $"Bedroom {bedroomId}", NumberOfBeds = 2, PricePerNight = 100.00m + bedroomId };
         _mockService.Setup(s => s.GetById(bedroomId)).ReturnsAsync(bedroom);
 
         // Act
@@ -112,9 +113,10 @@ public class BedroomsControllerTests
         {
             Name = "New Bedroom",
             NumberOfBeds = 2,
-            ImagePath = "/images/bedroom.jpg"
+            ImagePath = "/images/bedroom.jpg",
+            PricePerNight = 150.00m
         };
-        var createdBedroom = new BedroomDto { Id = 1, Name = "New Bedroom", NumberOfBeds = 2 };
+        var createdBedroom = new BedroomDto { Id = 1, Name = "New Bedroom", NumberOfBeds = 2, PricePerNight = 150.00m };
 
         _mockService.Setup(s => s.Create(createDto)).ReturnsAsync(createdBedroom);
 
@@ -126,6 +128,7 @@ public class BedroomsControllerTests
         var returnedBedroom = Assert.IsType<BedroomDto>(createdResult.Value);
         Assert.Equal(1, returnedBedroom.Id);
         Assert.Equal("New Bedroom", returnedBedroom.Name);
+        Assert.Equal(150.00m, returnedBedroom.PricePerNight);
     }
 
     [Fact]
@@ -135,9 +138,10 @@ public class BedroomsControllerTests
         var createDto = new CreateBedroomDto
         {
             Name = "Simple Bedroom",
-            NumberOfBeds = 1
+            NumberOfBeds = 1,
+            PricePerNight = 80.00m
         };
-        var createdBedroom = new BedroomDto { Id = 1, Name = "Simple Bedroom", NumberOfBeds = 1 };
+        var createdBedroom = new BedroomDto { Id = 1, Name = "Simple Bedroom", NumberOfBeds = 1, PricePerNight = 80.00m };
 
         _mockService.Setup(s => s.Create(createDto)).ReturnsAsync(createdBedroom);
 
@@ -148,6 +152,7 @@ public class BedroomsControllerTests
         var createdResult = Assert.IsType<CreatedAtActionResult>(result.Result);
         var returnedBedroom = Assert.IsType<BedroomDto>(createdResult.Value);
         Assert.Equal("Simple Bedroom", returnedBedroom.Name);
+        Assert.Equal(80.00m, returnedBedroom.PricePerNight);
     }
 
     [Fact]
@@ -158,9 +163,10 @@ public class BedroomsControllerTests
         {
             Name = "Updated Bedroom",
             NumberOfBeds = 3,
-            ImagePath = "/images/updated.jpg"
+            ImagePath = "/images/updated.jpg",
+            PricePerNight = 200.00m
         };
-        var updatedBedroom = new BedroomDto { Id = 1, Name = "Updated Bedroom", NumberOfBeds = 3 };
+        var updatedBedroom = new BedroomDto { Id = 1, Name = "Updated Bedroom", NumberOfBeds = 3, PricePerNight = 200.00m };
 
         _mockService.Setup(s => s.Update(1, updateDto)).ReturnsAsync(updatedBedroom);
 
@@ -172,6 +178,7 @@ public class BedroomsControllerTests
         var returnedBedroom = Assert.IsType<BedroomDto>(okResult.Value);
         Assert.Equal("Updated Bedroom", returnedBedroom.Name);
         Assert.Equal(3, returnedBedroom.NumberOfBeds);
+        Assert.Equal(200.00m, returnedBedroom.PricePerNight);
     }
 
     [Fact]
@@ -181,7 +188,8 @@ public class BedroomsControllerTests
         var updateDto = new UpdateBedroomDto
         {
             Name = "Updated Bedroom",
-            NumberOfBeds = 2
+            NumberOfBeds = 2,
+            PricePerNight = 100.00m
         };
         _mockService.Setup(s => s.Update(999, updateDto)).ReturnsAsync((BedroomDto?)null);
 

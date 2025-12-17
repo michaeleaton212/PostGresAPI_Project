@@ -24,8 +24,8 @@ public class BedroomServiceTests
         // Arrange
         var bedrooms = new List<Bedroom>
         {
-            new Bedroom("Bedroom 1", 2),
-            new Bedroom("Bedroom 2", 1)
+            new Bedroom("Bedroom 1", 2) { PricePerNight = 100.00m },
+            new Bedroom("Bedroom 2", 1) { PricePerNight = 75.50m }
         };
 
         _mockRepo.Setup(r => r.GetAll()).ReturnsAsync(bedrooms);
@@ -54,7 +54,7 @@ public class BedroomServiceTests
     public async Task GetById_ExistingBedroom_ReturnsBedroom()
     {
         // Arrange
-        var bedroom = new Bedroom("Test Bedroom", 2);
+        var bedroom = new Bedroom("Test Bedroom", 2) { PricePerNight = 120.00m };
         _mockRepo.Setup(r => r.GetById(1)).ReturnsAsync(bedroom);
 
         // Act
@@ -63,6 +63,7 @@ public class BedroomServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal("Test Bedroom", result.Name);
+        Assert.Equal(120.00m, result.PricePerNight);
     }
 
     [Fact]
@@ -86,9 +87,10 @@ public class BedroomServiceTests
         {
             Name = "New Bedroom",
             NumberOfBeds = 2,
-            ImagePath = "/images/bedroom.jpg"
+            ImagePath = "/images/bedroom.jpg",
+            PricePerNight = 150.00m
         };
-        var createdBedroom = new Bedroom("New Bedroom", 2);
+        var createdBedroom = new Bedroom("New Bedroom", 2) { PricePerNight = 150.00m };
 
         _mockRepo.Setup(r => r.Add(createDto)).ReturnsAsync(createdBedroom);
 
@@ -99,6 +101,7 @@ public class BedroomServiceTests
         Assert.NotNull(result);
         Assert.Equal("New Bedroom", result.Name);
         Assert.Equal(2, result.NumberOfBeds);
+        Assert.Equal(150.00m, result.PricePerNight);
     }
 
     [Fact]
@@ -108,9 +111,10 @@ public class BedroomServiceTests
         var createDto = new CreateBedroomDto
         {
             Name = "Simple Bedroom",
-            NumberOfBeds = 1
+            NumberOfBeds = 1,
+            PricePerNight = 80.00m
         };
-        var createdBedroom = new Bedroom("Simple Bedroom", 1);
+        var createdBedroom = new Bedroom("Simple Bedroom", 1) { PricePerNight = 80.00m };
 
         _mockRepo.Setup(r => r.Add(createDto)).ReturnsAsync(createdBedroom);
 
@@ -120,6 +124,7 @@ public class BedroomServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal("Simple Bedroom", result.Name);
+        Assert.Equal(80.00m, result.PricePerNight);
     }
 
     [Fact]
@@ -130,9 +135,10 @@ public class BedroomServiceTests
         {
             Name = "Updated Bedroom",
             NumberOfBeds = 3,
-            ImagePath = "/images/updated.jpg"
+            ImagePath = "/images/updated.jpg",
+            PricePerNight = 200.00m
         };
-        var updatedBedroom = new Bedroom("Updated Bedroom", 3);
+        var updatedBedroom = new Bedroom("Updated Bedroom", 3) { PricePerNight = 200.00m };
 
         _mockRepo.Setup(r => r.Update(1, updateDto)).ReturnsAsync(updatedBedroom);
 
@@ -143,6 +149,7 @@ public class BedroomServiceTests
         Assert.NotNull(result);
         Assert.Equal("Updated Bedroom", result.Name);
         Assert.Equal(3, result.NumberOfBeds);
+        Assert.Equal(200.00m, result.PricePerNight);
     }
 
     [Fact]
@@ -152,7 +159,8 @@ public class BedroomServiceTests
         var updateDto = new UpdateBedroomDto
         {
             Name = "Updated Bedroom",
-            NumberOfBeds = 2
+            NumberOfBeds = 2,
+            PricePerNight = 100.00m
         };
         _mockRepo.Setup(r => r.Update(999, updateDto)).ReturnsAsync((Bedroom?)null);
 

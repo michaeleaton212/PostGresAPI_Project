@@ -10,7 +10,7 @@ public class RoomExtensionsTests
     public void ToDto_BedroomRoom_ReturnsDtoWithBedroomType()
     {
         // Arrange
-        var bedroom = new Bedroom("Luxury Suite", 2);
+        var bedroom = new Bedroom("Luxury Suite", 2) { PricePerNight = 150.00m };
         bedroom.SetImagePath("bedroom.jpg");
         Room room = bedroom;
 
@@ -24,6 +24,7 @@ public class RoomExtensionsTests
         Assert.Equal(2, result.NumberOfBeds);
         Assert.Null(result.NumberOfChairs);
         Assert.Equal("bedroom.jpg", result.image);
+        Assert.Equal(150.00m, result.PricePerNight);
     }
 
     [Fact]
@@ -44,6 +45,7 @@ public class RoomExtensionsTests
         Assert.Null(result.NumberOfBeds);
         Assert.Equal(10, result.NumberOfChairs);
         Assert.Equal("meeting.jpg", result.image);
+        Assert.Null(result.PricePerNight);
     }
 
     [Fact]
@@ -64,13 +66,14 @@ public class RoomExtensionsTests
         Assert.Null(result.NumberOfBeds);
         Assert.Null(result.NumberOfChairs);
         Assert.Equal("generic.jpg", result.image);
+        Assert.Null(result.PricePerNight);
     }
 
     [Fact]
     public void ToDto_BedroomWithNoImage_ReturnsDtoWithNullImage()
     {
         // Arrange
-        var bedroom = new Bedroom("Simple Room", 1);
+        var bedroom = new Bedroom("Simple Room", 1) { PricePerNight = 75.00m };
         Room room = bedroom;
 
         // Act
@@ -78,6 +81,7 @@ public class RoomExtensionsTests
 
         // Assert
         Assert.Null(result.image);
+        Assert.Equal(75.00m, result.PricePerNight);
     }
 
     [Fact]
@@ -93,6 +97,7 @@ public class RoomExtensionsTests
         // Assert
         Assert.Equal(0, result.NumberOfChairs);
         Assert.Equal("Meetingroom", result.Type);
+        Assert.Null(result.PricePerNight);
     }
 
     [Theory]
@@ -102,7 +107,7 @@ public class RoomExtensionsTests
     public void ToDto_BedroomWithVariousBeds_MapsBedCountCorrectly(int bedCount)
     {
         // Arrange
-        var bedroom = new Bedroom($"Room-{bedCount}beds", bedCount);
+        var bedroom = new Bedroom($"Room-{bedCount}beds", bedCount) { PricePerNight = 100.00m + (bedCount * 10) };
         Room room = bedroom;
 
         // Act
@@ -110,6 +115,22 @@ public class RoomExtensionsTests
 
         // Assert
         Assert.Equal(bedCount, result.NumberOfBeds);
+        Assert.Equal("Bedroom", result.Type);
+        Assert.Equal(100.00m + (bedCount * 10), result.PricePerNight);
+    }
+
+    [Fact]
+    public void ToDto_BedroomWithZeroPrice_ReturnsDtoWithZeroPrice()
+    {
+        // Arrange
+        var bedroom = new Bedroom("Free Room", 1) { PricePerNight = 0m };
+        Room room = bedroom;
+
+        // Act
+        var result = room.ToDto();
+
+        // Assert
+        Assert.Equal(0m, result.PricePerNight);
         Assert.Equal("Bedroom", result.Type);
     }
 

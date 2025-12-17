@@ -26,7 +26,7 @@ public class RoomsControllerTests
         // Arrange
         var rooms = new List<RoomDto>
         {
-            new RoomDto { Id = 1, Name = "Room 1", Type = "Bedroom" },
+            new RoomDto { Id = 1, Name = "Room 1", Type = "Bedroom", PricePerNight = 100.00m },
             new RoomDto { Id = 2, Name = "Room 2", Type = "Meetingroom", NumberOfChairs = 10 }
         };
 
@@ -47,7 +47,7 @@ public class RoomsControllerTests
         // Arrange
         var bedrooms = new List<RoomDto>
         {
-            new RoomDto { Id = 1, Name = "Bedroom 1", Type = "Bedroom" }
+            new RoomDto { Id = 1, Name = "Bedroom 1", Type = "Bedroom", PricePerNight = 120.00m }
         };
 
         _mockService.Setup(s => s.GetAll("Bedroom")).ReturnsAsync(bedrooms);
@@ -102,7 +102,7 @@ public class RoomsControllerTests
     public async Task GetById_ExistingRoom_ReturnsRoom()
     {
         // Arrange
-        var room = new RoomDto { Id = 1, Name = "Test Room", Type = "Bedroom" };
+        var room = new RoomDto { Id = 1, Name = "Test Room", Type = "Bedroom", PricePerNight = 130.00m };
         _mockService.Setup(s => s.GetById(1)).ReturnsAsync(room);
 
         // Act
@@ -113,6 +113,7 @@ public class RoomsControllerTests
         var returnedRoom = Assert.IsType<RoomDto>(okResult.Value);
         Assert.Equal(1, returnedRoom.Id);
         Assert.Equal("Test Room", returnedRoom.Name);
+        Assert.Equal(130.00m, returnedRoom.PricePerNight);
     }
 
     [Fact]
@@ -135,7 +136,7 @@ public class RoomsControllerTests
     public async Task GetById_VariousIds_ReturnsCorrectRoom(int roomId)
     {
         // Arrange
-        var room = new RoomDto { Id = roomId, Name = $"Room {roomId}", Type = "Bedroom" };
+        var room = new RoomDto { Id = roomId, Name = $"Room {roomId}", Type = "Bedroom", PricePerNight = 100.00m + roomId };
         _mockService.Setup(s => s.GetById(roomId)).ReturnsAsync(room);
 
         // Act
