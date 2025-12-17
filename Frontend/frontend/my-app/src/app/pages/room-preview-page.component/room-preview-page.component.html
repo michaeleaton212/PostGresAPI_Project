@@ -105,6 +105,11 @@
             <span>{{ room.name }}</span>
           </div>
 
+          <div class="detail-item" *ngIf="room.type === 'Bedroom' && room.pricePerNight">
+            <strong i18n>Price per night:</strong>
+            <span>{{ room.pricePerNight | currency:'EUR':'symbol':'1.2-2' }}</span>
+          </div>
+
           <div class="detail-item" *ngIf="room.type === 'Bedroom'">
             <strong i18n>Number of beds:</strong>
             <span *ngIf="numberOfBeds; else bedsMissing">{{ numberOfBeds }}</span>

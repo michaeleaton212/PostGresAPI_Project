@@ -51,13 +51,19 @@ public sealed class ApplicationDbContext : DbContext
             b.Property(x => x.NumberOfBeds)
              .HasColumnName("number_of_beds")
              .HasDefaultValue(0);
+
+            b.Property(x => x.PricePerNight)
+             .HasColumnName("price_per_night")
+             .HasColumnType("decimal(18,2)")
+             .IsRequired()
+             .HasDefaultValue(0m);
     
             // Seed data for Bedrooms
             b.HasData(
-                new { Id = 4, Name = "Room 101", NumberOfBeds = 1 },
-                new { Id = 5, Name = "Room 102", NumberOfBeds = 2 },
-                new { Id = 6, Name = "Room 103", NumberOfBeds = 2 },
-                new { Id = 7, Name = "Suite 201", NumberOfBeds = 3 }
+                new { Id = 4, Name = "Room 101", NumberOfBeds = 1, PricePerNight = 50m },
+                new { Id = 5, Name = "Room 102", NumberOfBeds = 2, PricePerNight = 80m },
+                new { Id = 6, Name = "Room 103", NumberOfBeds = 2, PricePerNight = 80m },
+                new { Id = 7, Name = "Suite 201", NumberOfBeds = 3, PricePerNight = 120m }
             );
         });
         // BOOKING

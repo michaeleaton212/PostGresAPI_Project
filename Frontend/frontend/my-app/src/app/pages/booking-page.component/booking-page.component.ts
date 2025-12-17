@@ -220,4 +220,11 @@ export class BookingPageComponent implements OnInit {
     const email = this.firstName.trim();
     return !!email && this.emailRegex.test(email);
   }
+
+  get totalPrice(): number {
+    if (!this.room || this.room.type !== 'Bedroom' || !this.room.pricePerNight) {
+      return 0;
+    }
+    return this.room.pricePerNight * this.numberOfDays;
+  }
 }

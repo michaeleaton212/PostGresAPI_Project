@@ -46,6 +46,12 @@
       <span i18n>{{ numberOfDays }} day(s)</span>
     </div>
 
+    <!-- Bedroom: show total price if pricePerNight is available -->
+    <div *ngIf="room?.type === 'Bedroom' && room.pricePerNight" class="overview-row">
+      <strong i18n>Total price:</strong>
+      <span>CHF {{ totalPrice | number:'1.2-2' }}</span>
+    </div>
+
     <!-- Meetingroom: number of days + times -->
     <div *ngIf="room?.type === 'Meetingroom'" class="overview-row">
       <strong i18n>Duration:</strong>

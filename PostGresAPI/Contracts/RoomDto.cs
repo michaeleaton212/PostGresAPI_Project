@@ -8,4 +8,5 @@ public record class RoomDto
     public int? NumberOfBeds { get; init; }
     public int? NumberOfChairs { get; init; }
     public string? image { get; init; }
+    public decimal? PricePerNight { get; init; }
 }

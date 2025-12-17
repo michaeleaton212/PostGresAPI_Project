@@ -10,4 +10,5 @@ public sealed class Bedroom : Room
     }
 
     public int NumberOfBeds { get; set; }
+    public decimal PricePerNight { get; set; }
 }

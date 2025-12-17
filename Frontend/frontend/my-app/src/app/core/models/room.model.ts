@@ -6,10 +6,12 @@ export interface Room {
   numberOfChairs?: number;
   image?: string;   // optional main image (for backward compatibility)
   images?: string[];   // new property for multiple images
+  pricePerNight?: number;
 }
 
 export interface Bedroom extends Room {
   numberOfBeds: number;
+  pricePerNight?: number;
 }
 
 export interface Meetingroom extends Room {

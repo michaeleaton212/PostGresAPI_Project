@@ -11,13 +11,15 @@ public static class BedroomMappingExtensions
             Id = room.Id,
             Name = room.Name,
             NumberOfBeds = room.NumberOfBeds,
-            ImagePath = room.ImagePath
+            ImagePath = room.ImagePath,
+            PricePerNight = room.PricePerNight
         };
 
     public static Bedroom ToEntity(this CreateBedroomDto dto)
     {
         var entity = new Bedroom(dto.Name, dto.NumberOfBeds);
         entity.SetImagePath(dto.ImagePath);
+        entity.PricePerNight = dto.PricePerNight;
         return entity;
     }
 
@@ -26,6 +28,7 @@ public static class BedroomMappingExtensions
         entity.SetName(dto.Name);
         entity.NumberOfBeds = dto.NumberOfBeds;
         entity.SetImagePath(dto.ImagePath);
+        entity.PricePerNight = dto.PricePerNight;
     }
 }
 

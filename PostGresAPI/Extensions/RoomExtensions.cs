@@ -15,7 +15,8 @@ public static class RoomMappingExtensions
                 Name = b.Name,
                 Type = "Bedroom",
                 NumberOfBeds = b.NumberOfBeds,
-                image = b.ImagePath
+                image = b.ImagePath,
+                PricePerNight = b.PricePerNight
             },
 
             Meetingroom m => new RoomDto

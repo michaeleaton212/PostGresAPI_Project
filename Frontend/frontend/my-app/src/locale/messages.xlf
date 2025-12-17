@@ -277,6 +277,13 @@
           <context context-type="linenumber">165,166</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7521284990450884267" datatype="html">
+        <source>Price per night:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/bedroom-preview-page.component/bedroom-preview-page.component.html</context>
+          <context context-type="linenumber">149,150</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1438130526855673145" datatype="html">
         <source>Number of beds:</source>
         <context-group purpose="location">
@@ -581,6 +588,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/booking-page.component/booking-page.component.html</context>
           <context context-type="linenumber">46,47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5847392105923518490" datatype="html">
+        <source>Total price:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/booking-page.component/booking-page.component.html</context>
+          <context context-type="linenumber">51,52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1909853365363499370" datatype="html">
@@ -976,6 +990,8 @@
       <trans-unit id="4077041065776722157" datatype="html">
         <source>Meeting Room</source>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/meetingroom-preview-page.component/meetingroom-preview-page.component.html</context>
+          <context context-type="sourcefile">src/app/pages/meetingroom-preview-page.component/meetingroom-preview-page.component.html</context>
           <context context-type="sourcefile">src/app/pages/meetingroom-preview-page.component/meetingroom-preview-page.component.html</context>
           <context context-type="linenumber">179,180</context>
         </context-group>
