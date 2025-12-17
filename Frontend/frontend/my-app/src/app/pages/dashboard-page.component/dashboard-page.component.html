@@ -21,6 +21,7 @@
         <div i18n>Room</div>
         <div i18n>Start date</div>
         <div i18n>End date</div>
+        <div i18n>Price</div>
         <div i18n>Booking number</div>
         <div i18n>Status</div>
         <div i18n>Check in</div>
@@ -53,6 +54,16 @@
           <span class="value-text"
                 [title]="b.endDate | date: 'dd.MM.yyyy'">
             {{ b.endDate | date: 'dd.MM.yyyy' }}
+          </span>
+        </div>
+
+        <!-- Price Column -->
+        <div data-label="Price:" i18n-data-label>
+          <span class="value-text" *ngIf="b.totalPrice">
+            CHF {{ b.totalPrice | number:'1.2-2' }}
+          </span>
+          <span class="value-text" *ngIf="!b.totalPrice">
+            -
           </span>
         </div>
 

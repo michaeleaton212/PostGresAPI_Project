@@ -18,6 +18,9 @@ interface BookingDisplay {
   endDate: Date;
   bookingNumber: string;
   status: BookingStatus;
+  pricePerNight?: number;
+  totalPrice?: number;
+  numberOfNights?: number;
 }
 
 @Component({
@@ -132,17 +135,44 @@ export class DashboardPageComponent implements OnInit {
 
   mapBookingToDisplay(booking: Booking): BookingDisplay {
     const room = this.rooms.find(r => r.id === booking.roomId);
+    const startDate = new Date(booking.startTime);
+    const endDate = new Date(booking.endTime);
+    
+    // Calculate number of nights
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const numberOfNights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Calculate total price for bedrooms
+    let pricePerNight: number | undefined;
+    let totalPrice: number | undefined;
+    
+    if (room && room.type === 'Bedroom' && room.pricePerNight) {
+      pricePerNight = room.pricePerNight;
+      totalPrice = pricePerNight * numberOfNights;
+    }
+    
     return {
       id: booking.id,
       name: booking.title || 'Keine Angabe',
       roomName: room ? room.name : `Raum ${booking.roomId}`,
       roomId: booking.roomId,
       roomType: room ? room.type : 'unknown',
-      startDate: new Date(booking.startTime),
-      endDate: new Date(booking.endTime),
+      startDate,
+      endDate,
       bookingNumber: booking.bookingNumber,
-      status: booking.status as BookingStatus
+      status: booking.status as BookingStatus,
+      pricePerNight,
+      totalPrice,
+      numberOfNights
     };
+  }
+
+  calculateNumberOfNights(startDate: Date, endDate: Date): number {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
   }
 
   isCheckedIn(booking: BookingDisplay): boolean {

@@ -684,6 +684,14 @@
           <context context-type="linenumber">51,52</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3901902710865190744" datatype="html">
+        <source>Price</source>
+        <target>Preis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard-page.component/dashboard-page.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1909853365363499370" datatype="html">
         <source>
           <x id="INTERPOLATION" equiv-text="{{ numberOfDays }}"/> day(s), <x id="INTERPOLATION_1" equiv-text="{{ startDate | date:&apos;HH:mm&apos; }}"/> - <x id="INTERPOLATION_2" equiv-text="{{ endDate | date:&apos;HH:mm&apos; }}"/> (<x id="INTERPOLATION_3" equiv-text="{{ durationInMinutes }}"/> min)
