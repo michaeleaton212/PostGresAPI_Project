@@ -18,8 +18,8 @@ namespace PostGresAPI.Auth
 
         public string Create(List<int> bookingIds, DateTimeOffset expiresUtc)
         {
-            var idsString = string.Join(",", bookingIds);
-            var payload = $"{idsString}|{expiresUtc.ToUnixTimeSeconds()}";
+            var idsString = string.Join(",", bookingIds);// out of array string
+            var payload = $"{idsString}|{expiresUtc.ToUnixTimeSeconds()}"; // separates fields
             using var hmac = new HMACSHA256(_key);
             var sig = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(payload)));
             return Convert.ToBase64String(Encoding.UTF8.GetBytes($"{payload}|{sig}"));

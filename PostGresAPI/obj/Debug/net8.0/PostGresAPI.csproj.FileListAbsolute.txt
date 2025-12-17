@@ -555,3 +555,4 @@ C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI_Proje
 C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI\obj\Debug\net8.0\PostGresAPI.genruntimeconfig.cache
 C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI\obj\Debug\net8.0\ref\PostGresAPI.dll
 C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI\obj\Debug\net8.0\swae.build.ex.cache
+C:\PostGresAPI_Project\PostGresAPI_Project\PostGresAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
