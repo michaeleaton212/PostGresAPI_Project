@@ -35,6 +35,10 @@ export class DashboardPageComponent implements OnInit {
   bookings: BookingDisplay[] = [];
   rooms: Room[] = [];
   userName: string = '';
+  
+  // Popup state
+  showCancelPopup = false;
+  pendingCancelBookingNumber: string = '';
 
   readonly BookingStatus = BookingStatus;
 
@@ -48,7 +52,7 @@ export class DashboardPageComponent implements OnInit {
   ngOnInit() {
     console.log('=== DASHBOARD INIT ===');
     
-    // Check if user is logged in
+    // Check if user is logged in out of session storage
     const bookingIdsStr = sessionStorage.getItem('bookingIds');
     const userName = sessionStorage.getItem('userName');
     const token = sessionStorage.getItem('loginToken');
@@ -185,21 +189,38 @@ export class DashboardPageComponent implements OnInit {
       return;
     }
 
-    if (confirm(`Möchten Sie die Buchung ${bookingNumber} wirklich stornieren?`)) {
-      console.log(`Cancelling booking ${booking.id}`);
-      
-      this.bookingService.updateStatus(booking.id, { status: BookingStatus.Cancelled }).subscribe({
-        next: (updatedBooking) => {
-          console.log('Booking cancelled successfully');
-          // Update the status in the local array instead of removing it
-          booking.status = updatedBooking.status as BookingStatus;
-        },
-        error: (err) => {
-          console.error('Error cancelling booking:', err);
-          alert('Fehler beim Stornieren der Buchung');
-        }
-      });
+    // Show custom iOS-style popup instead of native confirm
+    this.pendingCancelBookingNumber = bookingNumber;
+    this.showCancelPopup = true;
+  }
+
+  closeCancelPopup() {
+    this.showCancelPopup = false;
+    this.pendingCancelBookingNumber = '';
+  }
+
+  confirmCancelBooking() {
+    const booking = this.bookings.find(b => b.bookingNumber === this.pendingCancelBookingNumber);
+    if (!booking) {
+      this.closeCancelPopup();
+      return;
     }
+
+    console.log(`Cancelling booking ${booking.id}`);
+    
+    this.bookingService.updateStatus(booking.id, { status: BookingStatus.Cancelled }).subscribe({
+      next: (updatedBooking) => {
+        console.log('Booking cancelled successfully');
+        // Update the status in the local array instead of removing it
+        booking.status = updatedBooking.status as BookingStatus;
+        this.closeCancelPopup();
+      },
+      error: (err) => {
+        console.error('Error cancelling booking:', err);
+        alert('Fehler beim Stornieren der Buchung');
+        this.closeCancelPopup();
+      }
+    });
   }
 
   getStatusText(status: BookingStatus): string {
@@ -228,7 +249,7 @@ export class DashboardPageComponent implements OnInit {
     }
   }
 
-  goBackLogin() {
+  goBackLogin() { // delete session sotrage when logout and navigate to login
     sessionStorage.removeItem('loginToken');
     sessionStorage.removeItem('bookingIds');
     sessionStorage.removeItem('userName');

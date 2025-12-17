@@ -118,6 +118,23 @@
     </div>
   </div>
 
+  <!-- Cancel Confirmation Popup -->
+  <div class="popup-overlay" *ngIf="showCancelPopup" (click)="closeCancelPopup()">
+    <div class="popup-dialog" (click)="$event.stopPropagation()">
+      <div class="popup-title" i18n>
+        Möchten Sie die Buchung {{ pendingCancelBookingNumber }} wirklich stornieren?
+      </div>
+      <div class="popup-buttons">
+        <button class="popup-btn popup-btn-confirm" (click)="closeCancelPopup()" i18n>
+          Abbrechen
+        </button>
+        <button class="popup-btn popup-btn-cancel" (click)="confirmCancelBooking()" i18n>
+          Stornieren
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="footer-wrapper">
     <app-footer></app-footer>
   </div>

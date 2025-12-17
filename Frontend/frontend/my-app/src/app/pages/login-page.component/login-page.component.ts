@@ -106,7 +106,8 @@ export class LoginPageComponent {
       name: this.email.trim()
     };
 
-    this.bookingService.login(loginRequest).subscribe({
+    this.bookingService.login(loginRequest).subscribe({ // call login; store token + booking metadata in sessionStorage; navigate to dashboard
+
       next: (res) => {
         sessionStorage.setItem('loginToken', res.token);
         sessionStorage.setItem('bookingIds', JSON.stringify(res.bookingIds));
