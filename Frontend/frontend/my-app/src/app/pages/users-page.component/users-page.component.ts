@@ -62,9 +62,15 @@ export class UsersPageComponent implements OnInit {
     });
   }
 
-  onCreate(payload: { name: string; email: string }) {
-    const body = { UserName: payload.name, Email: payload.email, Phone: '' };
-    this.api.post<any>('users', body).subscribe({
+  onCreate(payload: { userName: string; email: string; phone: string; password: string }) {
+    const body = {
+      userName: payload.userName,
+      email: payload.email,
+      phone: payload.phone,
+      password: payload.password
+    };
+
+    this.api.post<any>('userauth/register', body).subscribe({
       next: () => {
         this.showCreate = false;
         this.load();
@@ -80,9 +86,13 @@ export class UsersPageComponent implements OnInit {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const data = new FormData(form);
-    const name = (data.get('name') as string) || '';
-    const email = (data.get('email') as string) || '';
-    this.onCreate({ name, email });
+
+    const userName = ((data.get('userName') as string) || '').trim();
+    const email = ((data.get('email') as string) || '').trim();
+    const phone = ((data.get('phone') as string) || '').trim();
+    const password = (data.get('password') as string) || '';
+
+    this.onCreate({ userName, email, phone, password });
     form.reset();
   }
 
@@ -113,7 +123,7 @@ export class UsersPageComponent implements OnInit {
     });
   }
 
-  trackById = (_: number, u: any) => u.id;
+  trackById = (_: number, u: any) => u.id ?? u.Id;
 
   onEdit(u: any) {
     const name = prompt('Name', u.UserName || u.userName || u.name || '');
@@ -125,6 +135,7 @@ export class UsersPageComponent implements OnInit {
     const phone = prompt('Phone', u.Phone || u.phone || '');
     if (phone === null) return;
 
-    this.onUpdate({ id: u.id, UserName: name, Phone: phone, Email: email });
+    const id = u.id ?? u.Id;
+    this.onUpdate({ id, UserName: name, Phone: phone, Email: email });
   }
 }

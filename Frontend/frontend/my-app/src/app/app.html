@@ -1,18 +1,15 @@
 <div class="app-wrapper">
   <div class="language-button">
+    <!-- Language Dropdown -->
     <div class="select-wrap" [class.open]="isDropdownOpen" (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
       <div class="lang-btn">
         <span>{{ selectedLocale === 'de' ? 'Deutsch' : 'English' }}</span>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="1em"
-        viewBox="0 0 512 512"
-        class="arrow"
-      >
-        <path
-          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
-        ></path>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           height="1em"
+           viewBox="0 0 512 512"
+           class="arrow">
+        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
       </svg>
       <div class="options">
         <div class="option" (click)="onLangChange('en-US')" [class.selected]="selectedLocale === 'en-US'">
@@ -20,6 +17,51 @@
         </div>
         <div class="option" (click)="onLangChange('de')" [class.selected]="selectedLocale === 'de'">
           <span i18n>Deutsch</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Login/Profile Dropdown -->
+    <div *ngIf="!isLoggedIn" class="login-btn-wrapper">
+      <a class="login-btn" (click)="goToLogin()" aria-label="Login" title="Login">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-3.87 0-7 1.57-7
+          3.5V20h14v-2.5C19 15.57 15.87 14 12 14Z" />
+        </svg>
+      </a>
+    </div>
+
+    <div *ngIf="isLoggedIn" class="user-dropdown-wrap" [class.open]="isUserDropdownOpen" (mouseenter)="isUserDropdownOpen = true" (mouseleave)="isUserDropdownOpen = false">
+      <div class="user-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-3.87 0-7 1.57-7
+          3.5V20h14v-2.5C19 15.57 15.87 14 12 14Z" />
+        </svg>
+        <span class="user-name">{{ userName }}</span>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           height="1em"
+           viewBox="0 0 512 512"
+           class="arrow">
+        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
+      </svg>
+      <div class="user-options">
+        <div class="user-info">
+          <div class="user-name-full">{{ userName }}</div>
+          <div class="user-email">{{ userEmail }}</div>
+        </div>
+        <div class="user-divider"></div>
+        <div class="user-option" (click)="goToDashboard()">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+          </svg>
+          <span i18n>Dashboard</span>
+        </div>
+        <div class="user-option logout" (click)="logout()">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+          </svg>
+          <span i18n>Abmelden</span>
         </div>
       </div>
     </div>

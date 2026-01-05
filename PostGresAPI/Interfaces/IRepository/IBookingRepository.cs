@@ -27,6 +27,9 @@ namespace PostGresAPI.Repository
         // Get bookings by room ID
         Task<List<Booking>> GetByRoomId(int roomId);
 
+        // Get bookings by user ID
+        Task<List<Booking>> GetByUserId(int userId);
+
         // Overlap checks
         Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc);
         Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc, int excludeBookingId);

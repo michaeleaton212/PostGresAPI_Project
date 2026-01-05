@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using PostGresAPI.Contracts; // BookingDto, CreateBookingDto, UpdateBookingDto, LoginRequestDto, LoginResponseDto
+using PostGresAPI.Contracts;
 using PostGresAPI.Services;
-using PostGresAPI.Auth;    // ITokenService
+using PostGresAPI.Auth;
 
 namespace PostGresAPI.Controllers;
 
@@ -24,7 +24,6 @@ public class BookingsController : ControllerBase
     {
         bookingIds = new List<int>();
         
-        // Get token from header
         var token = Request.Headers["X-Login-Token"].FirstOrDefault()
                  ?? Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", "");
         
@@ -34,15 +33,24 @@ public class BookingsController : ControllerBase
         return _tokens.TryValidate(token, out bookingIds);
     }
 
+    // Helper method to get user ID from session
+    private int? GetUserIdFromSession()
+    {
+        var userIdStr = Request.Headers["X-User-Id"].FirstOrDefault();
+        if (int.TryParse(userIdStr, out var userId))
+            return userId;
+        return null;
+    }
+
     // GET /api/bookings 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BookingDto>>> GetAll()
     {
-        // This endpoint should be protected - only return user's bookings
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
-        var allDtos = await _svc.GetByIds(authorizedIds);
+        var allDtos = await _svc.GetByUserId(userId.Value);
         return Ok(allDtos);
     }
 
@@ -50,15 +58,17 @@ public class BookingsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<BookingDto>> GetById(int id)
     {
-        // Validate token and check if user is authorized for this booking
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
-        
-        if (!authorizedIds.Contains(id))
-            return Forbid();
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
         var dto = await _svc.GetById(id);
         if (dto is null) return NotFound();
+        
+        // Check if booking belongs to user
+        if (dto.UserId != userId)
+            return Forbid();
+        
         return Ok(dto);
     }
 
@@ -86,11 +96,14 @@ public class BookingsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<ActionResult<BookingDto>> Update(int id, UpdateBookingDto dto)
     {
-        // Validate token and check if user is authorized for this booking
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
-        if (!authorizedIds.Contains(id))
+        var existing = await _svc.GetById(id);
+        if (existing == null) return NotFound();
+        
+        if (existing.UserId != userId)
             return Forbid();
         
         var (ok, err, result) = await _svc.Update(id, dto);
@@ -103,11 +116,14 @@ public class BookingsController : ControllerBase
     [HttpPatch("{id:int}/status")]
     public async Task<ActionResult<BookingDto>> UpdateStatus(int id, UpdateBookingStatusDto dto)
     {
-        // Validate token and check if user is authorized for this booking
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
-        if (!authorizedIds.Contains(id))
+        var existing = await _svc.GetById(id);
+        if (existing == null) return NotFound();
+        
+        if (existing.UserId != userId)
             return Forbid();
         
         var (ok, err, result) = await _svc.UpdateStatus(id, dto);
@@ -120,11 +136,14 @@ public class BookingsController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        // Validate token and check if user is authorized for this booking
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
-        if (!authorizedIds.Contains(id))
+        var existing = await _svc.GetById(id);
+        if (existing == null) return NotFound();
+        
+        if (existing.UserId != userId)
             return Forbid();
         
         var (ok, err) = await _svc.Delete(id);
@@ -163,13 +182,12 @@ public class BookingsController : ControllerBase
     [HttpGet("by-name/{name}")]
     public async Task<ActionResult<IEnumerable<BookingDto>>> GetByName(string name)
     {
-        // This endpoint should be protected
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
         var allDtos = await _svc.GetByName(name);
-        // Only return bookings that the user is authorized to see
-        var filtered = allDtos.Where(b => authorizedIds.Contains(b.Id)).ToList();
+        var filtered = allDtos.Where(b => b.UserId == userId).ToList();
         return Ok(filtered);
     }
 
@@ -180,17 +198,16 @@ public class BookingsController : ControllerBase
         if (ids == null || ids.Count == 0)
             return BadRequest(new { error = "Booking IDs list cannot be empty." });
 
-        // Validate token and check if user is authorized for all requested bookings
-        if (!TryGetAuthorizedBookingIds(out var authorizedIds))
-            return Unauthorized(new { error = "Ungültiger oder fehlender Token." });
+        var userId = GetUserIdFromSession();
+        if (userId == null)
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
         
-        // Only return bookings that the user is authorized to see
-        var requestedIds = ids.Where(id => authorizedIds.Contains(id)).ToList();
+        var dtos = await _svc.GetByIds(ids);
+        var filtered = dtos.Where(b => b.UserId == userId).ToList();
         
-        if (requestedIds.Count == 0)
+        if (filtered.Count == 0)
             return Forbid();
         
-        var dtos = await _svc.GetByIds(requestedIds);
-        return Ok(dtos);
+        return Ok(filtered);
     }
 }

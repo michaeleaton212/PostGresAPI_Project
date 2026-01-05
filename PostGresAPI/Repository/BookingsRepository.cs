@@ -109,6 +109,23 @@ public class BookingRepository : IBookingRepository
         }
     }
 
+    // Get bookings by user ID
+    public async Task<List<Booking>> GetByUserId(int userId)
+    {
+        try
+        {
+            return await _db.Bookings
+                .AsNoTracking()
+                .Where(b => b.UserId == userId)
+                .OrderBy(b => b.StartTime)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Fehler beim Abrufen von Bookings für User {userId}", ex);
+        }
+    }
+
     // Check if there are overlapping bookings by Create
     public async Task<bool> HasOverlap(int roomId, DateTimeOffset fromUtc, DateTimeOffset toUtc)
     {

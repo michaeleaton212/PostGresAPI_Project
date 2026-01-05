@@ -55,14 +55,14 @@ export class DashboardPageComponent implements OnInit {
   ngOnInit() {
     console.log('=== DASHBOARD INIT ===');
     
-    // Check if user is logged in out of session storage
-    const bookingIdsStr = sessionStorage.getItem('bookingIds');
+    // Check if user is logged in
+    const userId = sessionStorage.getItem('userId');
     const userName = sessionStorage.getItem('userName');
-    const token = sessionStorage.getItem('loginToken');
+    const userEmail = sessionStorage.getItem('userEmail');
     
-    console.log('Session check:', { bookingIdsStr, userName, hasToken: !!token });
+    console.log('Session check:', { userId, userName, userEmail });
     
-    if (!bookingIdsStr || !userName || !token) {
+    if (!userId || !userName || !userEmail) {
       console.log('User not logged in, redirecting to login');
       this.router.navigate(['/login']);
       return;
@@ -71,42 +71,24 @@ export class DashboardPageComponent implements OnInit {
     this.userName = userName;
     console.log('User logged in as:', this.userName);
     
-    // Parse booking IDs
-    try {
-      const bookingIds: number[] = JSON.parse(bookingIdsStr);
-      console.log('User booking IDs:', bookingIds);
-      this.loadBookings(bookingIds);
-    } catch (error) {
-      console.error('Error parsing bookingIds from sessionStorage:', error);
-      this.router.navigate(['/login']);
-    }
+    this.loadBookings();
   }
 
-  loadBookings(bookingIds: number[]) {
+  loadBookings() {
     console.log('=== LOADING BOOKINGS ===');
     console.log('User:', this.userName);
-    console.log('Booking IDs to load:', bookingIds);
-    console.log('Number of IDs:', bookingIds.length);
-    
-    if (!bookingIds || bookingIds.length === 0) {
-      console.warn('No booking IDs found for user');
-      this.bookings = [];
-      return;
-    }
     
     this.roomService.getAll().subscribe({
       next: (rooms) => {
         console.log('Rooms loaded:', rooms.length);
         this.rooms = rooms;
         
-        // Get only bookings for the logged-in user by IDs
-        console.log('Calling POST /api/bookings/by-ids with:', bookingIds);
-        this.bookingService.getByIds(bookingIds).subscribe({
+        // Get all bookings for the logged-in user (backend filters by X-User-Id header)
+        console.log('Calling GET /api/bookings (filtered by user)');
+        this.bookingService.getAll().subscribe({
           next: (bookings) => {
             console.log('=== BOOKINGS LOADED SUCCESSFULLY ===');
             console.log('Number of bookings received:', bookings.length);
-            console.log('Booking IDs received:', bookings.map(b => b.id));
-            console.log('Booking titles:', bookings.map(b => b.title));
             console.log('Raw bookings:', bookings);
             
             this.bookings = bookings.map(b => this.mapBookingToDisplay(b));
@@ -114,13 +96,11 @@ export class DashboardPageComponent implements OnInit {
           },
           error: (err) => {
             console.error('=== ERROR LOADING BOOKINGS ===');
-            console.error('Error status:', err.status);
-            console.error('Error message:', err.message);
-            console.error('Error details:', err.error);
-            console.error('Full error:', err);
+            console.error('Error details:', err);
             
-            if (err.status === 404) {
-              alert('Der Endpoint /api/bookings/by-ids existiert noch nicht. Bitte starten Sie das Backend neu.');
+            if (err.status === 401) {
+              alert('Sitzung abgelaufen. Bitte melden Sie sich erneut an.');
+              this.router.navigate(['/login']);
             } else {
               alert('Fehler beim Laden der Buchungen: ' + (err.error?.error || err.message));
             }
@@ -279,10 +259,11 @@ export class DashboardPageComponent implements OnInit {
     }
   }
 
-  goBackLogin() { // delete session sotrage when logout and navigate to login
-    sessionStorage.removeItem('loginToken');
-    sessionStorage.removeItem('bookingIds');
+  goBackLogin() {
+    // Clear user session
+    sessionStorage.removeItem('userId');
     sessionStorage.removeItem('userName');
+    sessionStorage.removeItem('userEmail');
     this.router.navigate(['/login']);
   }
 }

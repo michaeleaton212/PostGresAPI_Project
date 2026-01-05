@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
 import { BookingService } from '../../core/booking.service';
-import { Room, Bedroom } from '../../core/models/room.model';
+import { Bedroom } from '../../core/models/room.model';
 import { Booking } from '../../core/models/booking.model';
 import { FooterComponent } from '../../components/core/footer/footer';
 
@@ -51,6 +51,10 @@ export class BedroomPreviewPageComponent implements OnInit {
   // Error state
   showDateError = false;
   dateErrorText = $localize`:Error when no date is selected@@bedroomDateError:Please select a date!`;
+
+  // Login error state
+  showLoginError = false;
+  loginErrorText = $localize`:Login required error@@bookingLoginRequired:Please log in to book.`;
 
   monthNames = [
     $localize`January`,
@@ -111,6 +115,14 @@ export class BedroomPreviewPageComponent implements OnInit {
         }
       });
     });
+  }
+
+  // Helper method to check if user is logged in
+  private isLoggedIn(): boolean {
+    const userId = sessionStorage.getItem('userId');
+    const userName = sessionStorage.getItem('userName');
+    const userEmail = sessionStorage.getItem('userEmail');
+    return !!(userId && userName && userEmail);
   }
 
   loadRoom(id: number) {
@@ -180,6 +192,13 @@ export class BedroomPreviewPageComponent implements OnInit {
 
     // Reset error UI
     this.showDateError = false;
+    this.showLoginError = false;
+
+    // Login check
+    if (!this.isLoggedIn()) {
+      this.showLoginError = true;
+      return;
+    }
 
     // Both start and end must be chosen
     if (!this.rangeStart || !this.rangeEnd) {
@@ -271,7 +290,6 @@ export class BedroomPreviewPageComponent implements OnInit {
     const dateTime = date.getTime();
     const nextDay = new Date(date);
     nextDay.setDate(nextDay.getDate() + 1);
-    const nextDayTime = nextDay.getTime();
 
     return this.roomBookings.some(booking => {
       const bookingStart = new Date(booking.startTime);

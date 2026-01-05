@@ -1,10 +1,17 @@
 {
   "ExpandedNodes": [
     "",
-    "\\obj",
-    "\\Properties",
-    "\\Repository",
-    "\\Services"
+    "\\Auth",
+    "\\Contracts",
+    "\\Controllers",
+    "\\Extensions",
+    "\\Interfaces",
+    "\\Interfaces\\IServices",
+    "\\Migrations",
+    "\\Persistence",
+    "\\Persistence\\Entities",
+    "\\Repository"
   ],
+  "SelectedNode": "\\Services\\BookingExpirationService.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -1,4 +1,3 @@
-// PostGresAPI/Models/User.cs
 namespace PostGresAPI.Models
 {
     public class User
@@ -17,5 +16,12 @@ namespace PostGresAPI.Models
         public string UserName { get; internal set; } = "";
         public string Email { get; internal set; } = "";
         public string Phone { get; internal set; } = "";
+
+        public string PasswordHash { get; private set; } = "";
+
+        public void SetPasswordHash(string hash)
+        {
+            PasswordHash = hash ?? "";
+        }
     }
 }

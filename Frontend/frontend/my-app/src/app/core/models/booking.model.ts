@@ -13,6 +13,7 @@ export interface Booking {
   title: string | null;
   bookingNumber: string; // Buchungsnummer
   status: string; // BookingStatus
+  userId: number | null;
 }
 
 export interface CreateBookingDto {
@@ -20,6 +21,7 @@ export interface CreateBookingDto {
   startUtc: string; // ISO 8601 date string
   endUtc: string;   // ISO 8601 date string
   title: string;
+  userId?: number | null;
 }
 
 export interface UpdateBookingStatusDto {

@@ -56,6 +56,13 @@ namespace PostGresAPI.Services
             return list.Select(b => b.ToDto()).ToList();
         }
 
+        public async Task<List<BookingDto>> GetByUserId(int userId)
+        {
+            await UpdateExpiredBookings();
+            var list = await _bookings.GetByUserId(userId);
+            return list.Select(b => b.ToDto()).ToList();
+        }
+
         // Helper method to automatically update expired bookings
         private async Task UpdateExpiredBookings()
         {

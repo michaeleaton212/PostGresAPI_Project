@@ -8,7 +8,7 @@ public static class BookingMappingExtensions
 {
     // Entity to BookingDto
     public static BookingDto ToDto(this Booking b)
-        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber, b.Status.ToString());
+        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber, b.Status.ToString(), b.UserId);
 
 
     // CreateBookingDto to Entity
@@ -16,7 +16,7 @@ public static class BookingMappingExtensions
     {
         // Generiere eine eindeutige8-stellige Buchungsnummer
         var bookingNumber = Guid.NewGuid().ToString("N")[..8].ToUpper();
-        return new Booking(dto.RoomId, dto.StartUtc, dto.EndUtc, dto.Title, bookingNumber);
+        return new Booking(dto.RoomId, dto.StartUtc, dto.EndUtc, dto.Title, bookingNumber, dto.UserId);
     }
 
 

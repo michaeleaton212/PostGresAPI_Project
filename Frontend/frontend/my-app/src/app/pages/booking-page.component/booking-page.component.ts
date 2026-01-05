@@ -24,7 +24,10 @@ export class BookingPageComponent implements OnInit {
   room: Room | null = null;
   startDate: Date | null = null;
   endDate: Date | null = null;
-  firstName = ''; // wird als E-Mail verwendet
+
+  // Du nutzt das Feld aktuell als E-Mail / title
+  firstName = '';
+
   loading = true;
   error: string | null = null;
   bookingSuccess = false;
@@ -32,18 +35,10 @@ export class BookingPageComponent implements OnInit {
   currentRoomId = this.route.snapshot.queryParams['roomId'];
   bookingNumber: string | number | null = null;
 
-  // einfache E-Mail-Validierung
-  private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       console.log('=== BOOKING PAGE QUERY PARAMS ===');
       console.log('All params:', params);
-      console.log('roomId:', params['roomId']);
-      console.log('startDate:', params['startDate']);
-      console.log('endDate:', params['endDate']);
-      console.log('startTime:', params['startTime']);
-      console.log('endTime:', params['endTime']);
 
       const roomId = params['roomId'];
       const startDateStr = params['startDate'];
@@ -59,22 +54,14 @@ export class BookingPageComponent implements OnInit {
 
       if (startTimeStr) {
         this.startDate = new Date(startTimeStr);
-        console.log('Parsed startTime:', this.startDate);
       } else if (startDateStr) {
         this.startDate = new Date(startDateStr);
-        console.log('Parsed startDate:', this.startDate);
-      } else {
-        console.warn('No startDate or startTime in query params');
       }
 
       if (endTimeStr) {
         this.endDate = new Date(endTimeStr);
-        console.log('Parsed endTime:', this.endDate);
       } else if (endDateStr) {
         this.endDate = new Date(endDateStr);
-        console.log('Parsed endDate:', this.endDate);
-      } else {
-        console.warn('No endDate or endTime in query params');
       }
 
       this.loadRoom(Number(roomId));
@@ -98,58 +85,52 @@ export class BookingPageComponent implements OnInit {
     });
   }
 
+  // Login-Status aus sessionStorage (du nutzt userId bereits im DTO)
+  get isLoggedIn(): boolean {
+    const userIdStr = sessionStorage.getItem('userId');
+    const userId = userIdStr ? parseInt(userIdStr, 10) : NaN;
+    return Number.isFinite(userId) && userId > 0;
+  }
+
   confirmBooking() {
     console.log('=== CONFIRM BOOKING STARTED ===');
-    console.log('Room:', this.room);
-    console.log('Start Date:', this.startDate);
-    console.log('End Date:', this.endDate);
-    console.log('Email (firstName):', this.firstName);
+
+    // Nur eingeloggt darf buchen
+    if (!this.isLoggedIn) {
+      this.error = 'Bitte einloggen, um zu buchen.';
+      return;
+    }
 
     if (!this.room || !this.startDate || !this.endDate) {
       this.error = 'Unvollständige Buchungsinformationen.';
-      console.error('Missing required fields:', {
-        hasRoom: !!this.room,
-        hasStartDate: !!this.startDate,
-        hasEndDate: !!this.endDate
-      });
-      return;
-    }
-
-    const email = this.firstName.trim();
-
-    // Feld leer
-    if (!email) {
-      this.error = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
-      console.error('Email is empty');
-      return;
-    }
-
-    // Format ungültig -> neue Errornachricht
-    if (!this.emailRegex.test(email)) {
-      this.error = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
-      console.error('Email is invalid');
       return;
     }
 
     this.bookingInProgress = true;
     this.error = null;
 
+    // Get userId from sessionStorage
+    const userIdStr = sessionStorage.getItem('userId');
+    const userId = userIdStr ? parseInt(userIdStr, 10) : null;
+
+    // Falls dein Backend "title" braucht: nie leer lassen
+    const title = this.firstName.trim() || 'Booking';
+
     const bookingDto: CreateBookingDto = {
       roomId: this.room.id,
       startUtc: this.startDate.toISOString(),
       endUtc: this.endDate.toISOString(),
-      title: email
+      title: title,
+      userId: userId
     };
 
     console.log('=== BOOKING DTO ===');
     console.log('DTO Object:', bookingDto);
-    console.log('DTO as JSON:', JSON.stringify(bookingDto, null, 2));
 
     this.bookingService.create(bookingDto).subscribe({
       next: (booking) => {
         console.log('=== BOOKING SUCCESS ===');
         console.log('Booking Response:', booking);
-        console.log('Booking Number:', booking.bookingNumber);
         this.bookingNumber = booking.bookingNumber;
         this.bookingSuccess = true;
         this.bookingInProgress = false;
@@ -157,10 +138,6 @@ export class BookingPageComponent implements OnInit {
       error: (err) => {
         console.error('=== BOOKING ERROR ===');
         console.error('Full Error Object:', err);
-        console.error('Error Status:', err.status);
-        console.error('Error Status Text:', err.statusText);
-        console.error('Error Body:', err.error);
-        console.error('Error Message:', err.message);
 
         let errorMessage = 'Buchung konnte nicht erstellt werden.';
         if (err.error?.error) {
@@ -188,11 +165,9 @@ export class BookingPageComponent implements OnInit {
   get numberOfDays(): number {
     if (!this.startDate) {
       return 0;
-    }
-    else if (!this.endDate) {
+    } else if (!this.endDate) {
       return 1;
-    }
-    else {
+    } else {
       const start = new Date(this.startDate);
       const end = new Date(this.endDate);
 
@@ -200,7 +175,6 @@ export class BookingPageComponent implements OnInit {
       end.setHours(0, 0, 0, 0);
 
       const diffTime = Math.abs(end.getTime() - start.getTime());
-
       return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
   }
@@ -213,12 +187,9 @@ export class BookingPageComponent implements OnInit {
     return Math.floor(diffMs / (1000 * 60));
   }
 
+  // Form-Validierung entfernt: nur noch Datum prüfen
   get isFormValid(): boolean {
-    if (!this.startDate || !this.endDate) {
-      return false;
-    }
-    const email = this.firstName.trim();
-    return !!email && this.emailRegex.test(email);
+    return !!this.startDate && !!this.endDate;
   }
 
   get totalPrice(): number {

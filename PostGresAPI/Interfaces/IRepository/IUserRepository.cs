@@ -15,6 +15,11 @@ namespace PostGresAPI.Repository
 
         // Create
         Task<User> Add(CreateUserDto createUserDto);
+
+        Task<User> AddUserEntity(User user);
+
+        Task<User?> GetByUserNameOrEmail(string userNameOrEmail);
+
         // Update
         Task<User?> Update(int id, string userName, string email, string phone);
 

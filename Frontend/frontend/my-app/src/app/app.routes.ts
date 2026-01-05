@@ -6,6 +6,7 @@ import { BedroomPreviewPageComponent } from './pages/bedroom-preview-page.compon
 import { MeetingroomPreviewPageComponent } from './pages/meetingroom-preview-page.component/meetingroom-preview-page.component';
 import { BookingPageComponent } from './pages/booking-page.component/booking-page.component';
 import { LoginPageComponent } from './pages/login-page.component/login-page.component';
+import { RegisterPageComponent } from './pages/register-page.component/register-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page.component/dashboard-page.component';
 import { UsersPageComponent } from './pages/users-page.component/users-page.component';
 import { authGuard } from './core/auth.guard';
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'rooms/preview/:type', component: RoomPreviewPageComponent },
   { path: 'booking', component: BookingPageComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: 'register', component: RegisterPageComponent },
   { path: 'dashboard', component: DashboardPageComponent, canActivate: [authGuard] },
   { path: 'users', component: UsersPageComponent }
 ];

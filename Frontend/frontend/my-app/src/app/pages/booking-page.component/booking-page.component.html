@@ -61,20 +61,7 @@
     </div>
 
     <!-- If not booked show form -->
-    <div class="form-group" *ngIf="!bookingSuccess">
-      <label for="email">
-        <strong class="left" i18n>Enter email:</strong>
-      </label>
-      <input id="email"
-             name="email"
-             type="email"
-             [(ngModel)]="firstName"
-             placeholder="Enter your email"
-             i18n-placeholder
-             maxlength="100"
-             required />
-    </div>
-
+  
     <!-- When booked show booking number -->
     <div class="overview-row" *ngIf="bookingSuccess">
       <strong i18n>Booking number:</strong>
@@ -87,13 +74,14 @@
     <div class="button-row" *ngIf="!bookingSuccess">
       <button class="confirmBooking"
               (click)="confirmBooking()"
-              [disabled]="bookingInProgress || !isFormValid"
+              [disabled]="bookingInProgress || !isLoggedIn"
               i18n>
         { bookingInProgress, select,
         true {Booking...}
         false {Confirm booking}
         }
       </button>
+
     </div>
 
     <!-- Success + Important text in cards -->

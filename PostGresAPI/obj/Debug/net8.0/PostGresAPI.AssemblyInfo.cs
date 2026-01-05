@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PostGresAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c754e61589be5d8eaa239606ed54d8b0aa60722")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+082a6f73e2f8326ac1a18e223ec56a595d11aa23")]
 [assembly: System.Reflection.AssemblyProductAttribute("PostGresAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PostGresAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

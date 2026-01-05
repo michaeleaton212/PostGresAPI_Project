@@ -112,3 +112,5 @@ public class BedroomRepository : IBedroomRepository
         }
     }
 }
+
+// Repository his job is to interact with the database and perform CRUD operations

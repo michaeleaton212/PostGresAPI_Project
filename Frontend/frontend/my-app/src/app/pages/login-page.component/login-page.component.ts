@@ -1,49 +1,48 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from '../../components/core/footer/footer';
-import { BookingService } from '../../core/booking.service';
+import { UserService } from '../../core/user.service';
 
 @Component({
   selector: 'login-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterModule, FooterComponent],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent {
-  private bookingService = inject(BookingService);
+  private userService = inject(UserService);
   private router = inject(Router);
 
   email = '';
-  bookingNumber = '';
+  password = '';
   bookingInProgress = false;
 
   loginResult: boolean | null = null;
   error: string | null = null;
 
   errorEmail: string | null = null;
-  errorBookingNumber: string | null = null;
+  errorPassword: string | null = null;
 
   emailTouched = false;
-  bookingNumberTouched = false;
+  passwordTouched = false;
 
   get isFormValid(): boolean {
-    return this.validateEmail(this.email) && this.bookingNumber.trim().length > 0;
+    return this.validateEmail(this.email) && this.password.trim().length >= 6;
   }
 
   get showEmailError(): boolean {
     return this.emailTouched && (this.email.trim() === '' || !this.validateEmail(this.email));
   }
 
-  get showBookingNumberError(): boolean {
-    return this.bookingNumberTouched && this.bookingNumber.trim() === '';
+  get showPasswordError(): boolean {
+    return this.passwordTouched && this.password.trim().length < 6;
   }
 
   validateEmail(email: string): boolean {
     if (!email.trim()) return false;
-    // Simple email regex
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   }
 
@@ -58,21 +57,23 @@ export class LoginPageComponent {
     }
   }
 
-  onBookingNumberInput(): void {
-    this.bookingNumberTouched = true;
-    if (this.bookingNumber.trim() === '') {
-      this.errorBookingNumber = 'Bitte Buchungsnummer eingeben.';
+  onPasswordInput(): void {
+    this.passwordTouched = true;
+    if (this.password.trim() === '') {
+      this.errorPassword = 'Bitte Passwort eingeben.';
+    } else if (this.password.trim().length < 6) {
+      this.errorPassword = 'Passwort muss mindestens 6 Zeichen lang sein.';
     } else {
-      this.errorBookingNumber = null;
+      this.errorPassword = null;
     }
   }
 
   validateFields(): boolean {
     this.emailTouched = true;
-    this.bookingNumberTouched = true;
+    this.passwordTouched = true;
     
     this.errorEmail = null;
-    this.errorBookingNumber = null;
+    this.errorPassword = null;
     let valid = true;
     
     if (!this.email.trim()) {
@@ -83,8 +84,11 @@ export class LoginPageComponent {
       valid = false;
     }
     
-    if (!this.bookingNumber.trim()) {
-      this.errorBookingNumber = 'Bitte Buchungsnummer eingeben.';
+    if (!this.password.trim()) {
+      this.errorPassword = 'Bitte Passwort eingeben.';
+      valid = false;
+    } else if (this.password.trim().length < 6) {
+      this.errorPassword = 'Passwort muss mindestens 6 Zeichen lang sein.';
       valid = false;
     }
     
@@ -102,16 +106,15 @@ export class LoginPageComponent {
     this.bookingInProgress = true;
 
     const loginRequest = {
-      bookingNumber: this.bookingNumber.trim(),
-      name: this.email.trim()
+      userNameOrEmail: this.email.trim(),
+      password: this.password
     };
 
-    this.bookingService.login(loginRequest).subscribe({ // call login; store token + booking metadata in sessionStorage; navigate to dashboard
-
-      next: (res) => {
-        sessionStorage.setItem('loginToken', res.token);
-        sessionStorage.setItem('bookingIds', JSON.stringify(res.bookingIds));
-        sessionStorage.setItem('userName', this.email.trim());
+    this.userService.login(loginRequest).subscribe({
+      next: (user) => {
+        sessionStorage.setItem('userId', user.id.toString());
+        sessionStorage.setItem('userName', user.userName);
+        sessionStorage.setItem('userEmail', user.email);
 
         this.loginResult = true;
         this.bookingInProgress = false;
@@ -120,9 +123,9 @@ export class LoginPageComponent {
       },
       error: (err) => {
         if (err?.status === 401) {
-          this.error = 'Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Buchungsnummer.';
+          this.error = 'Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Ihr Passwort.';
         } else if (err?.status === 404) {
-          this.error = 'Buchung nicht gefunden.';
+          this.error = 'Benutzer nicht gefunden.';
         } else if (err?.status === 0) {
           this.error = 'Verbindung zum Server fehlgeschlagen. Bitte starten Sie das Backend.';
         } else if (err?.error?.error) {

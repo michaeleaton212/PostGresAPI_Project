@@ -31,10 +31,17 @@ export class ApiService {
   }
 
   /**
-   * Standard JSON headers
+   * Get headers with user ID if authenticated
    */
-  private jsonHeaders() {
-    return { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    
+    const userId = sessionStorage.getItem('userId');
+    if (userId) {
+      headers = headers.set('X-User-Id', userId);
+    }
+    
+    return headers;
   }
 
   /**
@@ -43,12 +50,12 @@ export class ApiService {
   get<T>(path: string, params?: Record<string, any>): Observable<T> {
     const url = this.makeUrl(path);
     console.debug('[ApiService] GET', url, params || '');
-    return this.http.get<T>(url, { params }).pipe(
+    return this.http.get<T>(url, { params, headers: this.getHeaders() }).pipe(
       tap(response => console.log('[ApiService] GET Response:', response)),
-  catchError(error => {
+      catchError(error => {
         console.error('[ApiService] GET Error:', error);
-return throwError(() => error);
-  })
+        return throwError(() => error);
+      })
     );
   }
 
@@ -58,23 +65,23 @@ return throwError(() => error);
   post<T>(path: string, body: any): Observable<T> {
     const url = this.makeUrl(path);
     console.log('[ApiService] POST URL:', url);
-  console.log('[ApiService] POST Body:', body);
-    console.log('[ApiService] POST Headers:', this.jsonHeaders());
+    console.log('[ApiService] POST Body:', body);
+    console.log('[ApiService] POST Headers:', this.getHeaders());
     
-    return this.http.post<T>(url, body, this.jsonHeaders()).pipe(
+    return this.http.post<T>(url, body, { headers: this.getHeaders() }).pipe(
       tap(response => {
         console.log('[ApiService] POST Success Response:', response);
       }),
       catchError(error => {
- console.error('[ApiService] POST Error Details:', {
+        console.error('[ApiService] POST Error Details:', {
           status: error.status,
           statusText: error.statusText,
           error: error.error,
           message: error.message,
-   url: url,
+          url: url,
           body: body
         });
-      return throwError(() => error);
+        return throwError(() => error);
       })
     );
   }
@@ -85,9 +92,9 @@ return throwError(() => error);
   put<T>(path: string, body: any): Observable<T> {
     const url = this.makeUrl(path);
     console.debug('[ApiService] PUT', url, body);
-    return this.http.put<T>(url, body, this.jsonHeaders()).pipe(
+    return this.http.put<T>(url, body, { headers: this.getHeaders() }).pipe(
       tap(response => console.log('[ApiService] PUT Response:', response)),
-   catchError(error => {
+      catchError(error => {
         console.error('[ApiService] PUT Error:', error);
         return throwError(() => error);
       })
@@ -100,7 +107,7 @@ return throwError(() => error);
   patch<T>(path: string, body: any): Observable<T> {
     const url = this.makeUrl(path);
     console.debug('[ApiService] PATCH', url, body);
-    return this.http.patch<T>(url, body, this.jsonHeaders()).pipe(
+    return this.http.patch<T>(url, body, { headers: this.getHeaders() }).pipe(
       tap(response => console.log('[ApiService] PATCH Response:', response)),
       catchError(error => {
         console.error('[ApiService] PATCH Error:', error);
@@ -115,11 +122,11 @@ return throwError(() => error);
   delete<T>(path: string): Observable<T> {
     const url = this.makeUrl(path);
     console.debug('[ApiService] DELETE', url);
-    return this.http.delete<T>(url).pipe(
+    return this.http.delete<T>(url, { headers: this.getHeaders() }).pipe(
       tap(response => console.log('[ApiService] DELETE Response:', response)),
       catchError(error => {
         console.error('[ApiService] DELETE Error:', error);
-     return throwError(() => error);
+        return throwError(() => error);
       })
     );
   }

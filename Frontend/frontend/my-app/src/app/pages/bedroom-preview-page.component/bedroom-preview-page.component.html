@@ -135,6 +135,11 @@
             </div>
 
             <button class="book-button" (click)="openBooking()" i18n>Book now</button>
+
+            <div class="selected-info error" *ngIf="showLoginError">
+              <p class="error-text" i18n>Please log in to book.</p>
+            </div>
+
           </div>
         </div>
 

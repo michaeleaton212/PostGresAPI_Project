@@ -1,0 +1,38 @@
+# Test Script für User Registration und Login
+
+## 1. User registrieren
+POST http://localhost:5031/api/userauth/register
+Content-Type: application/json
+
+{
+  "userName": "testuser",
+  "email": "test@example.com",
+  "phone": "123456789",
+  "password": "test123"
+}
+
+## 2. User login
+POST http://localhost:5031/api/userauth/login
+Content-Type: application/json
+
+{
+  "userNameOrEmail": "test@example.com",
+  "password": "test123"
+}
+
+## 3. Buchung erstellen (mit UserId)
+POST http://localhost:5031/api/bookings
+Content-Type: application/json
+X-User-Id: 1
+
+{
+  "roomId": 4,
+  "startUtc": "2024-01-20T14:00:00Z",
+  "endUtc": "2024-01-22T10:00:00Z",
+  "title": "test@example.com",
+  "userId": 1
+}
+
+## 4. Alle Buchungen des Users abrufen
+GET http://localhost:5031/api/bookings
+X-User-Id: 1

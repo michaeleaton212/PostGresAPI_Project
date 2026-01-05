@@ -3,11 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/room.service';
 import { BookingService } from '../../core/booking.service';
-import { Room, Meetingroom } from '../../core/models/room.model';
+import { Meetingroom } from '../../core/models/room.model';
 import { Booking } from '../../core/models/booking.model';
 import { FooterComponent } from '../../components/core/footer/footer';
-
-/* Removed: Reactive Forms für Input-Validation */
 
 interface CalendarDay {
   day: number;
@@ -50,6 +48,11 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   // Error state for missing date selection
   showDateError = false;
+
+  // Login error state
+  showLoginError = false;
+  loginErrorText = $localize`:Login required error@@meetingroomLoginRequired:Please log in to book.`;
+
   currentTimeIndex = 0;
 
   // Slider: aktuelles Bild
@@ -80,6 +83,14 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   get hasImages(): boolean {
     return !!this.room && !!this.room.images && this.room.images.length > 0;
+  }
+
+  // Helper method to check if user is logged in
+  private isLoggedIn(): boolean {
+    const userId = sessionStorage.getItem('userId');
+    const userName = sessionStorage.getItem('userName');
+    const userEmail = sessionStorage.getItem('userEmail');
+    return !!(userId && userName && userEmail);
   }
 
   ngOnInit() {
@@ -204,6 +215,16 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   openBooking() {
     if (!this.room) return;
+
+    // Reset errors
+    this.showDateError = false;
+    this.showLoginError = false;
+
+    // Login check
+    if (!this.isLoggedIn()) {
+      this.showLoginError = true;
+      return;
+    }
 
     if (!this.rangeStart) {
       this.showDateError = false;

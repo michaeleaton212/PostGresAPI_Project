@@ -44,3 +44,5 @@ public sealed class BedroomsController : ControllerBase
     public async Task<IActionResult> Delete(int id)
         => await _service.Delete(id) ? NoContent() : NotFound();
 }
+
+//defines the routes and  the methods for handling HTTP requests 

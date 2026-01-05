@@ -155,6 +155,11 @@
             </div>
 
             <button class="book-button" (click)="openBooking()" i18n>Book now</button>
+
+            <!-- Login error (neu) -->
+            <div class="selected-info error" *ngIf="showLoginError">
+              <p class="error-text">{{ loginErrorText }}</p>
+            </div>
           </div>
         </div>
 

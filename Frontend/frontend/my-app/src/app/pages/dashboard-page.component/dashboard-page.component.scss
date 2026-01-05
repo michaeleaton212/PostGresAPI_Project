@@ -555,9 +555,7 @@
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.30);
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.38),
-    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38), 0 1px 0 rgba(255, 255, 255, 0.18) inset;
   animation: slideIn 0.3s ease;
 }
 
@@ -596,9 +594,7 @@
 .popup-btn-confirm {
   background: #0A6CFF;
   color: #fff;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.22) inset,
-    0 16px 30px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.22) inset, 0 16px 30px rgba(0, 0, 0, 0.22);
 }
 
 .popup-btn-cancel {
@@ -616,6 +612,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -626,6 +623,7 @@
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);

@@ -4,7 +4,7 @@ public sealed class Booking
 {
     private Booking() { } // für EF
 
-    public Booking(int roomId, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title = null, string? bookingNumber = null)
+    public Booking(int roomId, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title = null, string? bookingNumber = null, int? userId = null)
     {
         RoomId = roomId;
         StartTime = startUtc;
@@ -12,11 +12,16 @@ public sealed class Booking
         Title = title;
         BookingNumber = bookingNumber ?? Guid.NewGuid().ToString()[..8]; // Default:8-stelliger Code
         Status = BookingStatus.Pending; // Default status
+        UserId = userId;
     }
 
     public int Id { get; private set; }
     public int RoomId { get; private set; }
     public Room Room { get; private set; } = null!;
+
+    // Optional: User reference
+    public int? UserId { get; private set; }
+    public User? User { get; private set; }
 
     // vom Service änderbar
     public DateTimeOffset StartTime { get; internal set; }

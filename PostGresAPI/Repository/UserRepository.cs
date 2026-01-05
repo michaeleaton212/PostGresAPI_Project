@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PostGresAPI.Data;
 using PostGresAPI.Models;
-
 using PostGresAPI.Contracts;
+
 namespace PostGresAPI.Repository;
 
 // Data access for users
@@ -43,14 +43,42 @@ public class UserRepository : IUserRepository
         }
     }
 
+    public async Task<User?> GetByUserNameOrEmail(string userNameOrEmail)
+    {
+        try
+        {
+            return await _db.Users!
+                .FirstOrDefaultAsync(u =>
+                    u.UserName == userNameOrEmail || u.Email == userNameOrEmail);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Fehler beim Abrufen des Users", ex);
+        }
+    }
+
     // create
     public async Task<User> Add(CreateUserDto createUserDto) // type of parameter is CreateUserDto and create a new user based on the dto
     {
         try
         {
-            var user = new User(createUserDto.UserName, createUserDto.Email);
+            var user = new User(createUserDto.UserName, createUserDto.Email, createUserDto.Phone);
             _db.Users!.Add(user); //! to tell compiler that Users is not null
             await _db.SaveChangesAsync(); // wait until the changes are saved to the database
+            return user;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Fehler beim Hinzufügen des Users", ex);
+        }
+    }
+
+    public async Task<User> AddUserEntity(User user)
+    {
+        try
+        {
+            _db.Users!.Add(user);
+            await _db.SaveChangesAsync();
             return user;
         }
         catch (Exception ex)
@@ -64,14 +92,13 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var entity = await GetById(id);
+            var entity = await _db.Users!.FirstOrDefaultAsync(u => u.Id == id);
             if (entity is null)
                 return null;
 
             entity.UserName = userName;
             entity.Email = email;
             entity.Phone = phone;
-            _db.Users!.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
         }
@@ -86,7 +113,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var entity = await GetById(id);
+            var entity = await _db.Users!.FirstOrDefaultAsync(u => u.Id == id);
             if (entity is null)
                 return false;
 

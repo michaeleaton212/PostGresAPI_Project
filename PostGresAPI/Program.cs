@@ -23,6 +23,8 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 // Dependency Injection - Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserAuthService, UserAuthService>();
+
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IMeetingroomService, MeetingroomService>();
 builder.Services.AddScoped<IBedroomService, BedroomService>();

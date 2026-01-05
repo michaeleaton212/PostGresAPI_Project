@@ -1,0 +1,115 @@
+<div class="page">
+  <div class="overview">
+    <h3 i18n>Registrierung</h3>
+
+    <form (keydown)="onKeyDown($event)" (ngSubmit)="onRegister()" autocomplete="off">
+      <div class="form-group">
+        <label for="userName" i18n>Benutzername</label>
+        <input id="userName"
+               type="text"
+               [(ngModel)]="userName"
+               (input)="onUserNameInput()"
+               name="userName"
+               [class.input-error]="errorUserName"
+               required
+               autocomplete="username"
+               placeholder="Ihr Benutzername"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorUserName">
+          <span i18n>{{ errorUserName || '&nbsp;' }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" i18n>E-Mail</label>
+        <input id="email"
+               type="email"
+               [(ngModel)]="email"
+               (input)="onEmailInput()"
+               name="email"
+               [class.input-error]="errorEmail"
+               required
+               autocomplete="email"
+               placeholder="ihre.email@beispiel.de"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorEmail">
+          <span i18n>{{ errorEmail || '&nbsp;' }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone" i18n>Telefonnummer (optional)</label>
+        <input id="phone"
+               type="tel"
+               [(ngModel)]="phone"
+               (input)="onPhoneInput()"
+               name="phone"
+               [class.input-error]="errorPhone"
+               autocomplete="tel"
+               placeholder="+49 123 456789"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorPhone">
+          <span i18n>{{ errorPhone || '&nbsp;' }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" i18n>Passwort</label>
+        <input id="password"
+               type="password"
+               [(ngModel)]="password"
+               (input)="onPasswordInput()"
+               name="password"
+               [class.input-error]="errorPassword"
+               required
+               autocomplete="new-password"
+               placeholder="••••••••"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorPassword">
+          <span i18n>{{ errorPassword || '&nbsp;' }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword" i18n>Passwort bestätigen</label>
+        <input id="confirmPassword"
+               type="password"
+               [(ngModel)]="confirmPassword"
+               (input)="onConfirmPasswordInput()"
+               name="confirmPassword"
+               [class.input-error]="errorConfirmPassword"
+               required
+               autocomplete="new-password"
+               placeholder="••••••••"
+               i18n-placeholder />
+        <div class="error" [class.hidden]="!errorConfirmPassword">
+          <span i18n>{{ errorConfirmPassword || '&nbsp;' }}</span>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="singin"
+                type="submit"
+                [disabled]="registrationInProgress"
+                i18n>
+          {{ registrationInProgress ? 'Registrierung läuft...' : 'Registrieren' }}
+        </button>
+      </div>
+
+      <div class="success" *ngIf="registrationResult === true">
+        <span i18n>Registrierung erfolgreich! Sie werden weitergeleitet...</span>
+      </div>
+
+      <div class="error" *ngIf="error">
+        <span i18n>{{ error }}</span>
+      </div>
+
+      <div class="login-link">
+        <span i18n>Bereits registriert?</span>
+        <a routerLink="/login" i18n>Hier anmelden</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>
