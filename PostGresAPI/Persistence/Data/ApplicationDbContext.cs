@@ -92,6 +92,10 @@ public sealed class ApplicationDbContext : DbContext
             .IsRequired()
             .HasDefaultValue(BookingStatus.Pending);
 
+        booking.Property(b => b.NumberOfPersons)
+            .IsRequired()
+            .HasDefaultValue(1);
+
         // FK to Rooms 
         booking.HasOne(b => b.Room)
                .WithMany(r => r.Bookings)

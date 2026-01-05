@@ -8,7 +8,7 @@ public static class BookingMappingExtensions
 {
     // Entity to BookingDto
     public static BookingDto ToDto(this Booking b)
-        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber, b.Status.ToString(), b.UserId);
+        => new(b.Id, b.RoomId, b.StartTime, b.EndTime, b.Title, b.BookingNumber, b.Status.ToString(), b.UserId, b.NumberOfPersons);
 
 
     // CreateBookingDto to Entity
@@ -16,7 +16,7 @@ public static class BookingMappingExtensions
     {
         // Generiere eine eindeutige8-stellige Buchungsnummer
         var bookingNumber = Guid.NewGuid().ToString("N")[..8].ToUpper();
-        return new Booking(dto.RoomId, dto.StartUtc, dto.EndUtc, dto.Title, bookingNumber, dto.UserId);
+        return new Booking(dto.RoomId, dto.StartUtc, dto.EndUtc, dto.Title, bookingNumber, dto.UserId, dto.NumberOfPersons);
     }
 
 
@@ -26,15 +26,17 @@ public static class BookingMappingExtensions
         entity.StartTime = dto.StartUtc;
         entity.EndTime = dto.EndUtc;
         entity.Title = dto.Title;
+        entity.NumberOfPersons = dto.NumberOfPersons;
     }
 
 
     // Apply updates to Booking entity
-    public static void ApplyUpdate(this Booking entity, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
+    public static void ApplyUpdate(this Booking entity, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title, int numberOfPersons)
     {
         entity.StartTime = startUtc;
         entity.EndTime = endUtc;
         entity.Title = title;
+        entity.NumberOfPersons = numberOfPersons;
     }
 
     // Apply status update to Booking entity

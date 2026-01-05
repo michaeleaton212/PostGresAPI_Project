@@ -46,6 +46,9 @@ export class MeetingroomPreviewPageComponent implements OnInit {
   rangeStart: Date | null = null;
   rangeEnd: Date | null = null;
 
+  // Number of persons selection
+  numberOfPersons = 1;
+
   // Error state for missing date selection
   showDateError = false;
 
@@ -83,6 +86,19 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   get hasImages(): boolean {
     return !!this.room && !!this.room.images && this.room.images.length > 0;
+  }
+
+  get maxPersons(): number {
+    // Maximum persons = number of chairs, fallback to 1
+    return this.room?.numberOfChairs || 1;
+  }
+
+  get canDecreasePersons(): boolean {
+    return this.numberOfPersons > 1;
+  }
+
+  get canIncreasePersons(): boolean {
+    return this.numberOfPersons < this.maxPersons;
   }
 
   // Helper method to check if user is logged in
@@ -145,6 +161,9 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
         // Slider-Index zurücksetzen
         this.currentImageIndex = 0;
+
+        // Initialize number of persons (default 1, but not more than chairs)
+        this.numberOfPersons = Math.min(1, this.maxPersons);
 
         // Load bookings for this room
         this.loadRoomBookings(id);
@@ -258,7 +277,8 @@ export class MeetingroomPreviewPageComponent implements OnInit {
     const queryParams: any = {
       roomId: this.room.id,
       startTime: startDateTime.toISOString(),
-      endTime: endDateTime.toISOString()
+      endTime: endDateTime.toISOString(),
+      numberOfPersons: this.numberOfPersons
     };
 
     this.router.navigate(['/booking'], { queryParams });
@@ -474,5 +494,17 @@ export class MeetingroomPreviewPageComponent implements OnInit {
 
   hasBookings(calendarDay: CalendarDay): boolean {
     return !!(calendarDay.bookings && calendarDay.bookings.length > 0);
+  }
+
+  increasePersons(): void {
+    if (this.canIncreasePersons) {
+      this.numberOfPersons++;
+    }
+  }
+
+  decreasePersons(): void {
+    if (this.canDecreasePersons) {
+      this.numberOfPersons--;
+    }
   }
 }

@@ -14,6 +14,7 @@ export interface Booking {
   bookingNumber: string; // Buchungsnummer
   status: string; // BookingStatus
   userId: number | null;
+  numberOfPersons: number;
 }
 
 export interface CreateBookingDto {
@@ -22,6 +23,7 @@ export interface CreateBookingDto {
   endUtc: string;   // ISO 8601 date string
   title: string;
   userId?: number | null;
+  numberOfPersons: number;
 }
 
 export interface UpdateBookingStatusDto {

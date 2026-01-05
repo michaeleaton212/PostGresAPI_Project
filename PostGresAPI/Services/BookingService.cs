@@ -116,7 +116,7 @@ namespace PostGresAPI.Services
             if (hasOverlap)
                 return (false, "Time range already booked.", null);
 
-            var updated = await _bookings.Update(id, updateBookingDto.StartUtc, updateBookingDto.EndUtc, updateBookingDto.Title);
+            var updated = await _bookings.Update(id, updateBookingDto.StartUtc, updateBookingDto.EndUtc, updateBookingDto.Title, updateBookingDto.NumberOfPersons);
             if (updated is null)
                 return (false, "Booking not found.", null);
 

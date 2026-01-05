@@ -27,6 +27,9 @@ export class BookingPageComponent implements OnInit {
 
   // Du nutzt das Feld aktuell als E-Mail / title
   firstName = '';
+  
+  // Anzahl Personen
+  numberOfPersons = 1;
 
   loading = true;
   error: string | null = null;
@@ -45,6 +48,7 @@ export class BookingPageComponent implements OnInit {
       const endDateStr = params['endDate'];
       const startTimeStr = params['startTime'];
       const endTimeStr = params['endTime'];
+      const numberOfPersonsStr = params['numberOfPersons'];
 
       if (!roomId) {
         this.error = 'Keine Raum-ID angegeben.';
@@ -62,6 +66,11 @@ export class BookingPageComponent implements OnInit {
         this.endDate = new Date(endTimeStr);
       } else if (endDateStr) {
         this.endDate = new Date(endDateStr);
+      }
+
+      // Set number of persons from query params
+      if (numberOfPersonsStr) {
+        this.numberOfPersons = parseInt(numberOfPersonsStr, 10) || 1;
       }
 
       this.loadRoom(Number(roomId));
@@ -121,7 +130,8 @@ export class BookingPageComponent implements OnInit {
       startUtc: this.startDate.toISOString(),
       endUtc: this.endDate.toISOString(),
       title: title,
-      userId: userId
+      userId: userId,
+      numberOfPersons: this.numberOfPersons
     };
 
     console.log('=== BOOKING DTO ===');

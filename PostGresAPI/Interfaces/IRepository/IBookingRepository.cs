@@ -38,7 +38,7 @@ namespace PostGresAPI.Repository
         Task<Booking> Add(CreateBookingDto createBookingDto);
 
         // Update
-        Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title);
+        Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title, int numberOfPersons);
 
         // Update Status
         Task<Booking?> UpdateStatus(int id, BookingStatus status);

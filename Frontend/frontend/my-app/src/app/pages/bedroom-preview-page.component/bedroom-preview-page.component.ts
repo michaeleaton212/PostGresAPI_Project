@@ -48,6 +48,9 @@ export class BedroomPreviewPageComponent implements OnInit {
   rangeStart: Date | null = null;
   rangeEnd: Date | null = null;
 
+  // Number of persons selection
+  numberOfPersons = 1;
+
   // Error state
   showDateError = false;
   dateErrorText = $localize`:Error when no date is selected@@bedroomDateError:Please select a date!`;
@@ -93,6 +96,31 @@ export class BedroomPreviewPageComponent implements OnInit {
     }
     // Fallback: single image or grey.png
     return this.room?.image || '/grey.png';
+  }
+
+  get maxPersons(): number {
+    // Maximum persons = number of beds, fallback to 1
+    return this.room?.numberOfBeds || 1;
+  }
+
+  get canDecreasePersons(): boolean {
+    return this.numberOfPersons > 1;
+  }
+
+  get canIncreasePersons(): boolean {
+    return this.numberOfPersons < this.maxPersons;
+  }
+
+  increasePersons(): void {
+    if (this.canIncreasePersons) {
+      this.numberOfPersons++;
+    }
+  }
+
+  decreasePersons(): void {
+    if (this.canDecreasePersons) {
+      this.numberOfPersons--;
+    }
   }
 
   ngOnInit() {
@@ -150,6 +178,9 @@ export class BedroomPreviewPageComponent implements OnInit {
 
         // falls kein Array rauskommt, Index zurücksetzen
         this.currentImageIndex = 0;
+
+        // Initialize number of persons (default 1, but not more than beds)
+        this.numberOfPersons = Math.min(1, this.maxPersons);
 
         // Buchungen für dieses Zimmer laden
         this.loadRoomBookings(id);
@@ -229,7 +260,8 @@ export class BedroomPreviewPageComponent implements OnInit {
     const queryParams: any = {
       roomId: this.room.id,
       startDate: this.rangeStart.toISOString(),
-      endDate: this.rangeEnd.toISOString()
+      endDate: this.rangeEnd.toISOString(),
+      numberOfPersons: this.numberOfPersons
     };
 
     this.router.navigate(['/booking'], { queryParams });

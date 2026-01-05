@@ -40,6 +40,22 @@
       <span>{{ endDate | date:'dd.MM.yyyy' }}</span>
     </div>
 
+    <!-- Number of persons input -->
+    <div class="overview-row" *ngIf="!bookingSuccess">
+      <strong i18n>Number of persons:</strong>
+      <input type="number" 
+             [(ngModel)]="numberOfPersons" 
+             min="1" 
+             max="10"
+             class="persons-input">
+    </div>
+
+    <!-- Show number of persons after booking -->
+    <div class="overview-row" *ngIf="bookingSuccess">
+      <strong i18n>Number of persons:</strong>
+      <span>{{ numberOfPersons }}</span>
+    </div>
+
     <!-- Bedroom: only number of days -->
     <div *ngIf="room?.type === 'Bedroom'" class="overview-row">
       <strong i18n>Duration:</strong>

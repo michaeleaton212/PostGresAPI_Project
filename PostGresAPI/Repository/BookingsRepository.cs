@@ -176,7 +176,7 @@ public class BookingRepository : IBookingRepository
     }
 
     // Update
-    public async Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title)
+    public async Task<Booking?> Update(int id, DateTimeOffset startUtc, DateTimeOffset endUtc, string? title, int numberOfPersons)
     {
         try
         {
@@ -184,7 +184,7 @@ public class BookingRepository : IBookingRepository
             if (entity is null)
                 return null;
 
-            entity.ApplyUpdate(startUtc, endUtc, title);
+            entity.ApplyUpdate(startUtc, endUtc, title, numberOfPersons);
             _db.Bookings.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
