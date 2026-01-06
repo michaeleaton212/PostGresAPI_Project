@@ -18,7 +18,7 @@ public sealed class Booking
 
     public int Id { get; private set; }
     public int RoomId { get; private set; }
-    public Room Room { get; private set; } = null!;
+    public Room Room { get; internal set; } = null!;
 
     // Optional: User reference
     public int? UserId { get; private set; }

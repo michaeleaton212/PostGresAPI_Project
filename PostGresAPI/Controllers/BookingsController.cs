@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PostGresAPI.Contracts;
 using PostGresAPI.Services;
 using PostGresAPI.Auth;
@@ -12,11 +13,13 @@ public class BookingsController : ControllerBase
 {
     private readonly IBookingService _svc;
     private readonly ITokenService _tokens;
+    private readonly ILogger<BookingsController> _logger;
 
-    public BookingsController(IBookingService svc, ITokenService tokens)
+    public BookingsController(IBookingService svc, ITokenService tokens, ILogger<BookingsController> logger)
     {
         _svc = svc;
         _tokens = tokens;
+        _logger = logger;
     }
 
     // Helper method to validate token and extract booking IDs
@@ -85,10 +88,35 @@ public class BookingsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<BookingDto>> Create(CreateBookingDto dto)
     {
-        var (ok, err, result) = await _svc.Create(dto);
-        if (!ok) return BadRequest(new { error = err });
+        _logger.LogInformation("=== BOOKING REQUEST RECEIVED ===");
+        _logger.LogInformation("CreateBookingDto received - RoomId: {RoomId}, UserId from DTO: {UserId}", 
+            dto.RoomId, dto.UserId?.ToString() ?? "NULL");
+
+        var userId = GetUserIdFromSession();
+        _logger.LogInformation("UserId from session header (X-User-Id): {UserId}", userId?.ToString() ?? "NULL");
+
+        if (userId == null)
+        {
+            _logger.LogWarning("❌ No UserId in session header, user not logged in");
+            return Unauthorized(new { error = "Benutzer nicht angemeldet." });
+        }
+        
+        // Set userId in the DTO so the service can send email to the user
+        var dtoWithUserId = dto with { UserId = userId };
+        _logger.LogInformation("Updated DTO with UserId: {UserId}", dtoWithUserId.UserId);
+        
+        var (ok, err, result) = await _svc.Create(dtoWithUserId);
+        if (!ok) 
+        {
+            _logger.LogWarning("Booking creation failed: {Error}", err);
+            return BadRequest(new { error = err });
+        }
 
         var created = result!;
+        _logger.LogInformation("✅ Booking created successfully: Id={Id}, BookingNumber={BookingNumber}", 
+            created.Id, created.BookingNumber);
+        _logger.LogInformation("=== BOOKING REQUEST COMPLETE ===");
+        
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 

@@ -1,0 +1,96 @@
+### Test Reviews API
+
+@baseUrl = http://localhost:5031/api
+@userId = 1
+
+### 1. Get all reviews (should work without authentication)
+GET {{baseUrl}}/reviews
+
+### 2. Get review by ID
+GET {{baseUrl}}/reviews/1
+
+### 3. Get reviews by user ID
+GET {{baseUrl}}/reviews/user/{{userId}}
+
+### 4. Create a review (requires authentication - X-User-Id header)
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+X-User-Id: {{userId}}
+
+{
+  "title": "Amazing Stay at Hotel Adula",
+  "content": "We had a wonderful time at Hotel Adula. The rooms were clean, the staff was friendly, and the mountain views were breathtaking. Highly recommend!",
+  "rating": 5
+}
+
+### 5. Create another review with different rating
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+X-User-Id: {{userId}}
+
+{
+  "title": "Good but could be better",
+  "content": "The location is great and the rooms are comfortable. However, the breakfast could use more variety.",
+  "rating": 4
+}
+
+### 6. Create a review with minimum rating
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+X-User-Id: {{userId}}
+
+{
+  "title": "Disappointing experience",
+  "content": "The room was not as advertised and the service was lacking. Would not recommend.",
+  "rating": 2
+}
+
+### 7. Try to create review without authentication (should fail with 401)
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+
+{
+  "title": "Test Review",
+  "content": "This should fail without X-User-Id header",
+  "rating": 3
+}
+
+### 8. Try to create review with invalid rating (should fail with 400)
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+X-User-Id: {{userId}}
+
+{
+  "title": "Invalid Rating",
+  "content": "This should fail with rating > 5",
+  "rating": 6
+}
+
+### 9. Update a review (requires authentication and ownership)
+PUT {{baseUrl}}/reviews/1
+Content-Type: application/json
+X-User-Id: {{userId}}
+
+{
+  "title": "Updated: Amazing Stay at Hotel Adula",
+  "content": "Updated content: We had an absolutely wonderful time at Hotel Adula!",
+  "rating": 5
+}
+
+### 10. Try to update someone else's review (should fail with 404)
+PUT {{baseUrl}}/reviews/1
+Content-Type: application/json
+X-User-Id: 999
+
+{
+  "title": "Trying to update",
+  "content": "This should fail",
+  "rating": 3
+}
+
+### 11. Delete a review (requires authentication and ownership)
+DELETE {{baseUrl}}/reviews/1
+X-User-Id: {{userId}}
+
+### 12. Try to delete without authentication (should fail with 401)
+DELETE {{baseUrl}}/reviews/2

@@ -1,0 +1,135 @@
+<!-- review-page.component.html -->
+<div class="page">
+
+  <!-- Durchschnitt oben - nur anzeigen wenn NICHT im Write-Modus -->
+  <div class="avg-badge" *ngIf="!showWriteReview && reviews.length > 0">
+    <div class="avg-stars">
+      <div class="avg-star" *ngFor="let star of [1,2,3,4,5]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <polygon class="outline" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <div class="fill-wrap" [style.width.%]="getStarFillPercent(star)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <polygon class="fill" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <span class="avg-text">{{ averageRating | number:'1.1-1' }}</span>
+  </div>
+
+  <div class="content">
+
+    <!-- WRITE REVIEW -->
+    <div *ngIf="showWriteReview">
+      <div class="create-review-section" *ngIf="isLoggedIn">
+        <h2 i18n>Write a Review</h2>
+
+        <div class="form-group">
+          <label i18n>Rating</label>
+
+          <div class="rating-container" (mouseleave)="clearHover()">
+            <button type="button"
+                    *ngFor="let star of [1,2,3,4,5]"
+                    class="star-btn"
+                    [class.active]="star <= (hoverRating || newReview.rating)"
+                    (click)="setRating(star)"
+                    (mouseenter)="setHover(star)"
+                    [disabled]="isLoading">
+
+              <svg class="svg-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+
+              <svg class="svg-fill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <br />
+
+        <form (ngSubmit)="submitReview()" class="review-form">
+          <div class="form-group">
+            <label for="title" i18n>Title</label>
+            <input type="text"
+                   id="title"
+                   [(ngModel)]="newReview.title"
+                   name="title"
+                   placeholder="Give your review a title"
+                   required
+                   [disabled]="isLoading" />
+          </div>
+
+
+          <div class="form-group">
+            <label for="content" i18n>Your Review</label>
+            <textarea id="content"
+                      [(ngModel)]="newReview.content"
+                      name="content"
+                      rows="6"
+                      placeholder="Share your experience..."
+                      required
+                      [disabled]="isLoading"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn" [disabled]="isLoading" i18n>
+              {{ isLoading ? 'Submitting...' : 'Submit Review' }}
+            </button>
+
+            <button type="button"
+                    class="cancel-btn"
+                    (click)="cancelWriteReview()"
+                    [disabled]="isLoading"
+                    i18n>
+              Cancel
+            </button>
+
+          </div>
+        </form>
+
+        <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+        <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+      </div>
+
+      <div class="login-prompt" *ngIf="!isLoggedIn">
+        <p i18n>Please <a href="/login">log in</a> to write a review.</p>
+      </div>
+    </div>
+
+    <!-- REVIEWS LIST - nur anzeigen wenn nicht im Write-Review-Modus -->
+    <div *ngIf="!showWriteReview">
+      <div class="reviews-section">
+        <h2 i18n>All Reviews ({{ reviews.length }})</h2>
+
+        <div class="loading" *ngIf="isLoading && reviews.length === 0">Loading...</div>
+
+        <div class="reviews-list" *ngIf="!isLoading || reviews.length > 0">
+          <div class="review-card" *ngFor="let review of reviews">
+            <div class="review-header">
+              <div class="review-meta">
+                <h3>{{ review.title }}</h3>
+                <p class="author">by {{ review.userName }}</p>
+                <p class="date">{{ formatDate(review.createdAt) }}</p>
+              </div>
+
+              <div class="rating-display">
+                <div *ngFor="let star of [1,2,3,4,5]" class="mini-star" [class.filled]="star <= review.rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="review-content">
+              <p>{{ review.content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <app-footer></app-footer>
+</div>

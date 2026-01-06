@@ -1,0 +1,53 @@
+### TEST EMAIL DEBUGGING
+### Diese Datei hilft beim Debuggen der Email-Funktionalität
+
+@baseUrl = http://localhost:5031/api
+@userId = 1
+@roomId = 1
+
+### 1. User Login (um UserId zu bekommen)
+POST {{baseUrl}}/userauth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "Test123!"
+}
+
+### Response sollte UserId zurückgeben, z.B.:
+### { "userId": 1, "username": "testuser", "email": "test@example.com" }
+
+### 2. Buchung erstellen MIT UserId Header
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+X-User-Id: {{userId}}
+
+{
+  "roomId": {{roomId}},
+  "startUtc": "2025-02-01T14:00:00Z",
+  "endUtc": "2025-02-03T10:00:00Z",
+  "title": "Test Booking",
+  "numberOfPersons": 2
+}
+
+### 3. User Details abrufen (um Email zu prüfen)
+GET {{baseUrl}}/users/{{userId}}
+X-User-Id: {{userId}}
+
+### DEBUGGING CHECKLIST:
+### ? Ist der User in der Datenbank vorhanden?
+### ? Hat der User eine gültige Email-Adresse?
+### ? Wird X-User-Id Header gesendet?
+### ? Ist EmailJS konfiguriert (appsettings.json)?
+### ? Console-Output nach "=== EMAIL SENDING START ===" suchen
+### ? Console-Output nach Fehlermeldungen suchen
+
+### ERWARTETE LOG-AUSGABE:
+### === BOOKING REQUEST RECEIVED ===
+### UserId from session header (X-User-Id): 1
+### === BOOKING CREATION START ===
+### Booking created with Id: X, BookingNumber: XXXX
+### Fetching user #1 to get email address...
+### User found: testuser, Email: test@example.com
+### === EMAIL SENDING START ===
+### Email sent successfully!

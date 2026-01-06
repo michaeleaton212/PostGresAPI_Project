@@ -9,21 +9,24 @@ import { LoginPageComponent } from './pages/login-page.component/login-page.comp
 import { RegisterPageComponent } from './pages/register-page.component/register-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page.component/dashboard-page.component';
 import { UsersPageComponent } from './pages/users-page.component/users-page.component';
+import { CommentsPage } from './pages/review-page/review-page';
 import { authGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent, pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
+
   { path: 'rooms', component: RoomsPageComponent },
-  { path: 'room-preview/bedroom', component: BedroomPreviewPageComponent },
-  { path: 'room-preview/meetingroom', component: MeetingroomPreviewPageComponent },
+  { path: 'rooms/preview/:type', component: RoomPreviewPageComponent },
+
   { path: 'bedroom-preview/:id', component: BedroomPreviewPageComponent },
   { path: 'meetingroom-preview/:id', component: MeetingroomPreviewPageComponent },
-  { path: 'rooms/preview/:type', component: RoomPreviewPageComponent },
+
   { path: 'booking', component: BookingPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
-  { path: 'dashboard', component: DashboardPageComponent, canActivate: [authGuard] },
-  { path: 'users', component: UsersPageComponent }
-];
 
+  { path: 'dashboard', component: DashboardPageComponent, canActivate: [authGuard] },
+  { path: 'users', component: UsersPageComponent },
+  { path: 'reviews', component: CommentsPage }
+];

@@ -1,10 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Program.cs
+using Microsoft.EntityFrameworkCore;
 using PostGresAPI.Data;
 using PostGresAPI.Repository;
 using PostGresAPI.Services;
-using PostGresAPI.Auth; // hinzugefügt: Token-Service für Login
+using PostGresAPI.Auth;
+using PostGresAPI.Interfaces.IRepository;
+using PostGresAPI.Interfaces.IServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+// NEU: falls deine Mail-Klassen in Services Namespace liegen, reicht das oben.
+// Wenn deine ISmtpSender / Worker in anderem Namespace sind, ggf. using ergänzen.
 
 var builder = WebApplication.CreateBuilder(args); // create builder
 
@@ -21,6 +27,8 @@ builder.Services.AddScoped<IMeetingroomRepository, MeetingroomRepository>();
 builder.Services.AddScoped<IBedroomRepository, BedroomRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
 // Dependency Injection - Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
@@ -28,7 +36,9 @@ builder.Services.AddScoped<IUserAuthService, UserAuthService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IMeetingroomService, MeetingroomService>();
 builder.Services.AddScoped<IBedroomService, BedroomService>();
-builder.Services.AddScoped<IBookingService, BookingService>(); // add booking service
+builder.Services.AddScoped<IBookingService, BookingService>();
+
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 // Dependency Injection - Token Service (für sichere Login-Tokens)
 builder.Services.AddSingleton<ITokenService, TokenService>(); // TokenService erzeugt und prüft HMAC-Token für Login
@@ -36,12 +46,16 @@ builder.Services.AddSingleton<ITokenService, TokenService>(); // TokenService er
 // Dependency Injection - Background Services
 builder.Services.AddHostedService<BookingExpirationService>(); // Automatically expire bookings after EndTime
 
+// Email Service (SMTP)
+builder.Services.AddScoped<ISmtpEmailService, SmtpEmailService>();
+
 builder.Services.AddControllers() // add controllers
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
+
 builder.Services.AddEndpointsApiExplorer(); // add swagger
 builder.Services.AddSwaggerGen(); // add swagger
 
@@ -68,7 +82,11 @@ if (string.IsNullOrWhiteSpace(tokenSecret))
 
 var app = builder.Build(); // build app
 
-if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection(); // use automaticly https redirection
 

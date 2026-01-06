@@ -6,6 +6,9 @@ using PostGresAPI.Models;
 using PostGresAPI.Repository;
 using PostGresAPI.Contracts;
 using PostGresAPI.Extensions;
+using PostGresAPI.Data;
+using PostGresAPI.Persistence.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace PostGresAPI.Services
 {
@@ -13,11 +16,22 @@ namespace PostGresAPI.Services
     {
         private readonly IBookingRepository _bookings;
         private readonly IRoomRepository _rooms;
+        private readonly ApplicationDbContext _db;
+        private readonly ISmtpEmailService _emailService;
+        private readonly ILogger<BookingService> _logger;
 
-        public BookingService(IBookingRepository bookings, IRoomRepository rooms) // Constructor Injection
+        public BookingService(
+            IBookingRepository bookings,
+            IRoomRepository rooms,
+            ApplicationDbContext db,
+            ISmtpEmailService emailService,
+            ILogger<BookingService> logger) // Constructor Injection
         {
             _bookings = bookings;
             _rooms = rooms;
+            _db = db;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         // Read
@@ -72,7 +86,7 @@ namespace PostGresAPI.Services
             foreach (var booking in allBookings)
             {
                 // Only update bookings that are Pending or CheckedIn and have ended
-                if ((booking.Status == BookingStatus.Pending || booking.Status == BookingStatus.CheckedIn) 
+                if ((booking.Status == BookingStatus.Pending || booking.Status == BookingStatus.CheckedIn)
                     && booking.EndTime < now)
                 {
                     await _bookings.UpdateStatus(booking.Id, BookingStatus.Expired);
@@ -87,6 +101,13 @@ namespace PostGresAPI.Services
         // Create
         public async Task<(bool Ok, string? Error, BookingDto? Result)> Create(CreateBookingDto createBookingDto)
         {
+            _logger.LogInformation("=== BOOKING CREATION START ===");
+            _logger.LogInformation("CreateBookingDto - RoomId: {RoomId}, UserId: {UserId}, StartUtc: {Start}, EndUtc: {End}", 
+                createBookingDto.RoomId, 
+                createBookingDto.UserId?.ToString() ?? "NULL", 
+                createBookingDto.StartUtc, 
+                createBookingDto.EndUtc);
+
             if (createBookingDto.StartUtc >= createBookingDto.EndUtc)
                 return (false, "Start must be before End.", null);
 
@@ -96,11 +117,69 @@ namespace PostGresAPI.Services
             if (await _bookings.HasOverlap(createBookingDto.RoomId, createBookingDto.StartUtc, createBookingDto.EndUtc))
                 return (false, "Time range already booked.", null);
 
+            // 1) Booking erstellen
             var created = await _bookings.Add(createBookingDto);
+            _logger.LogInformation("Booking created with Id: {Id}, BookingNumber: {BookingNumber}, UserId: {UserId}", 
+                created.Id, created.BookingNumber, created.UserId?.ToString() ?? "NULL");
 
+            // 2) Room-Nav laden (falls Repository es nicht mitliefert)
+            if (created.Room is null)
+            {
+                _logger.LogInformation("Room not loaded, fetching Room #{RoomId}...", created.RoomId);
+                var room = await _rooms.GetById(created.RoomId);
+                if (room is not null)
+                {
+                    created.Room = room;
+                    _logger.LogInformation("Room loaded: {RoomName}", room.Name);
+                }
+                else
+                {
+                    _logger.LogWarning("Room #{RoomId} not found in database", created.RoomId);
+                }
+            }
+
+            // 3) Empfänger E-Mail bestimmen (über UserId, da Booking FK optional hat)
+            string? recipientEmail = null;
+
+            if (created.UserId.HasValue)
+            {
+                _logger.LogInformation("Fetching user #{UserId} to get email address...", created.UserId.Value);
+                var user = await _db.Users.FindAsync(created.UserId.Value);
+                if (user != null)
+                {
+                    recipientEmail = user.Email;
+                    _logger.LogInformation("User found: {UserName}, Email: {Email}", user.UserName, recipientEmail ?? "NULL");
+                }
+                else
+                {
+                    _logger.LogWarning("? User #{UserId} not found in database", created.UserId.Value);
+                }
+            }
+            else
+            {
+                _logger.LogWarning("? No UserId in booking, cannot send email");
+            }
+
+            // 4) Email: Buchungsbestätigung senden
+            if (!string.IsNullOrWhiteSpace(recipientEmail))
+            {
+                _logger.LogInformation("Calling SMTP email service to send confirmation email...");
+                
+                var subject = $"Buchungsbestätigung - {created.BookingNumber}";
+                var htmlBody = EmailTemplates.BookingConfirmationHtml(created);
+                var textBody = EmailTemplates.BookingConfirmationText(created);
+                
+                var emailSent = await _emailService.SendEmailAsync(recipientEmail, subject, htmlBody, textBody);
+                _logger.LogInformation("Email sending result: {Result}", emailSent ? "SUCCESS" : "FAILED");
+            }
+            else
+            {
+                _logger.LogWarning("? No recipient email address, skipping email sending");
+            }
+
+            _logger.LogInformation("=== BOOKING CREATION END ===");
             return (true, null, created.ToDto());
         }
-
 
         // Update
         public async Task<(bool Ok, string? Error, BookingDto? Result)> Update(int id, UpdateBookingDto updateBookingDto)
@@ -146,7 +225,6 @@ namespace PostGresAPI.Services
             var ok = await _bookings.Delete(id);
             return ok ? (true, null) : (false, "Booking not found.");
         }
-
 
         // Login (Booking Ids) - Unterstützt mehrere Buchungen auf denselben Namen
         public async Task<List<int>> GetBookingIdsByCredentials(string bookingNumber, string name)

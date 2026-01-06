@@ -68,11 +68,12 @@ export class RoomsPageComponent implements OnInit {
   openPreview(room: Room) {
     const type = room.type.toLowerCase();
     if (type === 'bedroom') {
-      this.router.navigate(['/room-preview/bedroom'], { queryParams: { id: room.id } });
+      this.router.navigate(['/bedroom-preview', room.id]);
     } else if (type === 'meetingroom' || type === 'meeting room') {
-      this.router.navigate(['/room-preview/meetingroom'], { queryParams: { id: room.id } });
+      this.router.navigate(['/meetingroom-preview', room.id]);
     } else {
-      this.router.navigate(['/room-preview'], { queryParams: { id: room.id } });
+      // Fallback für unbekannte Typen
+      this.router.navigate(['/bedroom-preview', room.id]);
     }
   }
 

@@ -93,6 +93,11 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
+  goToWriteReview() {
+    this.isUserDropdownOpen = false;
+    this.router.navigate(['/reviews'], { queryParams: { write: 'true' } });
+  }
+
   private getLocaleFromPath(path: string): 'de' | 'en-US' {
     return /^\/de(\/|$)/.test(this.normalize(path)) ? 'de' : 'en-US';
   }

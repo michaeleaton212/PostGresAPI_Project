@@ -41,14 +41,11 @@
     </div>
 
     <!-- Number of persons input -->
-    <div class="overview-row" *ngIf="!bookingSuccess">
+    <div class="overview-row">
       <strong i18n>Number of persons:</strong>
-      <input type="number" 
-             [(ngModel)]="numberOfPersons" 
-             min="1" 
-             max="10"
-             class="persons-input">
+      <span>{{ numberOfPersons }}</span>
     </div>
+
 
     <!-- Show number of persons after booking -->
     <div class="overview-row" *ngIf="bookingSuccess">
@@ -77,7 +74,6 @@
     </div>
 
     <!-- If not booked show form -->
-  
     <!-- When booked show booking number -->
     <div class="overview-row" *ngIf="bookingSuccess">
       <strong i18n>Booking number:</strong>
