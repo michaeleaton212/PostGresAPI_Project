@@ -18,7 +18,8 @@ export class CommentsPage implements OnInit {
   private reviewService = inject(ReviewService);
   private route = inject(ActivatedRoute);
 
-  reviews: Review[] = [];
+  allReviews: Review[] = [];
+  displayedReviews: Review[] = [];
   isLoading = false;
   errorMessage = '';
   successMessage = '';
@@ -26,6 +27,11 @@ export class CommentsPage implements OnInit {
   showWriteReview = false;
 
   averageRating = 0;
+
+  // Pagination properties
+  private readonly reviewsPerPage = 5;
+  private currentPage = 1;
+  hasMoreReviews = false;
 
   newReview: CreateReviewDto = {
     title: '',
@@ -35,6 +41,10 @@ export class CommentsPage implements OnInit {
 
   get isLoggedIn(): boolean {
     return !!sessionStorage.getItem('userId');
+  }
+
+  get reviews(): Review[] {
+    return this.displayedReviews;
   }
 
   ngOnInit(): void {
@@ -49,9 +59,11 @@ export class CommentsPage implements OnInit {
     this.isLoading = true;
     this.reviewService.getAllReviews().subscribe({
       next: (reviews) => {
-        this.reviews = reviews.sort((a, b) =>
+        this.allReviews = reviews.sort((a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
+        this.currentPage = 1;
+        this.updateDisplayedReviews();
         this.recalcAverage();
         this.isLoading = false;
       },
@@ -62,13 +74,25 @@ export class CommentsPage implements OnInit {
     });
   }
 
+  private updateDisplayedReviews(): void {
+    const startIndex = 0;
+    const endIndex = this.currentPage * this.reviewsPerPage;
+    this.displayedReviews = this.allReviews.slice(startIndex, endIndex);
+    this.hasMoreReviews = endIndex < this.allReviews.length;
+  }
+
+  loadMoreReviews(): void {
+    this.currentPage++;
+    this.updateDisplayedReviews();
+  }
+
   private recalcAverage(): void {
-    if (!this.reviews.length) {
+    if (!this.allReviews.length) {
       this.averageRating = 0;
       return;
     }
-    const sum = this.reviews.reduce((acc, r) => acc + (r.rating ?? 0), 0);
-    this.averageRating = sum / this.reviews.length;
+    const sum = this.allReviews.reduce((acc, r) => acc + (r.rating ?? 0), 0);
+    this.averageRating = sum / this.allReviews.length;
   }
 
   getStarFillPercent(starIndex: number): number {
@@ -98,7 +122,9 @@ export class CommentsPage implements OnInit {
     this.reviewService.createReview(this.newReview).subscribe({
       next: (review) => {
         this.successMessage = 'Review submitted successfully!';
-        this.reviews.unshift(review);
+        this.allReviews.unshift(review);
+        this.currentPage = 1;
+        this.updateDisplayedReviews();
         this.recalcAverage();
 
         this.newReview = { title: '', content: '', rating: 5 };

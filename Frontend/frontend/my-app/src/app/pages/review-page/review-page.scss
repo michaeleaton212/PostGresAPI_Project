@@ -35,15 +35,29 @@
 /* ---------- Durchschnitt ---------- */
 .avg-badge {
   @include glass-surface(true);
-  position: absolute;
-  top: 3.8rem;
-  left: 35rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
   padding: 0.55rem 0.9rem;
   border-radius: 16px;
-  z-index: 5;
+}
+
+.reviews-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .avg-badge {
+    flex-shrink: 0;
+    margin-top: -0.4rem;
+  }
 }
 
 .avg-stars {
@@ -348,10 +362,14 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
   .avg-badge {
-    position: static;
-    margin-bottom: 1.5rem;
-    justify-content: center;
+    order: 1;
   }
 
   .star-btn {
@@ -477,3 +495,44 @@
       transform: none;
     }
   }
+
+  .pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.load-more-btn {
+  position: relative;
+  display: inline-block;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(79, 79, 79, 0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  &:hover:not(:disabled) {
+    background: rgba(156, 156, 156, 0.23);
+    border-color: #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

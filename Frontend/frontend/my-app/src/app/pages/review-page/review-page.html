@@ -1,23 +1,6 @@
 <!-- review-page.component.html -->
 <div class="page">
 
-  <!-- Durchschnitt oben - nur anzeigen wenn NICHT im Write-Modus -->
-  <div class="avg-badge" *ngIf="!showWriteReview && reviews.length > 0">
-    <div class="avg-stars">
-      <div class="avg-star" *ngFor="let star of [1,2,3,4,5]">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <polygon class="outline" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-        </svg>
-        <div class="fill-wrap" [style.width.%]="getStarFillPercent(star)">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <polygon class="fill" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-        </div>
-      </div>
-    </div>
-    <span class="avg-text">{{ averageRating | number:'1.1-1' }}</span>
-  </div>
-
   <div class="content">
 
     <!-- WRITE REVIEW -->
@@ -97,10 +80,26 @@
       </div>
     </div>
 
-    <!-- REVIEWS LIST - nur anzeigen wenn nicht im Write-Review-Modus -->
     <div *ngIf="!showWriteReview">
       <div class="reviews-section">
-        <h2 i18n>All Reviews ({{ reviews.length }})</h2>
+        <div class="reviews-header">
+          <h2 i18n>All Reviews ({{ allReviews.length }})</h2>
+          <div class="avg-badge" *ngIf="reviews.length > 0">
+            <div class="avg-stars">
+              <div class="avg-star" *ngFor="let star of [1,2,3,4,5]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon class="outline" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <div class="fill-wrap" [style.width.%]="getStarFillPercent(star)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <polygon class="fill" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <span class="avg-text">{{ averageRating | number:'1.1-1' }}</span>
+          </div>
+        </div>
 
         <div class="loading" *ngIf="isLoading && reviews.length === 0">Loading...</div>
 
@@ -125,6 +124,13 @@
               <p>{{ review.content }}</p>
             </div>
           </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="pagination-container" *ngIf="hasMoreReviews">
+          <button class="load-more-btn" (click)="loadMoreReviews()" [disabled]="isLoading" i18n>
+            {{ isLoading ? 'Loading...' : 'Load More Reviews' }}
+          </button>
         </div>
       </div>
     </div>

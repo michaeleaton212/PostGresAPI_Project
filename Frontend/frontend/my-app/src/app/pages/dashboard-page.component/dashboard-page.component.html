@@ -1,7 +1,6 @@
 <div class="page">
   <div class="page-header">
     
-    <button class="back-button hide-mobile" (click)="goBackLogin()" i18n="@@dashboard.logout">Logout</button>
   </div>
 
   <!-- Booking overview -->
@@ -27,9 +26,28 @@
         <div i18n>View</div>
       </div>
 
+
+      <div class="pagination" *ngIf="bookings.length > pageSize">
+        <button class="page-btn"
+                (click)="prevPage()"
+                [disabled]="currentPage === 1">
+          ‹
+        </button>
+
+        <div class="page-info">
+          {{ currentPage }} / {{ totalPages }}
+        </div>
+
+        <button class="page-btn"
+                (click)="nextPage()"
+                [disabled]="currentPage === totalPages">
+          ›
+        </button>
+      </div>
+
       <!-- Dynamische Daten -->
       <div class="overview-row"
-           *ngFor="let b of bookings"
+           *ngFor="let b of pagedBookings"
            [class.cancelled-row]="isCancelled(b)"
            [class.expired-row]="isExpired(b)">
 

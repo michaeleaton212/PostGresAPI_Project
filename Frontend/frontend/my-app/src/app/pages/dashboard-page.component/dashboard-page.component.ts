@@ -38,7 +38,7 @@ export class DashboardPageComponent implements OnInit {
   bookings: BookingDisplay[] = [];
   rooms: Room[] = [];
   userName: string = '';
-  
+
   // Popup state
   showCancelPopup = false;
   pendingCancelBookingNumber: string = '';
@@ -52,52 +52,83 @@ export class DashboardPageComponent implements OnInit {
   statusCancelled = $localize`:@@booking.status.cancelled:Cancelled`;
   statusUnknown = $localize`:@@booking.status.unknown:Unknown`;
 
+  // === Pagination ===
+  pageSize = 10;
+  currentPage = 1;
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.bookings.length / this.pageSize));
+  }
+
+  get pagedBookings(): BookingDisplay[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.bookings.slice(start, start + this.pageSize);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) this.currentPage--;
+  }
+
+  // Wenn sich bookings neu laden, Seite korrigieren
+  private clampPage() {
+    this.currentPage = Math.min(this.currentPage, this.totalPages);
+    if (this.currentPage < 1) this.currentPage = 1;
+  }
+  // === /Pagination ===
+
   ngOnInit() {
     console.log('=== DASHBOARD INIT ===');
-    
-    // Check if user is logged in
+
     const userId = sessionStorage.getItem('userId');
     const userName = sessionStorage.getItem('userName');
     const userEmail = sessionStorage.getItem('userEmail');
-    
+
     console.log('Session check:', { userId, userName, userEmail });
-    
+
     if (!userId || !userName || !userEmail) {
       console.log('User not logged in, redirecting to login');
       this.router.navigate(['/login']);
       return;
     }
-    
+
     this.userName = userName;
     console.log('User logged in as:', this.userName);
-    
+
     this.loadBookings();
   }
 
   loadBookings() {
     console.log('=== LOADING BOOKINGS ===');
     console.log('User:', this.userName);
-    
+
     this.roomService.getAll().subscribe({
       next: (rooms) => {
         console.log('Rooms loaded:', rooms.length);
         this.rooms = rooms;
-        
-        // Get all bookings for the logged-in user (backend filters by X-User-Id header)
+
         console.log('Calling GET /api/bookings (filtered by user)');
         this.bookingService.getAll().subscribe({
           next: (bookings) => {
             console.log('=== BOOKINGS LOADED SUCCESSFULLY ===');
             console.log('Number of bookings received:', bookings.length);
             console.log('Raw bookings:', bookings);
-            
+
             this.bookings = bookings.map(b => this.mapBookingToDisplay(b));
             console.log('Mapped bookings for display:', this.bookings.length);
+
+            // Pagination nach dem Laden justieren
+            this.clampPage();
+            // Optional: bei jedem Reload wieder auf Seite 1 springen:
+            // this.currentPage = 1;
           },
           error: (err) => {
             console.error('=== ERROR LOADING BOOKINGS ===');
             console.error('Error details:', err);
-            
+
             if (err.status === 401) {
               alert('Sitzung abgelaufen. Bitte melden Sie sich erneut an.');
               this.router.navigate(['/login']);
@@ -117,20 +148,18 @@ export class DashboardPageComponent implements OnInit {
     const room = this.rooms.find(r => r.id === booking.roomId);
     const startDate = new Date(booking.startTime);
     const endDate = new Date(booking.endTime);
-    
-    // Calculate number of nights
+
     const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
     const numberOfNights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    // Calculate total price for bedrooms
+
     let pricePerNight: number | undefined;
     let totalPrice: number | undefined;
-    
+
     if (room && room.type === 'Bedroom' && room.pricePerNight) {
       pricePerNight = room.pricePerNight;
       totalPrice = pricePerNight * numberOfNights;
     }
-    
+
     return {
       id: booking.id,
       name: booking.title || 'Keine Angabe',
@@ -168,14 +197,11 @@ export class DashboardPageComponent implements OnInit {
   }
 
   toggleCheckIn(booking: BookingDisplay) {
-    // Don't allow toggle for cancelled, expired bookings or already checked-in bookings
     if (this.isCancelled(booking) || this.isExpired(booking) || this.isCheckedIn(booking)) {
       return;
     }
 
-    // Only allow checking in (not checking out)
     const newStatus = BookingStatus.CheckedIn;
-
     console.log(`Checking in booking ${booking.id}: ${booking.status} -> ${newStatus}`);
 
     this.bookingService.updateStatus(booking.id, { status: newStatus }).subscribe({
@@ -194,12 +220,10 @@ export class DashboardPageComponent implements OnInit {
     const booking = this.bookings.find(b => b.bookingNumber === bookingNumber);
     if (!booking) return;
 
-    // Don't allow cancelling if already cancelled or expired
     if (this.isCancelled(booking) || this.isExpired(booking)) {
       return;
     }
 
-    // Show custom iOS-style popup instead of native confirm
     this.pendingCancelBookingNumber = bookingNumber;
     this.showCancelPopup = true;
   }
@@ -217,11 +241,10 @@ export class DashboardPageComponent implements OnInit {
     }
 
     console.log(`Cancelling booking ${booking.id}`);
-    
+
     this.bookingService.updateStatus(booking.id, { status: BookingStatus.Cancelled }).subscribe({
       next: (updatedBooking) => {
         console.log('Booking cancelled successfully');
-        // Update the status in the local array instead of removing it
         booking.status = updatedBooking.status as BookingStatus;
         this.closeCancelPopup();
       },
@@ -260,7 +283,6 @@ export class DashboardPageComponent implements OnInit {
   }
 
   goBackLogin() {
-    // Clear user session
     sessionStorage.removeItem('userId');
     sessionStorage.removeItem('userName');
     sessionStorage.removeItem('userEmail');
