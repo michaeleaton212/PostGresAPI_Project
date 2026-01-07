@@ -322,6 +322,7 @@ export class BedroomPreviewPageComponent implements OnInit {
     const dateTime = date.getTime();
     const nextDay = new Date(date);
     nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setHours(0, 0, 0, 0);
 
     return this.roomBookings.some(booking => {
       const bookingStart = new Date(booking.startTime);
@@ -332,7 +333,7 @@ export class BedroomPreviewPageComponent implements OnInit {
       const startTime = bookingStart.getTime();
       const endTime = bookingEnd.getTime();
 
-      return dateTime >= startTime && dateTime < endTime;
+      return dateTime >= startTime && dateTime <= endTime;
     });
   }
 

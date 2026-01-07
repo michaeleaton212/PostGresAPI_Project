@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -47,7 +47,7 @@ namespace PostGresAPI.Services
 
                 if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
-                    _logger.LogError("? SMTP configuration is incomplete. Please check appsettings.json");
+                    _logger.LogError("SMTP configuration is incomplete. Please check appsettings.json");
                     return false;
                 }
 
@@ -57,36 +57,50 @@ namespace PostGresAPI.Services
                     Credentials = new NetworkCredential(username, password)
                 };
 
-                var mailMessage = new MailMessage
+                using var mailMessage = new MailMessage
                 {
                     From = new MailAddress(fromEmail ?? username ?? "", fromName),
                     Subject = subject,
-                    Body = htmlBody,
                     IsBodyHtml = true
                 };
 
                 mailMessage.To.Add(toEmail);
 
-                if (!string.IsNullOrEmpty(textBody))
-                {
-                    mailMessage.AlternateViews.Add(
-                        AlternateView.CreateAlternateViewFromString(textBody, null, "text/plain")
-                    );
-                }
+                var plainText = textBody ?? StripHtml(htmlBody);
+                var plainView = AlternateView.CreateAlternateViewFromString(plainText, null, "text/plain");
+                plainView.TransferEncoding = System.Net.Mime.TransferEncoding.QuotedPrintable;
+                mailMessage.AlternateViews.Add(plainView);
+
+                var htmlView = AlternateView.CreateAlternateViewFromString(htmlBody, null, "text/html");
+                htmlView.TransferEncoding = System.Net.Mime.TransferEncoding.QuotedPrintable;
+                mailMessage.AlternateViews.Add(htmlView);
 
                 _logger.LogInformation("Sending email via SMTP: {Host}:{Port}", host, port);
+                _logger.LogInformation("Email format: multipart/alternative (Plain + HTML)");
+                
                 await client.SendMailAsync(mailMessage);
 
-                _logger.LogInformation("? Email sent successfully!");
+                _logger.LogInformation("Email sent successfully!");
                 _logger.LogInformation("=== EMAIL SENDING SUCCESS ===");
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "? Failed to send email: {Message}", ex.Message);
+                _logger.LogError(ex, "Failed to send email: {Message}", ex.Message);
                 _logger.LogInformation("=== EMAIL SENDING FAILED ===");
                 return false;
             }
+        }
+
+  
+        private static string StripHtml(string html)
+        {
+            if (string.IsNullOrEmpty(html))
+                return string.Empty;
+
+            var text = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", string.Empty);
+            text = System.Web.HttpUtility.HtmlDecode(text);
+            return text.Trim();
         }
     }
 }

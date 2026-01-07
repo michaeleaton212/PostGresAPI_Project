@@ -1,4 +1,4 @@
-namespace PostGresAPI.Services
+﻿namespace PostGresAPI.Services
 {
     public static class EmailStyles
     {
@@ -10,186 +10,177 @@ namespace PostGresAPI.Services
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        /* Grundsätzliche Schriftfarbe auf Schwarz gesetzt */
+        color: #000000 !important;
     }
     
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: #000000;
         padding: 20px;
         line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
     }
     
     .email-container {
         max-width: 600px;
         margin: 0 auto;
-        background-color: #ffffff;
-        border-radius: 12px;
+        /* Hintergrund hell angepasst, damit schwarze Schrift sichtbar ist */
+        background-color: #F2F2F7; 
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 40px;
         overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     }
     
     .header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 40px 30px;
+        background: linear-gradient(180deg, rgba(10, 132, 255, 0.1) 0%, rgba(242, 242, 247, 0) 100%);
+        padding: 50px 30px;
         text-align: center;
-    }
-    
-    .header h1 {
-        font-size: 28px;
-        font-weight: 600;
-        margin: 0;
     }
     
     .header-icon {
-        font-size: 48px;
-        margin-bottom: 10px;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        /* Liquid Glass Effekt */
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.8), 0 10px 20px rgba(0, 0, 0, 0.05);
+        
+        border-radius: 26px;
+        font-size: 38px;
+        margin: 0 auto 25px;
+        font-weight: 700;
+        display: block;
+    }
+    
+    .header h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
     }
     
     .content {
-        padding: 40px 30px;
+        padding: 0 35px 45px;
     }
     
     .greeting {
-        font-size: 18px;
-        color: #333;
-        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 12px;
     }
     
     .intro {
-        color: #666;
-        margin-bottom: 30px;
+        font-size: 17px;
+        margin-bottom: 35px;
+        opacity: 0.9;
     }
     
-    .booking-number-section {
+    .booking-card {
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 28px;
+        padding: 25px;
+        margin-bottom: 30px;
         text-align: center;
-        margin: 30px 0;
+    }
+
+    .booking-number-label {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        display: block;
     }
     
     .booking-number {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 15px 30px;
-        border-radius: 8px;
-        font-size: 24px;
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
-    
-    .booking-number-label {
-        display: block;
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
+        font-size: 36px;
+        font-weight: 800;
+        letter-spacing: 3px;
     }
     
     .details-table {
         width: 100%;
-        border-collapse: collapse;
-        margin: 30px 0;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    
-    .details-table tr {
-        border-bottom: 1px solid #e9ecef;
-    }
-    
-    .details-table tr:last-child {
-        border-bottom: none;
+        border-collapse: separate;
+        border-spacing: 0 12px;
+        margin-bottom: 35px;
     }
     
     .details-table td {
         padding: 16px 20px;
+        background: rgba(0, 0, 0, 0.02);
+        font-size: 16px;
     }
     
     .details-table td:first-child {
-        font-weight: 600;
-        color: #667eea;
+        border-radius: 18px 0 0 18px;
         width: 45%;
-        background-color: #ffffff;
+        font-weight: 500;
     }
     
     .details-table td:last-child {
-        color: #333;
-        background-color: #f8f9fa;
-    }
-    
-    .price-row {
-        background: linear-gradient(135deg, #e8f0ff 0%, #f0e8ff 100%);
+        border-radius: 0 18px 18px 0;
+        font-weight: 600;
+        text-align: right;
     }
     
     .price-row td {
-        font-size: 20px;
-        font-weight: bold;
-        color: #667eea !important;
-        padding: 20px !important;
+        background: rgba(10, 132, 255, 0.1) !important;
+        border: 1px solid rgba(10, 132, 255, 0.2);
+    }
+    
+    .price-row td:last-child {
+        font-size: 24px;
+        font-weight: 800;
     }
     
     .info-box {
-        background-color: #e8f4fd;
-        border-left: 4px solid #667eea;
-        padding: 20px;
-        border-radius: 8px;
-        margin: 30px 0;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 28px;
+        padding: 25px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
     }
     
     .info-box h3 {
-        color: #667eea;
-        font-size: 16px;
-        margin-bottom: 12px;
-        font-weight: 600;
+        font-size: 19px;
+        font-weight: 700;
+        margin-bottom: 18px;
     }
     
     .info-box ul {
         list-style: none;
-        padding: 0;
-        margin: 0;
     }
     
     .info-box li {
-        color: #555;
-        margin-bottom: 8px;
-        padding-left: 20px;
+        font-size: 15px;
+        margin-bottom: 14px;
+        padding-left: 30px;
         position: relative;
     }
-    
-    .info-box li:before {
-        content: '?';
+
+    .info-box li::before {
+        content: '✓';
         position: absolute;
         left: 0;
-        color: #667eea;
-        font-weight: bold;
+        font-weight: 900;
     }
     
     .footer {
-        background-color: #f8f9fa;
-        padding: 30px;
+        padding: 45px 30px;
         text-align: center;
-        color: #666;
-        font-size: 13px;
-        border-top: 1px solid #e9ecef;
-    }
-    
-    .footer p {
-        margin: 8px 0;
+        font-size: 14px;
+        opacity: 0.7;
     }
     
     .footer-copyright {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #dee2e6;
-        font-size: 12px;
-        color: #999;
-    }
-    
-    .icon {
-        display: inline-block;
-        margin-right: 8px;
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
     }
 </style>";
         }
