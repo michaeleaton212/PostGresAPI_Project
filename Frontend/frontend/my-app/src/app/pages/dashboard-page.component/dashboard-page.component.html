@@ -26,25 +26,6 @@
         <div i18n>View</div>
       </div>
 
-
-      <div class="pagination" *ngIf="bookings.length > pageSize">
-        <button class="page-btn"
-                (click)="prevPage()"
-                [disabled]="currentPage === 1">
-          ‹
-        </button>
-
-        <div class="page-info">
-          {{ currentPage }} / {{ totalPages }}
-        </div>
-
-        <button class="page-btn"
-                (click)="nextPage()"
-                [disabled]="currentPage === totalPages">
-          ›
-        </button>
-      </div>
-
       <!-- Dynamische Daten -->
       <div class="overview-row"
            *ngFor="let b of pagedBookings"
@@ -136,6 +117,25 @@
             View room
           </button>
         </div>
+      </div>
+
+      <!-- Pagination unten -->
+      <div class="pagination" *ngIf="bookings.length > pageSize">
+        <button class="page-btn"
+                (click)="prevPage()"
+                [disabled]="currentPage === 1">
+          ‹
+        </button>
+
+        <div class="page-info">
+          {{ currentPage }} / {{ totalPages }}
+        </div>
+
+        <button class="page-btn"
+                (click)="nextPage()"
+                [disabled]="currentPage === totalPages">
+          ›
+        </button>
       </div>
     </div>
 

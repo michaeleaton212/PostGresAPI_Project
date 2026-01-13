@@ -81,7 +81,11 @@
   }
 
   .overview-table {
-    min-width: 1250px;
+    min-width: 100%;
+    overflow: visible;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .overview-header,
@@ -333,38 +337,6 @@
   opacity: 1;
 }
 
-.show-mobile-md {
-  display: none;
-}
-
-.hide-mobile-md {
-  display: block;
-}
-
-.show-mobile-md {
-  display: none;
-}
-
-.hide-mobile-md {
-  display: block;
-}
-
-.show-mobile-md {
-  display: none;
-}
-
-.hide-mobile-md {
-  display: block;
-}
-
-.show-mobile-md {
-  display: none;
-}
-
-.hide-mobile-md {
-  display: block;
-}
-
 .show-mobile {
   display: none;
 }
@@ -378,6 +350,26 @@
   padding: 0 12px;
 }
 
+.mobile-logout-button {
+  width: 100%;
+  height: 44px;
+  background-color: rgba(255, 59, 48, 0.4);
+  border: 1px solid rgba(255, 59, 48, 0.7);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    background-color: rgba(255, 59, 48, 0.5);
+    transform: scale(0.98);
+  }
+}
+
 @media (max-width: 768px) {
   .show-mobile {
     display: block;
@@ -388,14 +380,15 @@
   }
 
   .page {
-    padding: 0;
+    padding: 0 0.75rem 1rem 0.75rem;
   }
 
   .page-header {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
-    padding: 0.75rem 0.75rem 0 0.75rem;
+    padding: 0.75rem 0 0 0;
+    margin-bottom: 1rem;
 
     h2 {
       font-size: 1.6rem;
@@ -409,41 +402,83 @@
   }
 
   .overview {
-    margin: 1rem 0 0 0;
-    padding: 12px 4px;
+    margin: 0.5rem auto 0 auto;
+    padding: 16px 0;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border: 2px solid rgba(138, 136, 136);
 
     h3 {
       font-size: 1.75rem;
-      margin-bottom: 20px;
-      padding: 0 12px;
+      margin: 0 0 16px 0;
+      padding: 0 16px;
+      font-weight: 600;
     }
 
     .activeBookings {
-      padding: 0 12px;
-      margin-bottom: 10px;
+      padding: 0 16px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
     }
 
     .overview-table {
       min-width: 100%;
       overflow: visible;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
     }
 
     .overview-header {
       display: none;
     }
 
+    .pagination {
+      position: static;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+      padding: 16px;
+      bottom: auto;
+      right: auto;
+      order: 2;
+    }
+
+    .page-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(79, 79, 79, 0.4);
+      transition: all 0.2s ease;
+
+      &:active:not(:disabled) {
+        transform: scale(0.95);
+      }
+    }
+
+    .page-info {
+      font-size: 0.9rem;
+      min-width: 60px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
     .overview-row {
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      margin: 0 4px 16px 4px;
-      border-radius: 16px;
+      margin: 0 8px 16px 8px;
+      border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
-      overflow: visible;
+      padding: 0;
+      overflow: hidden;
+      order: 1;
 
       &:last-child {
         margin-bottom: 0;
@@ -454,15 +489,20 @@
         background: rgba(100, 100, 100, 0.25);
       }
 
+      &.expired-row {
+        opacity: 0.7;
+        background: rgba(100, 80, 80, 0.25);
+      }
+
       > div {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 8px 12px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-        gap: 12px;
-        overflow: visible;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        gap: 10px;
+        min-height: 44px;
 
         &:last-child {
           border-bottom: none;
@@ -471,37 +511,73 @@
         &::before {
           content: attr(data-label);
           font-weight: 600;
-          font-size: 0.85rem;
-          opacity: 0.9;
+          font-size: 0.8rem;
+          opacity: 0.85;
           flex: 0 0 auto;
           text-align: left;
           white-space: nowrap;
+          color: rgba(255, 255, 255, 0.75);
         }
 
-        .value-text,
+        .value-text {
+          flex: 1 1 auto;
+          text-align: right;
+          font-size: 0.85rem;
+          white-space: normal;
+          overflow: visible;
+          word-break: break-word;
+          color: rgba(255, 255, 255, 0.9);
+        }
+
         span {
           flex: 1 1 auto;
           text-align: right;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           white-space: normal;
           overflow: visible;
+          color: rgba(255, 255, 255, 0.9);
         }
 
         .status-button {
           width: auto;
-          min-width: 100px;
-          padding: 6px 12px;
+          min-width: 95px;
+          padding: 6px 10px;
+          height: auto;
+          flex: 0 0 auto;
+          font-size: 0.7rem;
+          white-space: nowrap;
         }
 
         .toggle {
           flex: 0 0 auto;
         }
 
+        .toggle label {
+          width: 95px;
+          height: 30px;
+          border-radius: 15px;
+        }
+
+        .toggle label::after {
+          width: 50px;
+          height: 24px;
+          border-radius: 12px;
+        }
+
+        .toggle input[type='checkbox']:checked + label::after {
+          transform: translateX(53px);
+        }
+
         .stornieren,
         .zimmer-ansehen {
           width: auto;
-          min-width: 100px;
-          padding: 8px 16px;
+          min-width: 90px;
+          height: auto;
+          padding: 8px 12px;
+          font-size: 0.7rem;
+          flex: 0 0 auto;
+          white-space: nowrap;
+          border-radius: 14px;
         }
       }
     }
@@ -509,8 +585,8 @@
 
   .footer-wrapper {
     margin-left: 0;
-    margin-top: 3rem;
-    padding: 0 0.75rem 1rem 0.75rem;
+    margin-top: 2rem;
+    padding: 0;
   }
 }
 
